@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTest", "AsyncNamedPipe\ServerTest.csproj", "{54B1F741-F593-4189-AB5E-A5FD2BE9D68E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPipes", "AsyncPipes\AsyncPipes.csproj", "{D12EFE09-6728-4FE2-8708-0708FC17BCE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTest", "ClientTest\ClientTest.csproj", "{F92E7627-D9B2-4970-AFED-EE55E2B2BD7F}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AsyncNamedPipe\\ServerTest.csproj
+		SccProjectName1 = AsyncNamedPipe
+		SccLocalPath1 = AsyncNamedPipe
+		SccProjectUniqueName2 = AsyncPipes\\AsyncPipes.csproj
+		SccProjectName2 = AsyncPipes
+		SccLocalPath2 = AsyncPipes
+		SccProjectUniqueName3 = ClientTest\\ClientTest.csproj
+		SccProjectName3 = ClientTest
+		SccLocalPath3 = ClientTest
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54B1F741-F593-4189-AB5E-A5FD2BE9D68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B1F741-F593-4189-AB5E-A5FD2BE9D68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B1F741-F593-4189-AB5E-A5FD2BE9D68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B1F741-F593-4189-AB5E-A5FD2BE9D68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12EFE09-6728-4FE2-8708-0708FC17BCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12EFE09-6728-4FE2-8708-0708FC17BCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12EFE09-6728-4FE2-8708-0708FC17BCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12EFE09-6728-4FE2-8708-0708FC17BCE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92E7627-D9B2-4970-AFED-EE55E2B2BD7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92E7627-D9B2-4970-AFED-EE55E2B2BD7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92E7627-D9B2-4970-AFED-EE55E2B2BD7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92E7627-D9B2-4970-AFED-EE55E2B2BD7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
