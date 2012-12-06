@@ -40,8 +40,6 @@ namespace AsyncPipes
                     lock (_connections) _connections.Add(newPipeConnection);
                 }
 
-                Debug.Print(_connections.Count.ToString());
-
                 var newPipeStream = new NamedPipeServerStream(
                     this.PipeName, PipeDirection.InOut, -1,
                     PipeTransmissionMode.Message, PipeOptions.Asynchronous);

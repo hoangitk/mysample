@@ -63,6 +63,7 @@
     <Compile Include="ExMethod.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="MessageEventArgs.cs" />
+    <Compile Include="NamedPipeHelper.cs" />
     <Compile Include="PingMessage.cs" />
     <Compile Include="PipeBase.cs" />
     <Compile Include="PipeConnection.cs" />

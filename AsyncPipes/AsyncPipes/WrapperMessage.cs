@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cadena.Library.Serialization;
 
 namespace AsyncPipes
 {
+    [Serializable]
     public class WrapperMessage : IMessage
     {
         private Guid _messageId;
@@ -34,11 +36,19 @@ namespace AsyncPipes
             }
         }
 
-        public byte[] PayLoad { get; set; }
+        private byte[] _payLoad;
 
-        public WrapperMessage()
+        public byte[] PayLoad
+        {
+            get { return _payLoad; }
+            set { _payLoad = value; }
+        }
+
+        public WrapperMessage(object obj)
         {
             this.MessageId = Guid.NewGuid();
+            _payLoad = ObjectSerializer.ToBinary(obj);
+            _messageType = obj.GetType();
         }
     }
 }

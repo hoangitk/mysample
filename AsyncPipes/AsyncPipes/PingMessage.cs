@@ -44,7 +44,7 @@ namespace AsyncPipes
         public PingMessage(string sender = "")
         {
             _messageId = Guid.NewGuid();
-            _messageType = this.GetType();
+            _messageType = typeof(PingMessage);
             this.Sender = sender;
         }
     }
