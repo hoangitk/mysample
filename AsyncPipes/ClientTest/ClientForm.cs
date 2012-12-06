@@ -8,18 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using AsyncPipes;
 
-namespace ServerTest
+namespace ClientTest
 {
-    public partial class Form1 : TestForm
+    public partial class ClientForm : TestForm
     {
-        public Form1()
+        public ClientForm() : base()
         {
             InitializeComponent();
         }
 
         public override PipeBase GetNewPipe()
         {
-            return new AsyncPipes.PipeServer("MyPipeServer");
+            return new AsyncPipes.PipeClient("Client", "MyPipeServer");
         }
     }
 }

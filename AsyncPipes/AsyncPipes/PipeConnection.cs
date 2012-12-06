@@ -32,7 +32,8 @@ namespace AsyncPipes
                     byte[] destArray = new byte[length];
                     Array.Copy(buf, 0, destArray, 0, length);
                     OnReceivedMessage(new MessageEventArgs(destArray));
-                });
+                },
+                ex => { Debug.Print(ex.ToString()); });
         }
 
         public override void Send(byte[] message)
