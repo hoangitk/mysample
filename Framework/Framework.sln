@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncPipes", "AsyncPipes\AsyncPipes.csproj", "{78D728C1-CC04-440C-8191-431F21BF6092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncTcpMessages", "AsyncTcpMessages\AsyncTcpMessages.csproj", "{1F99595F-E9E7-4C73-8E70-66E9C8142E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncTcpMessages.Simulator", "AsyncTcpMessages.Simulator\AsyncTcpMessages.Simulator.csproj", "{502E670A-93B5-4956-84F6-1313EE3C9B0A}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AsyncPipes\\AsyncPipes.csproj
+		SccProjectName1 = AsyncPipes
+		SccLocalPath1 = AsyncPipes
+		SccProjectUniqueName2 = AsyncTcpMessages.Simulator\\AsyncTcpMessages.Simulator.csproj
+		SccProjectName2 = AsyncTcpMessages.Simulator
+		SccLocalPath2 = AsyncTcpMessages.Simulator
+		SccProjectUniqueName3 = AsyncTcpMessages\\AsyncTcpMessages.csproj
+		SccProjectName3 = AsyncTcpMessages
+		SccLocalPath3 = AsyncTcpMessages
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78D728C1-CC04-440C-8191-431F21BF6092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D728C1-CC04-440C-8191-431F21BF6092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D728C1-CC04-440C-8191-431F21BF6092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D728C1-CC04-440C-8191-431F21BF6092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F99595F-E9E7-4C73-8E70-66E9C8142E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F99595F-E9E7-4C73-8E70-66E9C8142E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F99595F-E9E7-4C73-8E70-66E9C8142E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F99595F-E9E7-4C73-8E70-66E9C8142E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502E670A-93B5-4956-84F6-1313EE3C9B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502E670A-93B5-4956-84F6-1313EE3C9B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502E670A-93B5-4956-84F6-1313EE3C9B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502E670A-93B5-4956-84F6-1313EE3C9B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

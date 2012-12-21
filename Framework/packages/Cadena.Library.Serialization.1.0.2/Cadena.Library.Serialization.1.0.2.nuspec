@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Cadena.Library.Serialization</id>
+    <version>1.0.2</version>
+    <authors>hoang</authors>
+    <owners>hoang</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cadena.Library.Serialization</description>
+    <releaseNotes>Cadena.Library.Serialization</releaseNotes>
+    <tags>Cadena,Library</tags>
+    <references>
+      <reference file="Cadena.Library.Serialization.dll" />
+    </references>
+  </metadata>
+</package>
