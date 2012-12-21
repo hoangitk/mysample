@@ -24,8 +24,19 @@ namespace AsyncTcpMessages.Simulator
                 _client.MessageReceived += (s, e) =>
                 {
                     object receivedObj = ObjectSerializer.FromBinary(e.PayLoad);
-                    this.textBox2.AppendText(string.Format("[{0}] - {1}/{2}" + Environment.NewLine,
-                        DateTime.Now, receivedObj, e.PayLoad.Length));
+
+                    if (this.textBox2.InvokeRequired)
+                    {
+                        this.textBox2.Invoke(new MethodInvoker(() => {
+                            this.textBox2.AppendText(string.Format("[{0}] - {1}/{2}" + Environment.NewLine,
+                            DateTime.Now, receivedObj, e.PayLoad.Length));
+                        }));
+                    }
+                    else
+                    {
+                        this.textBox2.AppendText(string.Format("[{0}] - {1}/{2}" + Environment.NewLine,
+                            DateTime.Now, receivedObj, e.PayLoad.Length));
+                    }
                 };
 
                 _client.Connect(MyConfig.HostName, MyConfig.Port);

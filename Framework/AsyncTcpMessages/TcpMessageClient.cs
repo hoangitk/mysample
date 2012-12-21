@@ -33,11 +33,6 @@ namespace AsyncTcpMessages
             };            
         }
 
-        public void Send(byte[] data)
-        {   
-            _client.Send(data);
-        }
-
         public void Send(object obj)
         {           
             _client.Send(obj);

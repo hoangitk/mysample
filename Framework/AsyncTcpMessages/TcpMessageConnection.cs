@@ -123,8 +123,10 @@ namespace AsyncTcpMessages
             } while (readLength != 0);
         }
 
-        public override void Send(byte[] data)
+        public override void Send(object obj)
         {
+            byte[] data = ObjectSerializer.ToBinary(obj);
+
             if (data == null)
                 data = new byte[0];
 
@@ -143,12 +145,6 @@ namespace AsyncTcpMessages
             stream.Write(Header, 0, Header.Length);
             stream.Write(data, 0, data.Length);
             stream.Write(Footer, 0, Footer.Length);
-        }
-
-        public override void Send(object obj)
-        {
-            byte[] data = ObjectSerializer.ToBinary(obj);
-            Send(data);
         }
 
         #region Object override

@@ -81,18 +81,7 @@ namespace AsyncTcpMessages
         private void RaiseMessageReceived(object sender, MessageEventArgs e)
         {
             OnMessageReceived(sender, e.PayLoad);
-        }
-
-        public override void Send(byte[] data)
-        {
-            lock (_connections)
-            {
-                foreach (var cnn in _connections)
-                {
-                    cnn.Send(data);
-                }
-            }
-        }
+        }                
 
         public override void Send(object obj)
         {

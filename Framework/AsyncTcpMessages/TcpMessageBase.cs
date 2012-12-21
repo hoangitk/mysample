@@ -112,7 +112,6 @@ namespace AsyncTcpMessages
         }
         #endregion
 
-        public abstract void Send(byte[] data);
         public abstract void Send(object obj);
 
         protected virtual void Dispose(bool disposing)
