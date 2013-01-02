@@ -30,7 +30,7 @@ namespace TimeSheetControl
                 cellBounds.X + cellBounds.Width, cellBounds.Y + cellBounds.Height / 2);
 
             // Draw "00:00"
-            graphics.DrawString("00:00", cellStyle.Font,
+            graphics.DrawString("01:00", cellStyle.Font,
                 new SolidBrush(cellStyle.ForeColor), cellBounds.X, cellBounds.Y + cellBounds.Height / 2 + 5);
 
             int len2300 = MeasureTextWidth(graphics, "23:00", cellStyle.Font, cellBounds.Height / 2, TextFormatFlags.SingleLine);
