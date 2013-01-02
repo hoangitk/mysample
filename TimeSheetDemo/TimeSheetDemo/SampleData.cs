@@ -24,12 +24,12 @@ namespace TimeSheetDemo
                 {
                     TimeSheet = new TimeSheet
                     {
-                        Catalog = shiftCount % 2 == 0 ? TimeSheetCatalog.Shift : TimeSheetCatalog.Leave                        
-                    },                    
-                    FromTime = tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8) + 8),
+                        Catalog = RandomEnum<TimeSheetCatalog>(TimeSheetCatalog.WorkingDay)                        
+                    }, 
                 };
-                plannedItem.TimeSheet.Code = GetTimeSheetCode(plannedItem.TimeSheet.Catalog);
-                plannedItem.ToTime = plannedItem.FromTime.AddHours(8);
+                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(1));
+                plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(6) + 4); 
+                plannedItem.TimeSheet.Code = GetTimeSheetCode(plannedItem.TimeSheet.Catalog);                
 
                 tsday.ShiftItems.Add(plannedItem);
             }
@@ -89,6 +89,18 @@ namespace TimeSheetDemo
                 default:
                     return string.Empty;
             }
+        }
+
+        public static T RandomEnum<T>()
+        {
+            var values = (T[])Enum.GetValues(typeof(T));
+            return values[rand.Next(0, values.Length - 1)];
+        }
+
+        public static T RandomEnum<T>(params T[] excludes)
+        {
+            var values = Enum.GetValues(typeof(T)).Cast<T>().Where(t => !excludes.Contains(t)).ToArray();
+            return values[rand.Next(values.Length)];
         }
     }
 }

@@ -84,16 +84,18 @@ namespace TimeSheetControl
 						shiftBar.Height = barHeight;
 						shiftBar.Width = barWidth;
 
+                        // Draw timeline bar
                         Color backColor = TimeSheetRender.GetColor(shift.TimeSheet.Catalog);
                         using (Brush fillBrush = new SolidBrush(backColor)) 
 						{
 							graphics.FillRectangle(fillBrush, shiftBar);
 						}
 
+                        // Draw border
                         graphics.DrawRectangle(new Pen(ControlPaint.Dark(backColor)), shiftBar);
 
+                        // Draw Code
                         int textWidth = MeasureTextWidth(graphics, shift.TimeSheet.Code, cellStyle.Font, shiftBar.Height, TextFormatFlags.SingleLine);
-
                         using(Brush textBrush = new SolidBrush(TimeSheetRender.InvertColor(backColor)))
                         {
                             graphics.DrawString(shift.TimeSheet.Code, cellStyle.Font, textBrush, 
