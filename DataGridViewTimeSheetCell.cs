@@ -68,7 +68,8 @@ namespace TimeSheetControl
 				}
 				
 				float rate = cellBounds.Width / 24;
-				// Draw Shift
+				
+                // Draw Shift
 				if(data.ShiftItems != null && data.ShiftItems.Count > 0)
 				{
 					foreach (var shift in data.ShiftItems) 
@@ -76,17 +77,28 @@ namespace TimeSheetControl
 						int barWidth = (int)((shift.ToTime - shift.FromTime).Hours * rate);
 						int barX = (int)(shift.FromTime.Hour * rate);
 						int barY = 0;
-						int barHeight = (cellBounds.Height-2)/2;
+						int barHeight = (cellBounds.Height-2)/3*2;
 						Rectangle shiftBar = cellBounds;
 						shiftBar.X += barX;
 						shiftBar.Y += barY;
 						shiftBar.Height = barHeight;
 						shiftBar.Width = barWidth;
-						
-						using (Brush fillBrush = new SolidBrush(TimeSheetRender.GetColor(shift.TimeSheet.Catalog))) 
+
+                        Color backColor = TimeSheetRender.GetColor(shift.TimeSheet.Catalog);
+                        using (Brush fillBrush = new SolidBrush(backColor)) 
 						{
 							graphics.FillRectangle(fillBrush, shiftBar);
 						}
+
+                        graphics.DrawRectangle(new Pen(ControlPaint.Dark(backColor)), shiftBar);
+
+                        int textWidth = MeasureTextWidth(graphics, shift.TimeSheet.Code, cellStyle.Font, shiftBar.Height, TextFormatFlags.SingleLine);
+
+                        using(Brush textBrush = new SolidBrush(TimeSheetRender.InvertColor(backColor)))
+                        {
+                            graphics.DrawString(shift.TimeSheet.Code, cellStyle.Font, textBrush, 
+                                shiftBar.X + ((shiftBar.Width - textWidth) / 2), shiftBar.Y);
+                        }
 					}
 				}
 			}

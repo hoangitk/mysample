@@ -41,8 +41,6 @@ namespace TimeSheetControl
             }
         }
 
-
-
         public static Color GetColor(TimeSheetStatus tsStatus)
         {
             switch (tsStatus)
@@ -67,6 +65,11 @@ namespace TimeSheetControl
                 default:
                     throw new Exception("Invalid value for TimeSheetStatus");
             }
+        }
+
+        public static Color InvertColor(Color color)
+        {
+            return Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
         }
     }
 }
