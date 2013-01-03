@@ -8,6 +8,8 @@ namespace TimeSheetControl
 {
     public class TimeSheetRender
     {
+        public static readonly int MIN_HEADER_HEIGHT = 40;
+
         public static Color GetColor(TimeSheetCatalog tsType)
         {
             switch (tsType)

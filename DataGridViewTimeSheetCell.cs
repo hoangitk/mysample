@@ -13,28 +13,6 @@ using System.Drawing.Drawing2D;
 
 namespace TimeSheetControl
 {
-	public class DataGridViewTimeSheetColumn : DataGridViewColumn
-	{
-        DataGridViewTimeSheetColumnHeaderCell headerCell = new DataGridViewTimeSheetColumnHeaderCell();
-
-		public DataGridViewTimeSheetColumn()
-			: base(new DataGridViewTimeSheetCell())
-		{
-            this.HeaderCell = headerCell;
-		}
-		
-		public override DataGridViewCell CellTemplate 
-		{
-			get { return base.CellTemplate; }
-			set 
-			{
-				if(!(value is DataGridViewTimeSheetCell))
-					throw new InvalidCastException("CellTemplate must be DataGridViewTimeSheetCell");
-				
-				base.CellTemplate = value; 
-			}
-		}
-	}
 	
 	/// <summary>
 	/// Description of DataGridViewTimeSheetCell.

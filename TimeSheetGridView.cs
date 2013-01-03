@@ -33,19 +33,7 @@ namespace TimeSheetControl
 
                 _toDate = value;                
             }
-        }
-
-        private List<TimeSheetItem> _data;
-
-        public List<TimeSheetItem> Data
-        {
-            get { return _data; }
-            set 
-            { 
-                _data = value;
-                Render();
-            }
-        }       
+        }   
 
         public int DayCount
         {
@@ -60,14 +48,12 @@ namespace TimeSheetControl
         public TimeSheetGridView()
         {
             base.AutoGenerateColumns = false;
-            this.AllowUserToOrderColumns = false;
-            this.AllowUserToResizeColumns = false;
-            this.AllowUserToResizeRows = false;
-            this.AllowUserToAddRows = false;
-            this.AutoSize = true;
-            this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;         
+            this.AllowUserToOrderColumns = false;            
+            this.AllowUserToAddRows = false;                        
+            this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             
-            
+            // Init FromDate and ToDate
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
         }
@@ -76,8 +62,8 @@ namespace TimeSheetControl
         {
             if (!this.DesignMode)
             {
-                this.Rows.Clear();
-                this.Columns.Clear();
+                this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                this.ColumnHeadersHeight = 40;
 
                 // Add Employee Columns
                 var employeeIdColumn = new DataGridViewTextBoxColumn();
@@ -90,9 +76,7 @@ namespace TimeSheetControl
                 employeeFullNameColumn.Name = "EmployeeFullName";
                 employeeFullNameColumn.HeaderText = "Full Name";
                 employeeFullNameColumn.Frozen = true;
-                this.Columns.Add(employeeFullNameColumn);
-
-                Debug.WriteLine("DayCount: {0}", this.DayCount);
+                this.Columns.Add(employeeFullNameColumn);               
 
                 // Add column date
                 for (int i = 0; i < this.DayCount; i++)
@@ -102,35 +86,75 @@ namespace TimeSheetControl
                     this.Columns.Add(tsColumn);
                 }
 
-                this.RowCount = Data == null ? 0 : Data.Count;
-
-                if (Data != null && Data.Count > 0)
+                var Data = this.DataSource as IList<TimeSheetItem>;
+                if (Data != null)
                 {
-                    for (int i = 0; i < Data.Count; i++)
+
+                    if (Data != null && Data.Count > 0)
                     {
-                        var tsItem = Data[i];
-                        if (tsItem.TimeSheetDays != null && tsItem.TimeSheetDays.Count > 0)
+                        for (int i = 0; i < Data.Count; i++)
                         {
-                            var dtgRow = this.Rows[i];
-
-                            // Bind employee info into header column
-                            dtgRow.Cells["EmployeeId"].Value = tsItem.EmployeeId;
-                            dtgRow.Cells["EmployeeFullName"].Value = tsItem.EmployeeFullName;
-
-                            // Bind timesheet days
-                            for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
+                            var tsItem = Data[i];
+                            if (tsItem.TimeSheetDays != null && tsItem.TimeSheetDays.Count > 0)
                             {
-                                var tsDay = tsItem.TimeSheetDays[j];
-                                int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
-                                this.Rows[i].Cells[columnDayIndex].Value = tsDay;
-                            }
+                                var dtgRow = this.Rows[i];
 
-                        }// Check TimeSheetDay is available
+                                // Bind employee info into header column
+                                dtgRow.Cells["EmployeeId"].Value = tsItem.EmployeeId;
+                                dtgRow.Cells["EmployeeFullName"].Value = tsItem.EmployeeFullName;
 
-                    }// Bind data row
+                                // Bind timesheet days
+                                for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
+                                {
+                                    var tsDay = tsItem.TimeSheetDays[j];
+                                    int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
+                                    this.Rows[i].Cells[columnDayIndex].Value = tsDay;
+                                }
 
-                }// Check Data is available
+                            }// Check TimeSheetDay is available
+
+                        }// Bind data row
+
+                    }// Check Data is available
+                }                
             }
+        }
+
+        protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+        {
+            base.OnColumnWidthChanged(e);
+
+            // Auto resize column width of TSDay with same width after changed
+            if (e.Column.Index >= this.ColumnHeaderCount)
+            {
+                for (int i = this.ColumnHeaderCount; i < this.Columns.Count; i++)
+                {
+                    this.Columns[i].Width = e.Column.Width;
+                }
+            }
+        }
+
+        protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
+        {
+            base.OnRowHeightChanged(e);
+
+            // Auto resize height of all rows with same height
+            for (int i = 0; i < this.Rows.Count; i++)
+            {
+                this.Rows[i].Height = e.Row.Height;
+            }
+        }
+
+        protected override void OnDataSourceChanged(EventArgs e)
+        {
+            base.OnDataSourceChanged(e);
+
+            var data = DataSource as IList<TimeSheetItem>;
+            if (data == null)
+                throw new ArgumentException("DataSource must be a list of TimeSheetItem");
+
+            // Re-draw after DataSource changed
+            Render();
         }
     }
 }
