@@ -28,7 +28,7 @@ namespace TimeSheetDemo
                     }, 
                 };
                 plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.PlannedItems[k-1].ToTime.AddHours(rand.Next(1));
-                plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(6) + 4); 
+                plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(6) + 8); 
                 plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);                
 
                 tsday.PlannedItems.Add(plannedItem);
