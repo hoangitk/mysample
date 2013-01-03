@@ -54,11 +54,22 @@
     <Compile Include="DataGridViewTimeSheetColumn.cs" />
     <Compile Include="DataGridViewTimeSheetColumnHeaderCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSheetEditingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSheetEditingControl.Designer.cs">
+      <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeSheetGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="TimeSheetRender.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TimeSheetEditingControl.resx">
+      <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

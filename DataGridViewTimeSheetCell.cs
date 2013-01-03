@@ -37,7 +37,7 @@ namespace TimeSheetControl
 			if(data != null)
 			{			
 				// Draw background
-				using (Brush fillBrush = new SolidBrush(TimeSheetRender.GetColor(data.TimeSheetType)))
+				using (Brush fillBrush = new SolidBrush(TimeSheetRender.GetColor(data.Catalog)))
 				{
 					Rectangle backgroundRec = cellBounds;
 					backgroundRec.Width -= 2;
@@ -48,9 +48,9 @@ namespace TimeSheetControl
 				float rate = cellBounds.Width / 24;
 				
                 // Draw Shift
-				if(data.ShiftItems != null && data.ShiftItems.Count > 0)
+				if(data.PlannedItems != null && data.PlannedItems.Count > 0)
 				{
-					foreach (var shift in data.ShiftItems) 
+					foreach (var shift in data.PlannedItems) 
 					{
 						int barWidth = (int)((shift.ToTime - shift.FromTime).Hours * rate);
 						int barX = (int)(shift.FromTime.Hour * rate);
@@ -63,7 +63,7 @@ namespace TimeSheetControl
 						shiftBar.Width = barWidth;
 
                         // Draw timeline bar
-                        Color backColor = TimeSheetRender.GetColor(shift.TimeSheet.Catalog);
+                        Color backColor = TimeSheetRender.GetColor(shift.TimeSheetType.Catalog);
                         using (Brush fillBrush = new SolidBrush(backColor)) 
 						{
 							graphics.FillRectangle(fillBrush, shiftBar);
@@ -73,10 +73,10 @@ namespace TimeSheetControl
                         graphics.DrawRectangle(new Pen(ControlPaint.Dark(backColor)), shiftBar);
 
                         // Draw Code
-                        int textWidth = MeasureTextWidth(graphics, shift.TimeSheet.Code, cellStyle.Font, shiftBar.Height, TextFormatFlags.SingleLine);
+                        int textWidth = MeasureTextWidth(graphics, shift.TimeSheetType.Code, cellStyle.Font, shiftBar.Height, TextFormatFlags.SingleLine);
                         using(Brush textBrush = new SolidBrush(TimeSheetRender.InvertColor(backColor)))
                         {
-                            graphics.DrawString(shift.TimeSheet.Code, cellStyle.Font, textBrush, 
+                            graphics.DrawString(shift.TimeSheetType.Code, cellStyle.Font, textBrush, 
                                 shiftBar.X + ((shiftBar.Width - textWidth) / 2), shiftBar.Y);
                         }
 					}
