@@ -156,5 +156,14 @@ namespace TimeSheetControl
             // Re-draw after DataSource changed
             Render();
         }
+
+        protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+        {
+            // Show tooltip for cell
+            DataGridViewCell cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            cell.ToolTipText = cell.Value.ToString();
+         
+            base.OnCellFormatting(e);
+        }
     }
 }

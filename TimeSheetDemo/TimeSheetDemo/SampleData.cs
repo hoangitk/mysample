@@ -14,24 +14,24 @@ namespace TimeSheetDemo
         {
             var tsday = new TimeSheetDay();
             tsday.Day = initDay;
-            tsday.TimeSheetType = GetTimeSheetType(tsday.Day);
-            tsday.ShiftItems = new List<PlannedItem>();
+            tsday.Catalog = GetTimeSheetType(tsday.Day);
+            tsday.PlannedItems = new List<PlannedItem>();
 
             int shiftCount = rand.Next(3);
             for (int k = 0; k < shiftCount; k++)
             {
                 PlannedItem plannedItem = new PlannedItem
                 {
-                    TimeSheet = new TimeSheet
+                    TimeSheetType = new TimeSheet
                     {
                         Catalog = RandomEnum<TimeSheetCatalog>(TimeSheetCatalog.WorkingDay)                        
                     }, 
                 };
-                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(1));
+                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.PlannedItems[k-1].ToTime.AddHours(rand.Next(1));
                 plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(6) + 4); 
-                plannedItem.TimeSheet.Code = GetTimeSheetCode(plannedItem.TimeSheet.Catalog);                
+                plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);                
 
-                tsday.ShiftItems.Add(plannedItem);
+                tsday.PlannedItems.Add(plannedItem);
             }
 
             return tsday;
