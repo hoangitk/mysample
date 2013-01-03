@@ -50,10 +50,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataGridViewTextAndImageColumn.cs" />
     <Compile Include="DataGridViewTimeSheetCell.cs" />
     <Compile Include="DataGridViewTimeSheetColumn.cs" />
     <Compile Include="DataGridViewTimeSheetColumnHeaderCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataGridViewTextAndImageCell.cs" />
     <Compile Include="TimeSheetEditingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

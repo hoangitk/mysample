@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace TimeSheetControl
 {
     public class TimeSheetRender
     {
         public static readonly int MIN_HEADER_HEIGHT = 40;
+        public static readonly int MIN_CELL_HEIGHT = 25;
 
         public static Color GetColor(TimeSheetCatalog tsType)
         {
@@ -72,6 +74,45 @@ namespace TimeSheetControl
         public static Color InvertColor(Color color)
         {
             return Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
+        }
+
+        public static void DrawTimeSheetDay(Graphics graphics, Rectangle cellBounds, DataGridViewCellStyle cellStyle, TimeSheetDay data)
+        {            
+            if (data != null)
+            {
+                float rate = cellBounds.Width / 24;
+
+                // Draw Shift
+                if (data.PlannedItems != null && data.PlannedItems.Count > 0)
+                {
+                    foreach (var shift in data.PlannedItems)
+                    {
+                        int barX = (int)(shift.FromTime.Hour * rate);
+                        int barY = 0;
+                        int barWidth = (int)(shift.TotalHours() * rate);
+                        int barHeight = (cellBounds.Height - 2) / 3 * 2;
+                        Rectangle shiftBar = new Rectangle(cellBounds.X + barX, cellBounds.Y + barY, barWidth, barHeight);
+
+                        // Draw timeline bar
+                        Color backColor = TimeSheetRender.GetColor(shift.TimeSheetType.Catalog);
+                        using (Brush fillBrush = new SolidBrush(backColor))
+                        {
+                            graphics.FillRectangle(fillBrush, shiftBar);
+                        }
+
+                        // Draw border
+                        graphics.DrawRectangle(new Pen(ControlPaint.Dark(backColor)), shiftBar);
+
+                        // Draw Code
+                        int textWidth = DataGridViewCell.MeasureTextWidth(graphics, shift.TimeSheetType.Code, cellStyle.Font, shiftBar.Height, TextFormatFlags.SingleLine);
+                        using (Brush textBrush = new SolidBrush(TimeSheetRender.InvertColor(backColor)))
+                        {
+                            graphics.DrawString(shift.TimeSheetType.Code, cellStyle.Font, textBrush,
+                                shiftBar.X + ((shiftBar.Width - textWidth) / 2), shiftBar.Y);
+                        }
+                    }
+                }
+            }
         }
     }
 }

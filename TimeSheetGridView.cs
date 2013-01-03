@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -47,6 +48,10 @@ namespace TimeSheetControl
 
         public TimeSheetGridView()
         {
+            this.SetStyle(ControlStyles.UserPaint 
+                | ControlStyles.AllPaintingInWmPaint
+                | ControlStyles.OptimizedDoubleBuffer, true);           
+
             this.AutoSize = true;
             this.AutoGenerateColumns = false;
             this.AllowUserToOrderColumns = false;            
@@ -67,7 +72,7 @@ namespace TimeSheetControl
                 this.ColumnHeadersHeight = 40;
 
                 // Add Employee Columns
-                var employeeIdColumn = new DataGridViewTextBoxColumn();
+                var employeeIdColumn = new DataGridViewTextAndImageColumn();
                 employeeIdColumn.Name = "EmployeeId";
                 employeeIdColumn.HeaderText = "Id";
                 employeeIdColumn.Frozen = true;
@@ -105,18 +110,12 @@ namespace TimeSheetControl
                                 dtgRow.Cells["EmployeeFullName"].Value = tsItem.EmployeeFullName;
 
                                 // Bind timesheet days
-                                //for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
-                                //{
-                                //    var tsDay = tsItem.TimeSheetDays[j];
-                                //    int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
-                                //    this.Rows[i].Cells[columnDayIndex].Value = tsDay;
-                                //}
-                                for (int j = tsItem.TimeSheetDays.Count-1; j >= 0; j--)
+                                for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
                                 {
                                     var tsDay = tsItem.TimeSheetDays[j];
                                     int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
                                     this.Rows[i].Cells[columnDayIndex].Value = tsDay;
-                                }
+                                }                               
 
                             }// Check TimeSheetDay is available
 
@@ -145,6 +144,9 @@ namespace TimeSheetControl
         {
             base.OnRowHeightChanged(e);
 
+            if (e.Row.Height < 30)
+                e.Row.Height = TimeSheetRender.MIN_CELL_HEIGHT;
+
             // Auto resize height of all rows with same height
             for (int i = 0; i < this.Rows.Count; i++)
             {
@@ -164,13 +166,25 @@ namespace TimeSheetControl
             Render();
         }
 
-        //protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
-        //{
-        //    // Show tooltip for cell
-        //    DataGridViewCell cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
-        //    cell.ToolTipText = cell.Value.ToString();
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
 
-        //    base.OnCellFormatting(e);
-        //}
+            for (int i = 0; i < this.Rows.Count; i++)
+            {
+                var curRow = this.Rows[i];
+                for (int j = this.ColumnHeaderCount; j < curRow.Cells.Count; j++)
+                {
+                    var cell = curRow.Cells[j];
+                    var tsDay = cell.Value as TimeSheetDay;
+                    var cellRect = this.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+                    if (!cellRect.IsEmpty)
+                    {
+                        TimeSheetRender.DrawTimeSheetDay(e.Graphics, cellRect,
+                            cell.DataGridView.DefaultCellStyle, tsDay);
+                    }
+                }
+            }
+        }       
     }
 }
