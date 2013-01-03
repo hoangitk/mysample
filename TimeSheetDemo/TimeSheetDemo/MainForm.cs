@@ -40,8 +40,8 @@ namespace TimeSheetDemo
 		void MainForm_Load(object sender, EventArgs e)
 		{
             _timeSheetItems = new BindingList<TimeSheetItem>();
-            this.timeSheetGridView1.FromDate = DateTime.Now.AddDays(-15);
-            this.timeSheetGridView1.ToDate = DateTime.Now.AddDays(15);
+            this.timeSheetGridView1.FromDate = DateTime.Now.AddDays(-2);
+            this.timeSheetGridView1.ToDate = DateTime.Now.AddDays(2);
 
             // Add Cells
             int empCount = rand.Next(20, 50);
