@@ -47,7 +47,8 @@ namespace TimeSheetControl
 
         public TimeSheetGridView()
         {
-            base.AutoGenerateColumns = false;
+            this.AutoSize = true;
+            this.AutoGenerateColumns = false;
             this.AllowUserToOrderColumns = false;            
             this.AllowUserToAddRows = false;                        
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -104,7 +105,13 @@ namespace TimeSheetControl
                                 dtgRow.Cells["EmployeeFullName"].Value = tsItem.EmployeeFullName;
 
                                 // Bind timesheet days
-                                for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
+                                //for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
+                                //{
+                                //    var tsDay = tsItem.TimeSheetDays[j];
+                                //    int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
+                                //    this.Rows[i].Cells[columnDayIndex].Value = tsDay;
+                                //}
+                                for (int j = tsItem.TimeSheetDays.Count-1; j >= 0; j--)
                                 {
                                     var tsDay = tsItem.TimeSheetDays[j];
                                     int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
@@ -156,5 +163,14 @@ namespace TimeSheetControl
             // Re-draw after DataSource changed
             Render();
         }
+
+        //protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+        //{
+        //    // Show tooltip for cell
+        //    DataGridViewCell cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
+        //    cell.ToolTipText = cell.Value.ToString();
+
+        //    base.OnCellFormatting(e);
+        //}
     }
 }
