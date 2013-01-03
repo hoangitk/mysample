@@ -60,6 +60,12 @@
     <Compile Include="TimeSheetEditingControl.Designer.cs">
       <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheetEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSheetEditorForm.Designer.cs">
+      <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeSheetGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -69,6 +75,9 @@
   <ItemGroup>
     <EmbeddedResource Include="TimeSheetEditingControl.resx">
       <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSheetEditorForm.resx">
+      <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
