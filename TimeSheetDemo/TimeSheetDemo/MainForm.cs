@@ -8,9 +8,9 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-
 using TimeSheetControl;
 
 namespace TimeSheetDemo
@@ -22,7 +22,7 @@ namespace TimeSheetDemo
 	{
 		private Random rand = new Random();
 
-        private List<TimeSheetItem> _timeSheetItems;
+        private BindingList<TimeSheetItem> _timeSheetItems;
 		
 		public MainForm()
 		{
@@ -39,12 +39,13 @@ namespace TimeSheetDemo
 
 		void MainForm_Load(object sender, EventArgs e)
 		{
-            _timeSheetItems = new List<TimeSheetItem>();
+            _timeSheetItems = new BindingList<TimeSheetItem>();
             this.timeSheetGridView1.FromDate = DateTime.Now.AddDays(-15);
             this.timeSheetGridView1.ToDate = DateTime.Now.AddDays(15);
 
             // Add Cells
-            for (int i = 1; i <= 30; i++)
+            int empCount = rand.Next(20, 50);
+            for (int i = 1; i <= empCount; i++)
             {
                 var newTsItem = new TimeSheetItem();
 
@@ -62,7 +63,8 @@ namespace TimeSheetDemo
                 _timeSheetItems.Add(newTsItem);
             }
 
-            this.timeSheetGridView1.Data = _timeSheetItems;
+
+            this.timeSheetGridView1.DataSource = _timeSheetItems;
 		}
 		
 		

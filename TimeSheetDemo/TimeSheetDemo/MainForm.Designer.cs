@@ -37,100 +37,34 @@ namespace TimeSheetDemo
 		private void InitializeComponent()
 		{            
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnAddNew = new System.Windows.Forms.Button();
             this.timeSheetGridView1 = new TimeSheetControl.TimeSheetGridView();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTimeSheetColumn1 = new TimeSheetControl.DataGridViewTimeSheetColumn();
-            this.dataGridViewTimeSheetColumn2 = new TimeSheetControl.DataGridViewTimeSheetColumn();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridViewTextBoxColumn1
+            // panel1
             // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.panel1.Controls.Add(this.btnAddNew);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 356);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(614, 65);
+            this.panel1.TabIndex = 1;
             // 
-            // dataGridViewTextBoxColumn2
+            // btnAddNew
             // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.Frozen = true;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.Frozen = true;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.Frozen = true;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.Frozen = true;
-            this.dataGridViewTextBoxColumn7.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.Frozen = true;
-            this.dataGridViewTextBoxColumn8.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.Frozen = true;
-            this.dataGridViewTextBoxColumn9.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.Frozen = true;
-            this.dataGridViewTextBoxColumn10.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.Frozen = true;
-            this.dataGridViewTextBoxColumn11.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            this.dataGridViewTextBoxColumn12.Frozen = true;
-            this.dataGridViewTextBoxColumn12.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            this.btnAddNew.Location = new System.Drawing.Point(12, 21);
+            this.btnAddNew.Name = "btnAddNew";
+            this.btnAddNew.Size = new System.Drawing.Size(75, 23);
+            this.btnAddNew.TabIndex = 0;
+            this.btnAddNew.Text = "Add New";
+            this.btnAddNew.UseVisualStyleBackColor = true;
             // 
             // timeSheetGridView1
             // 
             this.timeSheetGridView1.AllowUserToAddRows = false;
-            this.timeSheetGridView1.AllowUserToResizeColumns = false;
-            this.timeSheetGridView1.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -139,42 +73,14 @@ namespace TimeSheetDemo
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.timeSheetGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.timeSheetGridView1.ColumnHeadersHeight = 40;
-            this.timeSheetGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.timeSheetGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14,
-            this.dataGridViewTimeSheetColumn1});
-            this.timeSheetGridView1.Data = null;
+            this.timeSheetGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.timeSheetGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 2, 15, 38, 21, 404);
+            this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 3, 14, 44, 12, 426);
             this.timeSheetGridView1.Location = new System.Drawing.Point(0, 0);
             this.timeSheetGridView1.Name = "timeSheetGridView1";
-            this.timeSheetGridView1.Size = new System.Drawing.Size(614, 421);
-            this.timeSheetGridView1.TabIndex = 0;
-            this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 2, 15, 38, 21, 404);
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            this.dataGridViewTextBoxColumn13.Frozen = true;
-            this.dataGridViewTextBoxColumn13.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.Frozen = true;
-            this.dataGridViewTextBoxColumn14.HeaderText = "Full Name";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            // 
-            // dataGridViewTimeSheetColumn1
-            // 
-            this.dataGridViewTimeSheetColumn1.HeaderText = "Wed, 02/01/2013";
-            this.dataGridViewTimeSheetColumn1.Name = "dataGridViewTimeSheetColumn1";
-            // 
-            // dataGridViewTimeSheetColumn2
-            // 
-            this.dataGridViewTimeSheetColumn2.HeaderText = "Wed, 02/01/2013";
-            this.dataGridViewTimeSheetColumn2.Name = "dataGridViewTimeSheetColumn2";
+            this.timeSheetGridView1.Size = new System.Drawing.Size(614, 356);
+            this.timeSheetGridView1.TabIndex = 2;
+            this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 3, 14, 44, 12, 426);
             // 
             // MainForm
             // 
@@ -182,30 +88,17 @@ namespace TimeSheetDemo
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 421);
             this.Controls.Add(this.timeSheetGridView1);
+            this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "TimeSheetDemo";
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetGridView1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
-
+        
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnAddNew;
         private TimeSheetControl.TimeSheetGridView timeSheetGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
-        private TimeSheetControl.DataGridViewTimeSheetColumn dataGridViewTimeSheetColumn1;
-        private TimeSheetControl.DataGridViewTimeSheetColumn dataGridViewTimeSheetColumn2;
 	}
 }

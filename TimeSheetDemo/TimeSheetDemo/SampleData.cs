@@ -66,25 +66,25 @@ namespace TimeSheetDemo
                     return string.Empty;
 
                 case TimeSheetCatalog.Holiday:
-                    return string.Format("H{0:d2}", rand.Next(9));
+                    return string.Format("H{0:d2}", rand.Next(1, 9));
 
                 case TimeSheetCatalog.WeekendOff:
-                    return string.Format("W{0:d2}", rand.Next(9));
+                    return string.Format("W{0:d2}", rand.Next(1, 9));
 
                 case TimeSheetCatalog.WeekendOffHalf:
-                    return string.Format("WH{0:d1}", rand.Next(9));
+                    return string.Format("WH{0:d1}", rand.Next(1, 9));
 
                 case TimeSheetCatalog.Leave:
-                    return string.Format("L{0:d2}", rand.Next(99));
+                    return string.Format("L{0:d2}", rand.Next(1, 99));
 
                 case TimeSheetCatalog.BusinessTrip:
-                    return string.Format("BT{0:d1}", rand.Next(9));
+                    return string.Format("BT{0:d1}", rand.Next(1, 9));
 
                 case TimeSheetCatalog.Overtime:
-                    return string.Format("OT{0:d1}", rand.Next(9));
+                    return string.Format("OT{0:d1}", rand.Next(1, 9));
 
                 case TimeSheetCatalog.Shift:
-                    return string.Format("S{0:d2}", rand.Next(99));
+                    return string.Format("S{0:d2}", rand.Next(1, 99));
 
                 default:
                     return string.Empty;
