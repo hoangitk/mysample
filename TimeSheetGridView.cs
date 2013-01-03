@@ -137,7 +137,7 @@ namespace TimeSheetControl
                 {
                     this.Columns[i].Width = e.Column.Width;
                 }
-            }
+            }            
         }
 
         protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
@@ -185,6 +185,18 @@ namespace TimeSheetControl
                     }
                 }
             }
-        }       
+        }
+
+        protected override void OnScroll(ScrollEventArgs e)
+        {
+            base.OnScroll(e);
+
+            // Trick to solve tearing problem in GDI+
+            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+                && e.NewValue < e.OldValue)
+            {
+                this.Refresh();
+            }
+        }
     }
 }
