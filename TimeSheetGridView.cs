@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace TimeSheetControl
@@ -15,7 +12,7 @@ namespace TimeSheetControl
         public DateTime FromDate
         {
             get { return _fromDate; }
-            set 
+            set
             {
                 _fromDate = value;
                 _toDate = _fromDate;
@@ -27,14 +24,14 @@ namespace TimeSheetControl
         public DateTime ToDate
         {
             get { return _toDate; }
-            set 
+            set
             {
                 if (value < _fromDate)
                     throw new ArgumentOutOfRangeException("ToDate must be great than or equal FromDate");
 
-                _toDate = value;                
+                _toDate = value;
             }
-        }   
+        }
 
         public int DayCount
         {
@@ -48,20 +45,31 @@ namespace TimeSheetControl
 
         public TimeSheetGridView()
         {
-            this.SetStyle(ControlStyles.UserPaint 
+            this.SetStyle(ControlStyles.UserPaint
                 | ControlStyles.AllPaintingInWmPaint
-                | ControlStyles.OptimizedDoubleBuffer, true);           
+                | ControlStyles.OptimizedDoubleBuffer, true);
 
             this.AutoSize = true;
             this.AutoGenerateColumns = false;
-            this.AllowUserToOrderColumns = false;            
-            this.AllowUserToAddRows = false;                        
+            this.AllowUserToOrderColumns = false;
+            this.AllowUserToAddRows = false;
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             this.RowTemplate.Height = TimeSheetRender.MIN_CELL_HEIGHT;
             this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
+
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
+
+            // Init PopupToolTip
+            popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip())
+            {
+                AutoClose = true,
+                FocusOnOpen = true,                
+                //ShowingAnimation = PopupControl.PopupAnimations.Slide | PopupControl.PopupAnimations.LeftToRight,
+                //HidingAnimation = PopupControl.PopupAnimations.Slide | PopupControl.PopupAnimations.LeftToRight,
+            };
+
         }
 
         private void Render()
@@ -69,7 +77,7 @@ namespace TimeSheetControl
             if (!this.DesignMode)
             {
                 this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                this.ColumnHeadersHeight = 50;
+                this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
 
                 // Add Employee Columns
                 var employeeIdColumn = new DataGridViewTextAndImageColumn();
@@ -82,7 +90,7 @@ namespace TimeSheetControl
                 employeeFullNameColumn.Name = "EmployeeFullName";
                 employeeFullNameColumn.HeaderText = "Full Name";
                 employeeFullNameColumn.Frozen = true;
-                this.Columns.Add(employeeFullNameColumn);               
+                this.Columns.Add(employeeFullNameColumn);
 
                 // Add column date
                 for (int i = 0; i < this.DayCount; i++)
@@ -95,7 +103,6 @@ namespace TimeSheetControl
                 var Data = this.DataSource as IList<TimeSheetItem>;
                 if (Data != null)
                 {
-
                     if (Data != null && Data.Count > 0)
                     {
                         for (int i = 0; i < Data.Count; i++)
@@ -115,14 +122,11 @@ namespace TimeSheetControl
                                     var tsDay = tsItem.TimeSheetDays[j];
                                     int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
                                     this.Rows[i].Cells[columnDayIndex].Value = tsDay;
-                                }                               
-
+                                }
                             }// Check TimeSheetDay is available
-
                         }// Bind data row
-
                     }// Check Data is available
-                }                
+                }
             }
         }
 
@@ -139,7 +143,7 @@ namespace TimeSheetControl
                 {
                     this.Columns[i].Width = e.Column.Width;
                 }
-            }            
+            }
         }
 
         protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
@@ -188,20 +192,51 @@ namespace TimeSheetControl
                     var cell = curRow.Cells[j];
                     var tsDay = cell.Value as TimeSheetDay;
 
-                    var cellRect = this.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);                        
-                    if (!cellRect.IsEmpty)
+                    var cellRect = cell.GetCellBoundRectangle();
+                    if (cellRect != Rectangle.Empty)
                     {
-                        var cellWidth = cell.Size.Width;
-                        cellRect.X = (cellRect.X + cellRect.Width) - cellWidth;
-                        cellRect.Width = cellWidth;
-
                         TimeSheetRender.DrawTimeSheetDay(e.Graphics, cellRect,
-                            cell.DataGridView.DefaultCellStyle, tsDay);
+                               cell.DataGridView.DefaultCellStyle, tsDay);
                     }
                 }
             }
         }
 
+        #region Comment ToolTip
+
+        PopupControl.Popup popupToolTip;
+        CommentToolTip commentToolTip;              
+
+        protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
+        {
+            base.OnCellMouseClick(e);
+            
+            if (e.Button == System.Windows.Forms.MouseButtons.Left
+                && !popupToolTip.Visible
+                && e.ColumnIndex >= this.ColumnHeaderCount
+                && e.RowIndex >= 0)
+            {
+                var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
+                if (tsDay != null)
+                {
+                    commentToolTip.Title = tsDay.GetTitle();
+                    commentToolTip.Content = tsDay.GetContent();
+                    Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                    popupToolTip.Show(this, rect);
+                }
+            }
+        }
+
+        protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
+        {
+            base.OnCellMouseLeave(e);
+
+            popupToolTip.Hide();
+        }
+
+            
+
+        #endregion
         //protected override void OnScroll(ScrollEventArgs e)
         //{
         //    base.OnScroll(e);
