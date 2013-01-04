@@ -117,6 +117,31 @@ namespace TimeSheetDemo
             }
         }
 
+        public static TimeSheetStatus GetTimeSheetStatus(TimeSheetCatalog catalog)
+        {
+            switch (catalog)
+            {
+                case TimeSheetCatalog.WorkingDay:
+                    break;
+                case TimeSheetCatalog.Holiday:
+                    break;
+                case TimeSheetCatalog.WeekendOff:
+                    break;
+                case TimeSheetCatalog.WeekendOffHalf:
+                    break;
+                case TimeSheetCatalog.Leave:
+                    break;
+                case TimeSheetCatalog.BusinessTrip:
+                    break;
+                case TimeSheetCatalog.Overtime:
+                    break;
+                case TimeSheetCatalog.Shift:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public static T RandomEnum<T>()
         {
             var values = (T[])Enum.GetValues(typeof(T));

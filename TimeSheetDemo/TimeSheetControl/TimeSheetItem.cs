@@ -53,9 +53,16 @@ namespace TimeSheetControl
             set { _day = value; }
         }
 
+        private TimeSheetStatus _status;
+
+        public TimeSheetStatus Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+
 		public List<PlannedItem> PlannedItems { get; set; }
 		public List<RealTimeItem> RealTimeItems { get; set; }
-		public List<TimeSheetStatus> Statuses { get; set; }
 		public TimeSheetCatalog Catalog { get; set; }
 		
 		public TimeSheetDay()
@@ -93,18 +100,6 @@ namespace TimeSheetControl
                 }
             }
 
-            if (this.Statuses != null && this.Statuses.Count > 0)
-            {
-                sb.AppendLine();
-                sb.AppendLine("Status:");
-                for (int i = 0; i < this.Statuses.Count; i++)
-                {
-                    sb.AppendFormat("+ {0}", this.Statuses[i]);
-                    if (i < this.Statuses.Count - 1)
-                        sb.AppendLine();
-                }
-            }
-
             return sb.ToString();
         }
 	}
@@ -114,6 +109,7 @@ namespace TimeSheetControl
         public DateTime FromTime { get; set; }
         public DateTime ToTime { get; set; }
         public TimeSheet TimeSheetType { get; set; }
+        public TimeSheetStatus Status { get; set; }
 
         public virtual int TotalHours()
         {
@@ -172,6 +168,7 @@ namespace TimeSheetControl
 	
 	public enum TimeSheetStatus
 	{
+        None,
 		InvalidTS,
 		ValidTS,
 		UnApprovedOT,
