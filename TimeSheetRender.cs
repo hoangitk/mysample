@@ -52,22 +52,22 @@ namespace TimeSheetControl
             switch (tsStatus)
             {
                 case TimeSheetControl.TimeSheetStatus.InvalidTS:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(255, 0, 0);
 
                 case TimeSheetControl.TimeSheetStatus.ValidTS:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(0, 255, 0);
 
                 case TimeSheetControl.TimeSheetStatus.UnApprovedOT:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(255, 0, 0);
 
                 case TimeSheetControl.TimeSheetStatus.ApprovedOT:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(0, 255, 0);
 
                 case TimeSheetControl.TimeSheetStatus.ApprovedLeave:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(0, 255, 0);
 
                 case TimeSheetControl.TimeSheetStatus.Locked:
-                    return Color.FromArgb(182, 221, 232);
+                    return Color.FromArgb(255, 0, 0);
                 default:
                     throw new Exception("Invalid value for TimeSheetStatus");
             }
@@ -246,17 +246,21 @@ namespace TimeSheetControl
             }
         }
 
-        public static void DrawCommentIcon(Graphics graphics, Rectangle rect)
+        public static void DrawStatusIcon(Graphics graphics, Rectangle rect, Color color)
         {
             Bitmap commentIcon = new Bitmap(5, 5);
 
             using (Graphics g = Graphics.FromImage(commentIcon))
             {
                 DrawSquareTriangle(g, new Rectangle(0, 0, commentIcon.Width, commentIcon.Height), 
-                    Color.Red, Direction.RightUp);
+                    color, Direction.LeftDown);
             }
 
-            DrawImage(graphics, rect, commentIcon, ContentAlignment.TopRight);
+            DrawImage(graphics, rect, commentIcon, ContentAlignment.TopLeft);
+        }
+
+        public static void DrawTimeSheetStatus(Graphics graphics, Rectangle rect, TimeSheetStatus status)
+        {
         }
 
         /// <summary>
@@ -374,8 +378,11 @@ namespace TimeSheetControl
 
                         // Draw timeline bar
                         Color color = TimeSheetRender.GetColor(plannedItem.TimeSheetType.Catalog);
-                        TimeSheetRender.DrawBox(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.MiddleCenter);
-                                                
+                        TimeSheetRender.DrawBox(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.MiddleCenter);                                                
+
+                        // Draw status
+                        Color statusColor = TimeSheetRender.GetColor(plannedItem.Status);
+                        TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
                     }
                 }
 

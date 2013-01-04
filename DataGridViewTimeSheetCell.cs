@@ -128,9 +128,6 @@ namespace TimeSheetControl
                     {
                         g.FillRectangle(bgBrush, rect);
                     }
-
-                    // Draw a comment point in top-right corner
-                    TimeSheetRender.DrawCommentIcon(g, rect);
                    
                     // set tooltip
                     this.ToolTipText = data.ToString();

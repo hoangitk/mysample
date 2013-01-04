@@ -46,16 +46,6 @@ namespace TimeSheetControl
                 }
             }
 
-            if (tsDay.Statuses != null && tsDay.Statuses.Count > 0)
-            {
-                sb.AppendLine("Status:");
-                for (int i = 0; i < tsDay.Statuses.Count; i++)
-                {
-                    sb.AppendFormat("+ {0}", tsDay.Statuses[i]);
-                    sb.AppendLine();
-                }
-            }
-
             return sb.ToString();
         }
 
