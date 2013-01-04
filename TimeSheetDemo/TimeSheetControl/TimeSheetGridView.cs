@@ -57,8 +57,8 @@ namespace TimeSheetControl
             this.AllowUserToOrderColumns = false;            
             this.AllowUserToAddRows = false;                        
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            
+            this.RowTemplate.Height = TimeSheetRender.MIN_CELL_HEIGHT;
+            this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
@@ -69,7 +69,7 @@ namespace TimeSheetControl
             if (!this.DesignMode)
             {
                 this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                this.ColumnHeadersHeight = 40;
+                this.ColumnHeadersHeight = 50;
 
                 // Add Employee Columns
                 var employeeIdColumn = new DataGridViewTextAndImageColumn();
@@ -129,6 +129,8 @@ namespace TimeSheetControl
         protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
         {
             base.OnColumnWidthChanged(e);
+            if (e.Column.Width < TimeSheetRender.MIN_HEADER_WIDTH)
+                e.Column.Width = TimeSheetRender.MIN_HEADER_WIDTH;
 
             // Auto resize column width of TSDay with same width after changed
             if (e.Column.Index >= this.ColumnHeaderCount)
@@ -144,7 +146,7 @@ namespace TimeSheetControl
         {
             base.OnRowHeightChanged(e);
 
-            if (e.Row.Height < 30)
+            if (e.Row.Height < TimeSheetRender.MIN_CELL_HEIGHT)
                 e.Row.Height = TimeSheetRender.MIN_CELL_HEIGHT;
 
             // Auto resize height of all rows with same height
@@ -152,6 +154,14 @@ namespace TimeSheetControl
             {
                 this.Rows[i].Height = e.Row.Height;
             }
+        }
+
+        protected override void OnColumnHeadersHeightChanged(EventArgs e)
+        {
+            if (this.ColumnHeadersHeight < TimeSheetRender.MIN_HEADER_HEIGHT)
+                this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
+
+            base.OnColumnHeadersHeightChanged(e);
         }
 
         protected override void OnDataSourceChanged(EventArgs e)
@@ -177,9 +187,14 @@ namespace TimeSheetControl
                 {
                     var cell = curRow.Cells[j];
                     var tsDay = cell.Value as TimeSheetDay;
-                    var cellRect = this.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+
+                    var cellRect = this.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);                        
                     if (!cellRect.IsEmpty)
                     {
+                        var cellWidth = cell.Size.Width;
+                        cellRect.X = (cellRect.X + cellRect.Width) - cellWidth;
+                        cellRect.Width = cellWidth;
+
                         TimeSheetRender.DrawTimeSheetDay(e.Graphics, cellRect,
                             cell.DataGridView.DefaultCellStyle, tsDay);
                     }
@@ -187,16 +202,16 @@ namespace TimeSheetControl
             }
         }
 
-        protected override void OnScroll(ScrollEventArgs e)
-        {
-            base.OnScroll(e);
+        //protected override void OnScroll(ScrollEventArgs e)
+        //{
+        //    base.OnScroll(e);
 
-            // Trick to solve tearing problem in GDI+
-            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
-                && e.NewValue < e.OldValue)
-            {
-                this.Refresh();
-            }
-        }
+        //    // Trick to solve tearing problem in GDI+
+        //    if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+        //        && e.NewValue <= e.OldValue)
+        //    {
+        //        this.Refresh();
+        //    }
+        //}
     }
 }

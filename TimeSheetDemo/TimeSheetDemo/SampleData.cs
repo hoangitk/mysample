@@ -15,23 +15,43 @@ namespace TimeSheetDemo
             var tsday = new TimeSheetDay();
             tsday.Day = initDay;
             tsday.Catalog = GetTimeSheetType(tsday.Day);
+            
+            // Generate Planned Items
             tsday.PlannedItems = new List<PlannedItem>();
+            int plannedCount = rand.Next(3);
 
-            int shiftCount = rand.Next(3);
-            for (int k = 0; k < shiftCount; k++)
+            for (int k = 0; k < plannedCount; k++)
             {
-                PlannedItem plannedItem = new PlannedItem
-                {
-                    TimeSheetType = new TimeSheet
-                    {
-                        Catalog = RandomEnum<TimeSheetCatalog>(TimeSheetCatalog.WorkingDay)                        
-                    }, 
-                };
-                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.PlannedItems[k-1].ToTime.AddHours(rand.Next(1));
-                plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(6) + 10); 
+                PlannedItem plannedItem = new PlannedItem();
+                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.PlannedItems[k-1].ToTime.AddHours(rand.Next(2));
+                plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(4) + 6);
+                plannedItem.TimeSheetType = new TimeSheet();
+                plannedItem.TimeSheetType.Catalog = 
+                    k == 0 
+                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift)
+                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift);
                 plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);                
-
+                
                 tsday.PlannedItems.Add(plannedItem);
+            }
+
+            // Generate RealTime Items
+            tsday.RealTimeItems = new List<RealTimeItem>();
+            int realTimeCount = plannedCount;
+
+            for (int k = 0; k < realTimeCount; k++)
+            {
+                RealTimeItem realItem = new RealTimeItem();
+                realItem.FromTime = k == 0 ? tsday.PlannedItems[0].FromTime : tsday.RealTimeItems[k - 1].ToTime.AddHours(rand.Next(3));
+                realItem.ToTime = realItem.FromTime.AddHours(rand.Next(4) + 6);
+                realItem.TimeSheetType = new TimeSheet();
+                realItem.TimeSheetType.Catalog =
+                    k == 0
+                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift)
+                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);
+                realItem.TimeSheetType.Code = GetTimeSheetCode(realItem.TimeSheetType.Catalog);      
+
+                tsday.RealTimeItems.Add(realItem);    
             }
 
             return tsday;
@@ -39,6 +59,9 @@ namespace TimeSheetDemo
 
         public static TimeSheetCatalog GetTimeSheetType(DateTime day)
         {
+            if (rand.Next(1000) % 23 == 0)
+                return TimeSheetCatalog.BusinessTrip;
+
             switch (day.DayOfWeek)
             {
                 case DayOfWeek.Sunday:
@@ -52,7 +75,9 @@ namespace TimeSheetDemo
                     return TimeSheetCatalog.WorkingDay;
 
                 case DayOfWeek.Saturday:
-                    return TimeSheetCatalog.WeekendOff;
+                    return GetRandomFrom<TimeSheetCatalog>(
+                        TimeSheetCatalog.WeekendOff, 
+                        TimeSheetCatalog.WeekendOffHalf);
                 default:
                     throw new Exception("Invalid value for DayOfWeek");
             }
@@ -94,7 +119,7 @@ namespace TimeSheetDemo
         public static T RandomEnum<T>()
         {
             var values = (T[])Enum.GetValues(typeof(T));
-            return values[rand.Next(0, values.Length - 1)];
+            return values[rand.Next(values.Length)];
         }
 
         public static T RandomEnum<T>(params T[] excludes)
@@ -102,5 +127,11 @@ namespace TimeSheetDemo
             var values = Enum.GetValues(typeof(T)).Cast<T>().Where(t => !excludes.Contains(t)).ToArray();
             return values[rand.Next(values.Length)];
         }
+
+        public static T GetRandomFrom<T>(params T[] list)
+        {
+            return list[rand.Next(list.Length)];
+        }
+
     }
 }

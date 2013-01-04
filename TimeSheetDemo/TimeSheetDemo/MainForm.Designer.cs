@@ -75,12 +75,13 @@ namespace TimeSheetDemo
             this.timeSheetGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.timeSheetGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.timeSheetGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 3, 14, 44, 12, 426);
+            this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
             this.timeSheetGridView1.Location = new System.Drawing.Point(0, 0);
             this.timeSheetGridView1.Name = "timeSheetGridView1";
+            this.timeSheetGridView1.RowTemplate.Height = 30;
             this.timeSheetGridView1.Size = new System.Drawing.Size(614, 356);
             this.timeSheetGridView1.TabIndex = 2;
-            this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 3, 14, 44, 12, 426);
+            this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
             // 
             // MainForm
             // 
@@ -94,6 +95,7 @@ namespace TimeSheetDemo
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         

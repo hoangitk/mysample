@@ -67,10 +67,11 @@ namespace TimeSheetControl
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(Day.ToString("yyyy/MM/dd"));
-            sb.AppendLine(Catalog.ToString());
+            sb.Append(Catalog.ToString());
 
             if (this.PlannedItems != null && this.PlannedItems.Count > 0)
             {
+                sb.AppendLine();
                 sb.AppendLine("Planned: ");
                 for (int i = 0; i < this.PlannedItems.Count; i++)
                 {
@@ -82,6 +83,7 @@ namespace TimeSheetControl
 
             if (this.RealTimeItems != null && this.RealTimeItems.Count > 0)
             {
+                sb.AppendLine();
                 sb.AppendLine("Real time:");
                 for (int i = 0; i < this.RealTimeItems.Count; i++)
                 {
@@ -93,6 +95,7 @@ namespace TimeSheetControl
 
             if (this.Statuses != null && this.Statuses.Count > 0)
             {
+                sb.AppendLine();
                 sb.AppendLine("Status:");
                 for (int i = 0; i < this.Statuses.Count; i++)
                 {
