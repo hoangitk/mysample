@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PopupControl">
+      <HintPath>..\..\..\3rd Library\PopupControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,10 +53,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentToolTip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CommentToolTip.Designer.cs">
+      <DependentUpon>CommentToolTip.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataGridViewTextAndImageColumn.cs" />
     <Compile Include="DataGridViewTimeSheetCell.cs" />
     <Compile Include="DataGridViewTimeSheetColumn.cs" />
     <Compile Include="DataGridViewTimeSheetColumnHeaderCell.cs" />
+    <Compile Include="ExtendMethodHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataGridViewTextAndImageCell.cs" />
     <Compile Include="TimeSheetEditingControl.cs">
@@ -75,6 +85,9 @@
     <Compile Include="TimeSheetRender.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CommentToolTip.resx">
+      <DependentUpon>CommentToolTip.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TimeSheetEditingControl.resx">
       <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
     </EmbeddedResource>

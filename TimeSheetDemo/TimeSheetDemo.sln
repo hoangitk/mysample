@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSheetControl", "TimeShe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSheetDemo", "TimeSheetDemo\TimeSheetDemo.csproj", "{0608229B-35F6-41A4-89F2-04305BEF1256}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Library", "3rd Library", "{3159DC8F-95D4-41C8-A3FD-1AE6A0274B3A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\3rd Library\PopupControl.dll = ..\..\3rd Library\PopupControl.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 3

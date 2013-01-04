@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -133,5 +134,9 @@ namespace TimeSheetDemo
             return list[rand.Next(list.Length)];
         }
 
+        public static T SelectRandom<T>(this IList list)
+        {
+            return (T)list[rand.Next(list.Count)];
+        }
     }
 }

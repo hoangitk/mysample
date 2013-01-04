@@ -65,6 +65,16 @@ namespace TimeSheetDemo
 
 
             this.timeSheetGridView1.DataSource = _timeSheetItems;
+
+            for (int i = 0; i < this.timeSheetGridView1.Rows.Count; i++)
+            {
+                var employeeIdCell = this.timeSheetGridView1.Rows[i].Cells["EmployeeId"] as DataGridViewTextAndImageCell;
+                if (employeeIdCell != null)
+                {
+                    employeeIdCell.Image = this.imageList1.Images.SelectRandom<Image>();
+                }
+
+            }
 		}
 		
 		

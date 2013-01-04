@@ -36,10 +36,14 @@ namespace TimeSheetDemo
 		/// </summary>
 		private void InitializeComponent()
 		{            
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddNew = new System.Windows.Forms.Button();
             this.timeSheetGridView1 = new TimeSheetControl.TimeSheetGridView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetGridView1)).BeginInit();
             this.SuspendLayout();
@@ -74,14 +78,57 @@ namespace TimeSheetDemo
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.timeSheetGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.timeSheetGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.timeSheetGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.timeSheetGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
             this.timeSheetGridView1.Location = new System.Drawing.Point(0, 0);
             this.timeSheetGridView1.Name = "timeSheetGridView1";
-            this.timeSheetGridView1.RowTemplate.Height = 30;
+            this.timeSheetGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeSheetGridView1.RowTemplate.Height = 25;
             this.timeSheetGridView1.Size = new System.Drawing.Size(614, 356);
             this.timeSheetGridView1.TabIndex = 2;
             this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "applicant.ico");
+            this.imageList1.Images.SetKeyName(1, "applicant-denied.ico");
+            this.imageList1.Images.SetKeyName(2, "applicant-good.ico");
+            this.imageList1.Images.SetKeyName(3, "applicant-keepinview.ico");
+            this.imageList1.Images.SetKeyName(4, "Candidate.ico");
+            this.imageList1.Images.SetKeyName(5, "Casual-Activation.ico");
+            this.imageList1.Images.SetKeyName(6, "Casual-Future.ico");
+            this.imageList1.Images.SetKeyName(7, "Casual-Probation.ico");
+            this.imageList1.Images.SetKeyName(8, "Casual-Resignation.ico");
+            this.imageList1.Images.SetKeyName(9, "Casual-Training.ico");
+            this.imageList1.Images.SetKeyName(10, "Contractor-Activation.ico");
+            this.imageList1.Images.SetKeyName(11, "Contractor-Future.ico");
+            this.imageList1.Images.SetKeyName(12, "Contractor-Probation.ico");
+            this.imageList1.Images.SetKeyName(13, "Contractor-Resignation.ico");
+            this.imageList1.Images.SetKeyName(14, "Contractor-Training.ico");
+            this.imageList1.Images.SetKeyName(15, "Pemanent-Activation.ico");
+            this.imageList1.Images.SetKeyName(16, "Pemanent-Future.ico");
+            this.imageList1.Images.SetKeyName(17, "Pemanent-Probation.ico");
+            this.imageList1.Images.SetKeyName(18, "Pemanent-Resignation.ico");
+            this.imageList1.Images.SetKeyName(19, "Pemanent-Training.ico");
+            this.imageList1.Images.SetKeyName(20, "propation-unpaid.ico");
+            this.imageList1.Images.SetKeyName(21, "resignee.ico");
+            this.imageList1.Images.SetKeyName(22, "staff-casual.ico");
+            this.imageList1.Images.SetKeyName(23, "staff-fulltime.ico");
+            this.imageList1.Images.SetKeyName(24, "staff-parttime.ico");
+            this.imageList1.Images.SetKeyName(25, "staff-propation.ico");
+            this.imageList1.Images.SetKeyName(26, "staff-seasonal.ico");
+            this.imageList1.Images.SetKeyName(27, "staff-training.ico");
+            this.imageList1.Images.SetKeyName(28, "staff-waitforresign.ico");
             // 
             // MainForm
             // 
@@ -102,5 +149,6 @@ namespace TimeSheetDemo
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddNew;
         private TimeSheetControl.TimeSheetGridView timeSheetGridView1;
+        private System.Windows.Forms.ImageList imageList1;
 	}
 }
