@@ -5,14 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSheetControl", "TimeShe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSheetDemo", "TimeSheetDemo\TimeSheetDemo.csproj", "{0608229B-35F6-41A4-89F2-04305BEF1256}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Library", "3rd Library", "{3159DC8F-95D4-41C8-A3FD-1AE6A0274B3A}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\3rd Library\PopupControl.dll = ..\..\3rd Library\PopupControl.dll
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopupControl", "PopupControl\PopupControl.csproj", "{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
 		SccLocalPath0 = .
@@ -22,20 +19,49 @@ Global
 		SccProjectUniqueName2 = TimeSheetDemo\\TimeSheetDemo.csproj
 		SccProjectName2 = TimeSheetDemo
 		SccLocalPath2 = TimeSheetDemo
+		SccProjectUniqueName3 = PopupControl\\PopupControl.csproj
+		SccProjectName3 = PopupControl
+		SccLocalPath3 = PopupControl
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Debug|x86.ActiveCfg = Debug|x86
 		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Debug|x86.Build.0 = Debug|x86
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Release|Any CPU.ActiveCfg = Release|x86
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Release|Mixed Platforms.Build.0 = Release|x86
 		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Release|x86.ActiveCfg = Release|x86
 		{85C89BDB-E2F0-4B12-B3D5-750F0ECFEA65}.Release|x86.Build.0 = Release|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0608229B-35F6-41A4-89F2-04305BEF1256}.Debug|x86.ActiveCfg = Debug|x86
 		{0608229B-35F6-41A4-89F2-04305BEF1256}.Debug|x86.Build.0 = Debug|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Release|Any CPU.ActiveCfg = Release|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0608229B-35F6-41A4-89F2-04305BEF1256}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0608229B-35F6-41A4-89F2-04305BEF1256}.Release|x86.ActiveCfg = Release|x86
 		{0608229B-35F6-41A4-89F2-04305BEF1256}.Release|x86.Build.0 = Release|x86
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

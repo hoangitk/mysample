@@ -7,6 +7,10 @@ namespace TimeSheetControl
 {
     public class TimeSheetGridView : DataGridView
     {
+        public static readonly int MIN_HEADER_HEIGHT = 40;
+        public static readonly int MIN_HEADER_WIDTH = 100;
+        public static readonly int MIN_CELL_HEIGHT = 25;        
+
         private DateTime _fromDate;
 
         public DateTime FromDate
@@ -42,7 +46,7 @@ namespace TimeSheetControl
         {
             get { return 2; }
         }
-
+        
         public TimeSheetGridView()
         {
             this.SetStyle(ControlStyles.UserPaint
@@ -54,21 +58,15 @@ namespace TimeSheetControl
             this.AllowUserToOrderColumns = false;
             this.AllowUserToAddRows = false;
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            this.RowTemplate.Height = TimeSheetRender.MIN_CELL_HEIGHT;
-            this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
+            this.RowTemplate.Height = MIN_CELL_HEIGHT;
+            this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
 
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
 
             // Init PopupToolTip
-            popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip())
-            {
-                AutoClose = true,
-                FocusOnOpen = true,                
-                //ShowingAnimation = PopupControl.PopupAnimations.Slide | PopupControl.PopupAnimations.LeftToRight,
-                //HidingAnimation = PopupControl.PopupAnimations.Slide | PopupControl.PopupAnimations.LeftToRight,
-            };
+            popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());
 
         }
 
@@ -77,7 +75,7 @@ namespace TimeSheetControl
             if (!this.DesignMode)
             {
                 this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-                this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
+                this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
 
                 // Add Employee Columns
                 var employeeIdColumn = new DataGridViewTextAndImageColumn();
@@ -133,8 +131,8 @@ namespace TimeSheetControl
         protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
         {
             base.OnColumnWidthChanged(e);
-            if (e.Column.Width < TimeSheetRender.MIN_HEADER_WIDTH)
-                e.Column.Width = TimeSheetRender.MIN_HEADER_WIDTH;
+            if (e.Column.Width < MIN_HEADER_WIDTH)
+                e.Column.Width = MIN_HEADER_WIDTH;
 
             // Auto resize column width of TSDay with same width after changed
             if (e.Column.Index >= this.ColumnHeaderCount)
@@ -150,8 +148,8 @@ namespace TimeSheetControl
         {
             base.OnRowHeightChanged(e);
 
-            if (e.Row.Height < TimeSheetRender.MIN_CELL_HEIGHT)
-                e.Row.Height = TimeSheetRender.MIN_CELL_HEIGHT;
+            if (e.Row.Height < MIN_CELL_HEIGHT)
+                e.Row.Height = MIN_CELL_HEIGHT;
 
             // Auto resize height of all rows with same height
             for (int i = 0; i < this.Rows.Count; i++)
@@ -162,8 +160,8 @@ namespace TimeSheetControl
 
         protected override void OnColumnHeadersHeightChanged(EventArgs e)
         {
-            if (this.ColumnHeadersHeight < TimeSheetRender.MIN_HEADER_HEIGHT)
-                this.ColumnHeadersHeight = TimeSheetRender.MIN_HEADER_HEIGHT;
+            if (this.ColumnHeadersHeight < MIN_HEADER_HEIGHT)
+                this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
 
             base.OnColumnHeadersHeightChanged(e);
         }
@@ -189,15 +187,9 @@ namespace TimeSheetControl
                 var curRow = this.Rows[i];
                 for (int j = this.ColumnHeaderCount; j < curRow.Cells.Count; j++)
                 {
-                    var cell = curRow.Cells[j];
-                    var tsDay = cell.Value as TimeSheetDay;
-
-                    var cellRect = cell.GetCellBoundRectangle();
-                    if (cellRect != Rectangle.Empty)
-                    {
-                        TimeSheetRender.DrawTimeSheetDay(e.Graphics, cellRect,
-                               cell.DataGridView.DefaultCellStyle, tsDay);
-                    }
+                    var cell = curRow.Cells[j] as DataGridViewTimeSheetCell;
+                    if (cell != null)
+                        cell.Draw(e.Graphics);
                 }
             }
         }
@@ -205,7 +197,8 @@ namespace TimeSheetControl
         #region Comment ToolTip
 
         PopupControl.Popup popupToolTip;
-        CommentToolTip commentToolTip;              
+        CommentToolTip commentToolTip;
+            
 
         protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
         {
@@ -229,24 +222,10 @@ namespace TimeSheetControl
 
         protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
         {
-            base.OnCellMouseLeave(e);
-
             popupToolTip.Hide();
+            base.OnCellMouseLeave(e);
         }
 
-            
-
-        #endregion
-        //protected override void OnScroll(ScrollEventArgs e)
-        //{
-        //    base.OnScroll(e);
-
-        //    // Trick to solve tearing problem in GDI+
-        //    if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
-        //        && e.NewValue <= e.OldValue)
-        //    {
-        //        this.Refresh();
-        //    }
-        //}
+        #endregion  Comment ToolTip
     }
 }

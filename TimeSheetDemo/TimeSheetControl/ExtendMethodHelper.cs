@@ -26,22 +26,22 @@ namespace TimeSheetControl
         {
             StringBuilder sb = new StringBuilder();
 
-            if (tsDay.PlannedItems != null && tsDay.PlannedItems.Count > 0)
+            if (tsDay.ShiftItems != null && tsDay.ShiftItems.Count > 0)
             {
                 sb.AppendLine("Planned: ");
-                for (int i = 0; i < tsDay.PlannedItems.Count; i++)
+                for (int i = 0; i < tsDay.ShiftItems.Count; i++)
                 {
-                    sb.AppendFormat("+ {0}", tsDay.PlannedItems[i]);
+                    sb.AppendFormat("+ {0}", tsDay.ShiftItems[i]);
                     sb.AppendLine();
                 }
             }
 
-            if (tsDay.RealTimeItems != null && tsDay.RealTimeItems.Count > 0)
+            if (tsDay.LeaveItems != null && tsDay.LeaveItems.Count > 0)
             {
                 sb.AppendLine("Real time:");
-                for (int i = 0; i < tsDay.RealTimeItems.Count; i++)
+                for (int i = 0; i < tsDay.LeaveItems.Count; i++)
                 {
-                    sb.AppendFormat("+ {0}", tsDay.RealTimeItems[i]);                   
+                    sb.AppendFormat("+ {0}", tsDay.LeaveItems[i]);                   
                     sb.AppendLine();
                 }
             }

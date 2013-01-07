@@ -61,8 +61,8 @@ namespace TimeSheetControl
             set { _status = value; }
         }
 
-		public List<PlannedItem> PlannedItems { get; set; }
-		public List<RealTimeItem> RealTimeItems { get; set; }
+		public List<ShiftRecord> ShiftItems { get; set; }
+		public List<LeaveRecord> LeaveItems { get; set; }
 		public TimeSheetCatalog Catalog { get; set; }
 		
 		public TimeSheetDay()
@@ -76,26 +76,26 @@ namespace TimeSheetControl
             sb.AppendLine(Day.ToString("yyyy/MM/dd"));
             sb.Append(Catalog.ToString());
 
-            if (this.PlannedItems != null && this.PlannedItems.Count > 0)
+            if (this.ShiftItems != null && this.ShiftItems.Count > 0)
             {
                 sb.AppendLine();
                 sb.AppendLine("Planned: ");
-                for (int i = 0; i < this.PlannedItems.Count; i++)
+                for (int i = 0; i < this.ShiftItems.Count; i++)
                 {
-                    sb.AppendFormat("+ {0}", this.PlannedItems[i]);
-                    if (i < this.PlannedItems.Count - 1)
+                    sb.AppendFormat("+ {0}", this.ShiftItems[i]);
+                    if (i < this.ShiftItems.Count - 1)
                         sb.AppendLine();
                 }
             }
 
-            if (this.RealTimeItems != null && this.RealTimeItems.Count > 0)
+            if (this.LeaveItems != null && this.LeaveItems.Count > 0)
             {
                 sb.AppendLine();
                 sb.AppendLine("Real time:");
-                for (int i = 0; i < this.RealTimeItems.Count; i++)
+                for (int i = 0; i < this.LeaveItems.Count; i++)
                 {
-                    sb.AppendFormat("+ {0}", this.RealTimeItems[i]);
-                    if (i < this.RealTimeItems.Count - 1)
+                    sb.AppendFormat("+ {0}", this.LeaveItems[i]);
+                    if (i < this.LeaveItems.Count - 1)
                         sb.AppendLine();
                 }
             }
@@ -125,11 +125,11 @@ namespace TimeSheetControl
         }
     }
 
-    public class PlannedItem : TimeSheetRecord
+    public class ShiftRecord : TimeSheetRecord
     {
     }
 
-    public class RealTimeItem : TimeSheetRecord
+    public class LeaveRecord : TimeSheetRecord
     {
     }
 

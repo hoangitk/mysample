@@ -19,13 +19,13 @@ namespace TimeSheetDemo
             tsday.Status = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.Locked;
             
             // Generate Planned Items
-            tsday.PlannedItems = new List<PlannedItem>();
+            tsday.ShiftItems = new List<ShiftRecord>();
             int plannedCount = rand.Next(3);
 
             for (int k = 0; k < plannedCount; k++)
             {
-                PlannedItem plannedItem = new PlannedItem();
-                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.PlannedItems[k-1].ToTime.AddHours(rand.Next(2));
+                ShiftRecord plannedItem = new ShiftRecord();
+                plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(2));
                 plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(4) + 6);
                 plannedItem.TimeSheetType = new TimeSheet();
                 plannedItem.TimeSheetType.Catalog = 
@@ -34,17 +34,17 @@ namespace TimeSheetDemo
                     : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);
                 plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);
                 plannedItem.Status = GetTimeSheetStatus(plannedItem.TimeSheetType.Catalog);
-                tsday.PlannedItems.Add(plannedItem);
+                tsday.ShiftItems.Add(plannedItem);
             }
 
             // Generate RealTime Items
-            tsday.RealTimeItems = new List<RealTimeItem>();
+            tsday.LeaveItems = new List<LeaveRecord>();
             int realTimeCount = plannedCount;
 
             for (int k = 0; k < realTimeCount; k++)
             {
-                RealTimeItem realItem = new RealTimeItem();
-                realItem.FromTime = k == 0 ? tsday.PlannedItems[0].FromTime : tsday.RealTimeItems[k - 1].ToTime.AddHours(rand.Next(3));
+                LeaveRecord realItem = new LeaveRecord();
+                realItem.FromTime = k == 0 ? tsday.ShiftItems[0].FromTime : tsday.LeaveItems[k - 1].ToTime.AddHours(rand.Next(3));
                 realItem.ToTime = realItem.FromTime.AddHours(rand.Next(4) + 6);
                 realItem.TimeSheetType = new TimeSheet();
                 realItem.TimeSheetType.Catalog =
@@ -53,7 +53,7 @@ namespace TimeSheetDemo
                     : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave);
                 realItem.TimeSheetType.Code = GetTimeSheetCode(realItem.TimeSheetType.Catalog);
                 realItem.Status = GetTimeSheetStatus(realItem.TimeSheetType.Catalog);
-                tsday.RealTimeItems.Add(realItem);
+                tsday.LeaveItems.Add(realItem);
             }
 
             return tsday;
