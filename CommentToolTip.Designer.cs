@@ -34,11 +34,12 @@
             // 
             // lblContent
             // 
+            this.lblContent.AutoSize = true;
             this.lblContent.BackColor = System.Drawing.Color.Transparent;
             this.lblContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblContent.Location = new System.Drawing.Point(0, 14);
             this.lblContent.Name = "lblContent";
-            this.lblContent.Size = new System.Drawing.Size(176, 63);
+            this.lblContent.Size = new System.Drawing.Size(28, 13);
             this.lblContent.TabIndex = 3;
             this.lblContent.Text = "Text";
             // 
@@ -60,10 +61,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Info;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.lblContent);
             this.Controls.Add(this.lblTitle);
             this.Name = "CommentToolTip";
-            this.Size = new System.Drawing.Size(176, 77);
+            this.Size = new System.Drawing.Size(170, 83);
             this.ResumeLayout(false);
             this.PerformLayout();
 

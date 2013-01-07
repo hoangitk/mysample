@@ -34,9 +34,6 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PopupControl">
-      <HintPath>..\..\..\3rd Library\PopupControl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -94,6 +91,12 @@
     <EmbeddedResource Include="TimeSheetEditorForm.resx">
       <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PopupControl\PopupControl.csproj">
+      <Project>{c4a0078e-e691-42cc-a1ab-56ed4719b3f4}</Project>
+      <Name>PopupControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

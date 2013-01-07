@@ -8,11 +8,7 @@ using System.Windows.Forms;
 namespace TimeSheetControl
 {
     public class TimeSheetRender
-    {
-        public static readonly int MIN_HEADER_HEIGHT = 40;
-        public static readonly int MIN_HEADER_WIDTH = 100;
-        public static readonly int MIN_CELL_HEIGHT = 25;        
-
+    {        
         #region Get Color
         public static Color GetColor(TimeSheetCatalog tsType)
         {
@@ -373,73 +369,7 @@ namespace TimeSheetControl
                 g.FillPolygon(brush, new Point[] { p0, p1, p2 });
             }
         }
-
-        /// <summary>
-        /// Draws the time sheet day.
-        /// </summary>
-        /// <param name="graphics">The graphics.</param>
-        /// <param name="cellBounds">The cell bounds.</param>
-        /// <param name="cellStyle">The cell style.</param>
-        /// <param name="data">The data.</param>
-        public static void DrawTimeSheetDay(Graphics graphics, Rectangle cellBounds, DataGridViewCellStyle cellStyle, TimeSheetDay data)
-        {            
-            if (data != null)
-            {
-                float rate = cellBounds.Width / 24;
-
-                // Draw Shift
-                int plannedItemBarHeight = (cellBounds.Height - 4) / 2;
-                int plannedItemBarWidth = 0;
-                int plannedItemBarX = 0;
-                int plannedItemBarY = 1;
                 
-                if (data.PlannedItems != null && data.PlannedItems.Count > 0)
-                {                    
-                    foreach (var plannedItem in data.PlannedItems)
-                    {
-                        plannedItemBarX = (int)(plannedItem.FromTime.Hour * rate);                        
-                        plannedItemBarWidth = (int)(plannedItem.TotalHours() * rate);
-                        Rectangle barRect = new Rectangle(cellBounds.X + plannedItemBarX, cellBounds.Y + plannedItemBarY, 
-                            plannedItemBarWidth, plannedItemBarHeight);
-
-                        // Draw timeline bar
-                        Color color = TimeSheetRender.GetColor(plannedItem.TimeSheetType.Catalog);
-                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.MiddleCenter);                                                
-
-                        // Draw status
-                        Color statusColor = TimeSheetRender.GetColor(plannedItem.Status);
-                        TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
-                    }
-                }
-
-                // Draw realtime                
-                int realtimeItemBarHeight = (cellBounds.Height - 4) / 2;
-                int realtimeItemBarWidth = 0;
-                int realtimeItemBarX = 1;
-                int realtimeItemBarY = 1 + realtimeItemBarHeight;
-
-                if (data.RealTimeItems != null && data.RealTimeItems.Count > 0)
-                {
-                    foreach (var realtimeItem in data.RealTimeItems)
-                    {
-                        realtimeItemBarX = (int)(realtimeItem.FromTime.Hour * rate);
-                        realtimeItemBarWidth = (int)(realtimeItem.TotalHours() * rate);
-                        Rectangle barRect = new Rectangle(cellBounds.X + realtimeItemBarX, cellBounds.Y + realtimeItemBarY, 
-                            realtimeItemBarWidth, realtimeItemBarHeight);
-
-                        // Draw timeline bar
-                        Color color = ControlPaint.Light(TimeSheetRender.GetColor(realtimeItem.TimeSheetType.Catalog));
-                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.BottomCenter);
-
-                        // Draw status
-                        //Color statusColor = TimeSheetRender.GetColor(realtimeItem.Status);
-                        //TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
-                    }
-                }
-                
-                TimeSheetRender.DrawStatusIcon(graphics, cellBounds, TimeSheetRender.GetColor(data.Status));
-            }
-        }
     }
 
     [Flags]

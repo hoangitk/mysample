@@ -130,12 +130,75 @@ namespace TimeSheetControl
                     }
                    
                     // set tooltip
-                    this.ToolTipText = data.ToString();
+                    // this.ToolTipText = data.ToString();
                 }
 
             }
 
             return resultImage;
+        }
+
+        public virtual void Draw(Graphics graphics)
+        {
+            var data = this.Value as TimeSheetDay;
+            var cellBounds = this.GetCellBoundRectangle();
+
+            if (data != null && !cellBounds.IsEmpty)
+            {
+                float rate = cellBounds.Width / 24;
+
+                // Draw first line
+                int plannedItemBarHeight = (cellBounds.Height - 4) / 2;
+                int plannedItemBarWidth = 0;
+                int plannedItemBarX = 0;
+                int plannedItemBarY = 1;
+
+                if (data.ShiftItems != null && data.ShiftItems.Count > 0)
+                {
+                    foreach (var plannedItem in data.ShiftItems)
+                    {
+                        plannedItemBarX = (int)(plannedItem.FromTime.Hour * rate);
+                        plannedItemBarWidth = (int)(plannedItem.TotalHours() * rate);
+                        Rectangle barRect = new Rectangle(cellBounds.X + plannedItemBarX, cellBounds.Y + plannedItemBarY,
+                            plannedItemBarWidth, plannedItemBarHeight);
+
+                        // Draw timeline bar
+                        Color color = TimeSheetRender.GetColor(plannedItem.TimeSheetType.Catalog);
+                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
+
+                        // Draw status
+                        Color statusColor = TimeSheetRender.GetColor(plannedItem.Status);
+                        TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
+                    }
+                }
+
+                // Draw second line                
+                int realtimeItemBarHeight = (cellBounds.Height - 4) / 2;
+                int realtimeItemBarWidth = 0;
+                int realtimeItemBarX = 1;
+                int realtimeItemBarY = 1 + realtimeItemBarHeight;
+
+                if (data.LeaveItems != null && data.LeaveItems.Count > 0)
+                {
+                    foreach (var realtimeItem in data.LeaveItems)
+                    {
+                        realtimeItemBarX = (int)(realtimeItem.FromTime.Hour * rate);
+                        realtimeItemBarWidth = (int)(realtimeItem.TotalHours() * rate);
+                        Rectangle barRect = new Rectangle(cellBounds.X + realtimeItemBarX, cellBounds.Y + realtimeItemBarY,
+                            realtimeItemBarWidth, realtimeItemBarHeight);
+
+                        // Draw timeline bar
+                        Color color = ControlPaint.Light(TimeSheetRender.GetColor(realtimeItem.TimeSheetType.Catalog));
+                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.BottomCenter);
+
+                        // Draw status
+                        //Color statusColor = TimeSheetRender.GetColor(realtimeItem.Status);
+                        //TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
+                    }
+                }
+
+                TimeSheetRender.DrawStatusIcon(graphics, cellBounds, TimeSheetRender.GetColor(data.Status));
+            }
         }
 	}
 }
