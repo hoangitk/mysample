@@ -109,12 +109,14 @@ namespace TimeSheetControl
 			get { return default(TimeSheetDay); }
 		}
 
+        private TimeSheetGridView OwnTimeSheetGridView
+        {
+            get { return this.DataGridView as TimeSheetGridView; }
+        }
+
         protected override object GetFormattedValue(object value, int rowIndex, ref DataGridViewCellStyle cellStyle, System.ComponentModel.TypeConverter valueTypeConverter, System.ComponentModel.TypeConverter formattedValueTypeConverter, DataGridViewDataErrorContexts context)
         {
-            //return base.GetFormattedValue(value, rowIndex, ref cellStyle, valueTypeConverter, formattedValueTypeConverter, context);
-
-            Bitmap resultImage = new Bitmap(this.OwningColumn.Width,
-                this.OwningRow.Height);
+            Bitmap resultImage = new Bitmap(this.OwningColumn.Width, this.OwningRow.Height);
 
             using (Graphics g = Graphics.FromImage(resultImage))
             {
@@ -123,14 +125,9 @@ namespace TimeSheetControl
                 TimeSheetDay data = value as TimeSheetDay;
                 if (data != null)
                 {
-                    // Draw backgroup
-                    using (SolidBrush bgBrush = new SolidBrush(TimeSheetRender.GetColor(data.Catalog)))
-                    {
-                        g.FillRectangle(bgBrush, rect);
-                    }
-                   
-                    // set tooltip
-                    // this.ToolTipText = data.ToString();
+                    Color catColor = this.OwnTimeSheetGridView.GetColor(data.Catalog);
+                    Color statusColor = this.OwnTimeSheetGridView.GetColor(data.Status);
+                    Render.DrawBox(g, rect, catColor, statusColor, 1, DashStyle.Solid);
                 }
 
             }
@@ -147,7 +144,8 @@ namespace TimeSheetControl
             {
                 float rate = cellBounds.Width / 24;
 
-                // Draw first line
+                #region Draw the first line
+
                 int plannedItemBarHeight = (cellBounds.Height - 4) / 2;
                 int plannedItemBarWidth = 0;
                 int plannedItemBarX = 0;
@@ -163,16 +161,19 @@ namespace TimeSheetControl
                             plannedItemBarWidth, plannedItemBarHeight);
 
                         // Draw timeline bar
-                        Color color = TimeSheetRender.GetColor(plannedItem.TimeSheetType.Catalog);
-                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
+                        Color color = this.OwnTimeSheetGridView.GetColor(plannedItem.TimeSheetType.Catalog);
+                        Render.DrawBoxWithText(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
 
                         // Draw status
-                        Color statusColor = TimeSheetRender.GetColor(plannedItem.Status);
-                        TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
+                        Color statusColor = this.OwnTimeSheetGridView.GetColor(plannedItem.Status);
+                        Render.DrawStatusIcon(graphics, barRect, statusColor);
                     }
                 }
 
-                // Draw second line                
+                #endregion Draw the first line
+
+                #region Draw the second line
+
                 int realtimeItemBarHeight = (cellBounds.Height - 4) / 2;
                 int realtimeItemBarWidth = 0;
                 int realtimeItemBarX = 1;
@@ -188,16 +189,13 @@ namespace TimeSheetControl
                             realtimeItemBarWidth, realtimeItemBarHeight);
 
                         // Draw timeline bar
-                        Color color = ControlPaint.Light(TimeSheetRender.GetColor(realtimeItem.TimeSheetType.Catalog));
-                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.BottomCenter);
-
-                        // Draw status
-                        //Color statusColor = TimeSheetRender.GetColor(realtimeItem.Status);
-                        //TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
+                        Color color = this.OwnTimeSheetGridView.GetColor(realtimeItem.TimeSheetType.Catalog);
+                        Render.DrawBoxWithText(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
+                        
                     }
                 }
 
-                TimeSheetRender.DrawStatusIcon(graphics, cellBounds, TimeSheetRender.GetColor(data.Status));
+                #endregion
             }
         }
 	}

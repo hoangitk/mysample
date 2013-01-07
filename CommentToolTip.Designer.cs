@@ -37,7 +37,7 @@
             this.lblContent.AutoSize = true;
             this.lblContent.BackColor = System.Drawing.Color.Transparent;
             this.lblContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblContent.Location = new System.Drawing.Point(0, 14);
+            this.lblContent.Location = new System.Drawing.Point(3, 17);
             this.lblContent.Name = "lblContent";
             this.lblContent.Size = new System.Drawing.Size(28, 13);
             this.lblContent.TabIndex = 3;
@@ -49,7 +49,7 @@
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitle.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblTitle.Location = new System.Drawing.Point(3, 3);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(33, 14);
             this.lblTitle.TabIndex = 2;
@@ -65,6 +65,7 @@
             this.Controls.Add(this.lblContent);
             this.Controls.Add(this.lblTitle);
             this.Name = "CommentToolTip";
+            this.Padding = new System.Windows.Forms.Padding(3);
             this.Size = new System.Drawing.Size(170, 83);
             this.ResumeLayout(false);
             this.PerformLayout();

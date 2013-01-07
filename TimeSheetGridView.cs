@@ -70,7 +70,7 @@ namespace TimeSheetControl
 
         }
 
-        private void Render()
+        private void RenderGrid()
         {
             if (!this.DesignMode)
             {
@@ -82,6 +82,7 @@ namespace TimeSheetControl
                 employeeIdColumn.Name = "EmployeeId";
                 employeeIdColumn.HeaderText = "Id";
                 employeeIdColumn.Frozen = true;
+                employeeIdColumn.ImageAlign = ContentAlignment.MiddleLeft;
                 this.Columns.Add(employeeIdColumn);
 
                 var employeeFullNameColumn = new DataGridViewTextBoxColumn();
@@ -128,6 +129,7 @@ namespace TimeSheetControl
             }
         }
 
+        // Auto adjust all columns with the same width
         protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
         {
             base.OnColumnWidthChanged(e);
@@ -144,6 +146,7 @@ namespace TimeSheetControl
             }
         }
 
+        // Auto adjust all rows with the same height
         protected override void OnRowHeightChanged(DataGridViewRowEventArgs e)
         {
             base.OnRowHeightChanged(e);
@@ -158,6 +161,7 @@ namespace TimeSheetControl
             }
         }
 
+        // Auto adjust Column Header height
         protected override void OnColumnHeadersHeightChanged(EventArgs e)
         {
             if (this.ColumnHeadersHeight < MIN_HEADER_HEIGHT)
@@ -165,7 +169,7 @@ namespace TimeSheetControl
 
             base.OnColumnHeadersHeightChanged(e);
         }
-
+                
         protected override void OnDataSourceChanged(EventArgs e)
         {
             base.OnDataSourceChanged(e);
@@ -175,21 +179,25 @@ namespace TimeSheetControl
                 throw new ArgumentException("DataSource must be a list of TimeSheetItem");
 
             // Re-draw after DataSource changed
-            Render();
+            RenderGrid();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
+            
+            // Draw the timesheet grid
             for (int i = 0; i < this.Rows.Count; i++)
             {
-                var curRow = this.Rows[i];
+                var curRow = this.Rows[i];     
+
                 for (int j = this.ColumnHeaderCount; j < curRow.Cells.Count; j++)
                 {
                     var cell = curRow.Cells[j] as DataGridViewTimeSheetCell;
                     if (cell != null)
+                    {
                         cell.Draw(e.Graphics);
+                    }
                 }
             }
         }
@@ -197,8 +205,7 @@ namespace TimeSheetControl
         #region Comment ToolTip
 
         PopupControl.Popup popupToolTip;
-        CommentToolTip commentToolTip;
-            
+        CommentToolTip commentToolTip;            
 
         protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
         {
@@ -227,5 +234,69 @@ namespace TimeSheetControl
         }
 
         #endregion  Comment ToolTip
+
+        #region Sample Settings for displaying
+
+        public Color GetColor(TimeSheetCatalog tsType)
+        {
+            switch (tsType)
+            {
+                case TimeSheetCatalog.WorkingDay:
+                    return Color.FromArgb(165, 165, 165);
+
+                case TimeSheetCatalog.Holiday:
+                    return Color.FromArgb(252, 213, 180);
+
+                case TimeSheetCatalog.WeekendOff:
+                    return Color.FromArgb(255, 190, 0);
+
+                case TimeSheetCatalog.WeekendOffHalf:
+                    return Color.FromArgb(178, 161, 199);
+
+                case TimeSheetCatalog.Leave:
+                    return Color.FromArgb(0, 112, 192);
+
+                case TimeSheetCatalog.BusinessTrip:
+                    return Color.FromArgb(255, 255, 255);
+
+                case TimeSheetCatalog.Overtime:
+                    return Color.FromArgb(192, 0, 0);
+
+                case TimeSheetCatalog.Shift:
+                    return Color.FromArgb(182, 221, 232);
+
+                default:
+                    return Color.Empty;
+            }
+        }
+
+        public Color GetColor(TimeSheetStatus tsStatus)
+        {
+            switch (tsStatus)
+            {
+                case TimeSheetControl.TimeSheetStatus.InvalidTS:
+                    return Color.FromArgb(255, 0, 0);
+
+                case TimeSheetControl.TimeSheetStatus.ValidTS:
+                    return Color.FromArgb(0, 255, 0);
+
+                case TimeSheetControl.TimeSheetStatus.UnApprovedOT:
+                    return Color.FromArgb(255, 0, 0);
+
+                case TimeSheetControl.TimeSheetStatus.ApprovedOT:
+                    return Color.FromArgb(0, 255, 0);
+
+                case TimeSheetControl.TimeSheetStatus.ApprovedLeave:
+                    return Color.FromArgb(0, 255, 0);
+
+                case TimeSheetControl.TimeSheetStatus.Locked:
+                    return Color.FromArgb(255, 0, 0);
+
+                default:
+                    return Color.Empty;
+            }
+        }
+
+        #endregion
     }
 }
