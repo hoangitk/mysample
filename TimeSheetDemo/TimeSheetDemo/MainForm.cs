@@ -35,23 +35,8 @@ namespace TimeSheetDemo
 			this.Load += new EventHandler(MainForm_Load);
 
             this.btnEdit.Click += BtnEdit_Click;
-
-            this.timeSheetGridView1.CellContentDoubleClick += TimeSheetGridView_CellContentDoubleClick;
 		}
 
-        void TimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex > this.timeSheetGridView1.ColumnHeaderCount && e.RowIndex >= 0)
-            {
-                var tsDay = this.timeSheetGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
-                if (tsDay != null)
-                {
-                    TimeSheetEditorForm editorForm = new TimeSheetEditorForm(tsDay);
-                    editorForm.Show();
-                }
-
-            }
-        }
 
         void BtnEdit_Click(object sender, EventArgs e)
         {
@@ -60,7 +45,10 @@ namespace TimeSheetDemo
                 var selectedCell = this.timeSheetGridView1.SelectedCells[0];
                 TimeSheetEditorForm tsEditor = new TimeSheetEditorForm(selectedCell.Value as TimeSheetDay);
                 tsEditor.StartPosition = FormStartPosition.CenterParent;
-                tsEditor.Show();
+                if (tsEditor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    selectedCell.Value = tsEditor.Data;
+                }
             }
         }
 

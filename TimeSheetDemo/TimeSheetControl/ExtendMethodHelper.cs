@@ -67,5 +67,45 @@ namespace TimeSheetControl
 
             return Rectangle.Empty;
         }
+
+        public static bool CheckPointInCorner(this Rectangle rect, int x, int y, ContentAlignment aligment)
+        {
+            int deltaX = rect.Width / 3;
+            int deltaY = rect.Height / 3;
+            int x0 = 0;
+            int y0 = 0;
+            switch (aligment)
+            {
+                case ContentAlignment.BottomCenter:
+                    return (x0 + deltaX) < x && x <= (x0 + deltaX * 2)
+                        && (y0 + deltaY * 2) < y && y <= (y0 + rect.Height);
+                case ContentAlignment.BottomLeft:
+                    return (x0) < x && x <= (x0 + deltaX)
+                        && (y0 + deltaY * 2) < y && y <= (y0 + rect.Height);
+                case ContentAlignment.BottomRight:
+                    return (x0 + deltaX * 2) < x && x <= (x0 + rect.Width)
+                        && (y0 + deltaY * 2) < y && y <= (y0 + rect.Height);
+                case ContentAlignment.MiddleCenter:
+                    return (x0 + deltaX) < x && x <= (x0 + deltaX * 2)
+                        && (y0 + deltaY) < y && y <= (y0 + deltaY * 2);
+                case ContentAlignment.MiddleLeft:
+                    return (x0) < x && x <= (x0 + deltaX * 2)
+                        && (y0 + deltaY) < y && y <= (y0 + deltaY * 2);
+                case ContentAlignment.MiddleRight:
+                    return (x0+ deltaX * 2) < x && x <= (x0 + rect.Width)
+                        && (y0 + deltaY) < y && y <= (y0 + deltaY * 2);
+                case ContentAlignment.TopCenter:
+                    return (x0 + deltaX) < x && x <= (x0 + deltaX * 2)
+                        && (y0) < y && y <= (y0 + deltaY);
+                case ContentAlignment.TopLeft:
+                    return (x0) < x && x <= (x0 + deltaX * 2)
+                        && (y0) < y && y <= (y0 + deltaY);
+                case ContentAlignment.TopRight:
+                    return (x0 + deltaX * 2) < x && x <= (y0 + rect.Width)
+                        && (y0) < y && y <= (y0 + deltaY);
+                default:
+                    return false;
+            }
+        }
     }
 }

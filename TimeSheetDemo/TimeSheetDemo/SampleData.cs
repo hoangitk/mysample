@@ -206,5 +206,19 @@ namespace TimeSheetDemo
         {
             return (T)list[rand.Next(list.Count)];
         }
+
+        public static IList EnumToList<T>()
+        {
+            var results = new ArrayList();
+            var values = (T[])Enum.GetValues(typeof(T));
+            var names = Enum.GetNames(typeof(T));
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                results.Add(new KeyValuePair<string, T>(names[i], values[i]));
+            }
+
+            return results;
+        }
     }
 }
