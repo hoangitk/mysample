@@ -31,8 +31,7 @@ namespace TimeSheetControl
 
         public CommentToolTip()
         {
-            InitializeComponent();
-            //Region = new Region(graphicsPath = CreateRoundRectangle(Width - 1, Height - 1, 3));
+            InitializeComponent();            
         }
 
         //private static GraphicsPath CreateRoundRectangle(int w, int h, int r)
@@ -59,6 +58,7 @@ namespace TimeSheetControl
         //    e.Graphics.TranslateTransform(-1, -1);
         //    using (Pen p = new Pen(SystemColors.WindowFrame, 2))
         //    {
+        //        Region = new Region(graphicsPath = CreateRoundRectangle(Width - 1, Height - 1, 3));
         //        e.Graphics.DrawPath(p, graphicsPath);
         //    }
         //    e.Graphics.ResetTransform();

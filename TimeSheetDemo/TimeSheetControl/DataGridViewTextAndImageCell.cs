@@ -5,14 +5,17 @@ namespace TimeSheetControl
 {
     public class DataGridViewTextAndImageCell : DataGridViewTextBoxCell
     {
-        private Image imageValue;
-        private Size imageSize;
+        private Image _imageValue;
+        private Size _imageSize;
+        private ContentAlignment _imageAlign;
 
         public override object Clone()
         {
             DataGridViewTextAndImageCell c = base.Clone() as DataGridViewTextAndImageCell;
-            c.imageValue = this.imageValue;
-            c.imageSize = this.imageSize;
+            c._imageValue = this._imageValue;
+            c._imageSize = this._imageSize;
+            c._imageAlign = this._imageAlign;
+
             return c;
         }
 
@@ -23,11 +26,11 @@ namespace TimeSheetControl
                 if (this.OwningColumn == null ||
                     this.OwningTextAndImageColumn == null)
                 {
-                    return imageValue;
+                    return _imageValue;
                 }
-                else if (this.imageValue != null)
+                else if (this._imageValue != null)
                 {
-                    return this.imageValue;
+                    return this._imageValue;
                 }
                 else
                 {
@@ -36,16 +39,29 @@ namespace TimeSheetControl
             }
             set
             {
-                if (this.imageValue != value)
+                if (this._imageValue != value)
                 {
-                    this.imageValue = value;
-                    this.imageSize = value.Size;
+                    this._imageValue = value;
+                    this._imageSize = value.Size;
 
                     Padding inheritedPadding = this.InheritedStyle.Padding;
-                    this.Style.Padding = new Padding(imageSize.Width,
+                    this.Style.Padding = new Padding(_imageSize.Width,
                         inheritedPadding.Top, inheritedPadding.Right,
                         inheritedPadding.Bottom);
                 }
+            }
+        }
+
+        public ContentAlignment ImageAlign
+        {
+            get
+            {
+                return _imageAlign;
+            }
+
+            set
+            {
+                _imageAlign = value;
             }
         }
 
@@ -61,17 +77,7 @@ namespace TimeSheetControl
                value, formattedValue, errorText, cellStyle,
                advancedBorderStyle, paintParts);
 
-            if (this.Image != null)
-            {
-                // Draw the image clipped to the cell.
-                System.Drawing.Drawing2D.GraphicsContainer container =
-                graphics.BeginContainer();
-
-                graphics.SetClip(cellBounds);
-                graphics.DrawImageUnscaled(this.Image, cellBounds.Location);
-
-                graphics.EndContainer(container);
-            }
+            Render.DrawImage(graphics, cellBounds, this.Image, this.ImageAlign);
         }
 
         private DataGridViewTextAndImageColumn OwningTextAndImageColumn

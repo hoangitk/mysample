@@ -16,7 +16,6 @@ namespace TimeSheetDemo
             var tsday = new TimeSheetDay();
             tsday.Day = initDay;
             tsday.Catalog = GetTimeSheetType(tsday.Day);
-            tsday.Status = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.Locked;
             
             // Generate Planned Items
             tsday.ShiftItems = new List<ShiftRecord>();
@@ -55,6 +54,9 @@ namespace TimeSheetDemo
                 realItem.Status = GetTimeSheetStatus(realItem.TimeSheetType.Catalog);
                 tsday.LeaveItems.Add(realItem);
             }
+
+            if(tsday.ShiftItems.Count > 0 || tsday.LeaveItems.Count > 0)
+                tsday.Status = rand.Next(2) == 0 ? TimeSheetStatus.None : TimeSheetStatus.Locked;
 
             return tsday;
         }
@@ -132,22 +134,22 @@ namespace TimeSheetDemo
                     break;
 
                 case TimeSheetCatalog.WeekendOff:
-                    st = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
+                    st = rand.Next(2) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
 
                 case TimeSheetCatalog.WeekendOffHalf:
-                    st = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
+                    st = rand.Next(2) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
 
                 case TimeSheetCatalog.Leave:
-                    st = rand.Next(0,1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
+                    st = rand.Next(2) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
 
                 case TimeSheetCatalog.BusinessTrip:
                     return TimeSheetStatus.None;
 
                 case TimeSheetCatalog.Overtime:
-                    switch (rand.Next(0, 2))
+                    switch (rand.Next(3))
                     {
                         case 0:
                             st = TimeSheetStatus.None;
@@ -162,7 +164,7 @@ namespace TimeSheetDemo
                     return st;
 
                 case TimeSheetCatalog.Shift:
-                    switch (rand.Next(0, 2))
+                    switch (rand.Next(3))
                     {
                         case 0:
                             st = TimeSheetStatus.None;

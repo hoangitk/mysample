@@ -79,7 +79,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
-    <Compile Include="TimeSheetRender.cs" />
+    <Compile Include="Render.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommentToolTip.resx">

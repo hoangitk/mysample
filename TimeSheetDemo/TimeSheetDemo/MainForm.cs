@@ -26,15 +26,9 @@ namespace TimeSheetDemo
 		
 		public MainForm()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-			this.Load += new EventHandler(MainForm_Load);
+			this.Load += new EventHandler(MainForm_Load);            
 		}
 
 		void MainForm_Load(object sender, EventArgs e)

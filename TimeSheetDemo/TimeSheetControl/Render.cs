@@ -1,74 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace TimeSheetControl
 {
-    public class TimeSheetRender
+    public class Render
     {        
         #region Get Color
-        public static Color GetColor(TimeSheetCatalog tsType)
-        {
-            switch (tsType)
-            {
-                case TimeSheetCatalog.WorkingDay:
-                    return Color.FromArgb(165, 165, 165);
-
-                case TimeSheetCatalog.Holiday:
-                    return Color.FromArgb(252, 213, 180);
-
-                case TimeSheetCatalog.WeekendOff:
-                    return Color.FromArgb(255, 190, 0);
-
-                case TimeSheetCatalog.WeekendOffHalf:
-                    return Color.FromArgb(178, 161, 199);
-
-                case TimeSheetCatalog.Leave:
-                    return Color.FromArgb(0, 112, 192);
-
-                case TimeSheetCatalog.BusinessTrip:
-                    return Color.FromArgb(255, 255, 255);
-
-                case TimeSheetCatalog.Overtime:
-                    return Color.FromArgb(192, 0, 0);
-
-                case TimeSheetCatalog.Shift:
-                    return Color.FromArgb(182, 221, 232);
-
-                default:
-                    throw new Exception("Invalid value for TimeSheetType");
-            }
-        }
-
-        public static Color GetColor(TimeSheetStatus tsStatus)
-        {
-            switch (tsStatus)
-            {
-                case TimeSheetControl.TimeSheetStatus.InvalidTS:
-                    return Color.FromArgb(255, 0, 0);
-
-                case TimeSheetControl.TimeSheetStatus.ValidTS:
-                    return Color.FromArgb(0, 255, 0);
-
-                case TimeSheetControl.TimeSheetStatus.UnApprovedOT:
-                    return Color.FromArgb(255, 0, 0);
-
-                case TimeSheetControl.TimeSheetStatus.ApprovedOT:
-                    return Color.FromArgb(0, 255, 0);
-
-                case TimeSheetControl.TimeSheetStatus.ApprovedLeave:
-                    return Color.FromArgb(0, 255, 0);
-
-                case TimeSheetControl.TimeSheetStatus.Locked:
-                    return Color.FromArgb(255, 0, 0);
-                default:
-                    return Color.Transparent;
-            }
-        }
-
+        
         public static Color InvertColor(Color color)
         {
             return Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
@@ -85,7 +28,7 @@ namespace TimeSheetControl
         /// <param name="brush">The brush.</param>
         public static void DrawString(Graphics graphics, string text, Rectangle rect, Font font, Brush brush)
         {
-            TimeSheetRender.DrawString(graphics, text, rect, font, brush, ContentAlignment.MiddleCenter);
+            Render.DrawString(graphics, text, rect, font, brush, ContentAlignment.MiddleCenter);
         }
 
 
@@ -153,62 +96,58 @@ namespace TimeSheetControl
         /// <param name="text">The text.</param>
         /// <param name="font">The font.</param>
         /// <param name="textAlign">The text align.</param>
-        public static void DrawTimeSheetBar(Graphics graphics, Rectangle boxRect, Color color, bool drawBorder, string text, Font font, ContentAlignment textAlign)
+        public static void DrawBoxWithText(Graphics graphics, Rectangle boxRect, Color color, bool drawBorder, string text, Font font, ContentAlignment textAlign)
         {
             // Draw bar
-            TimeSheetRender.DrawBox(graphics, boxRect, color, true, ControlPaint.Dark(color), true);
+            Render.DrawBox(graphics, boxRect, color, ControlPaint.Dark(color));
 
             // Text
             if (!string.IsNullOrEmpty(text))
             {
-                using (Brush textBrush = new SolidBrush(TimeSheetRender.InvertColor(color)))
+                using (Brush textBrush = new SolidBrush(Render.InvertColor(color)))
                 {
-                    TimeSheetRender.DrawString(graphics, text, boxRect, font, textBrush, textAlign);
+                    Render.DrawString(graphics, text, boxRect, font, textBrush, textAlign);
                 }
             }
 
         }
+                
+        public static void DrawBox(Graphics graphics, Rectangle boxRect, Color backgroundColor, Color borderColor)
+        {
+            DrawBox(graphics, boxRect, backgroundColor, borderColor, 1, DashStyle.Solid);
+        }
 
-        /// <summary>
-        /// Draws the box.
-        /// </summary>
-        /// <param name="graphics">The graphics.</param>
-        /// <param name="boxRect">The box rect.</param>
-        /// <param name="backgroundColor">Color of the background.</param>
-        /// <param name="drawBackground">if set to <c>true</c> [draw background].</param>
-        /// <param name="borderColor">Color of the border.</param>
-        /// <param name="drawBorder">if set to <c>true</c> [draw border].</param>
-        public static void DrawBox(Graphics graphics, Rectangle boxRect,
-            Color backgroundColor, bool drawBackground,
-            Color borderColor, bool drawBorder)
+        public static void DrawBox(Graphics graphics, Rectangle boxRect, Color backgroundColor, Color borderColor, float borderWidth, DashStyle dashStyle)
         {
             // Fill background
-            if (drawBackground)
+            if (backgroundColor != Color.Empty)
             {
                 using (Brush fillBrush = new SolidBrush(backgroundColor))
                 {
                     graphics.FillRectangle(fillBrush, boxRect);
-                } 
+                }
             }
 
             // Border
-            if (drawBorder)
+            if (borderColor != Color.Empty)
             {
-                using (Pen borderPen = new Pen(ControlPaint.DarkDark(borderColor)))
+                using (Pen borderPen = new Pen(borderColor, borderWidth))
                 {
+                    borderPen.DashStyle = dashStyle;
                     graphics.DrawRectangle(borderPen, boxRect);
                 }
             }
         }
 
+
         /// <summary>
-        /// Draws the icon.
+        /// Draws the image.
         /// </summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="rect">The rect.</param>
         /// <param name="image">The image.</param>
-        /// <param name="iconAlign">The icon align.</param>
-        public static void DrawImage(Graphics graphics, Rectangle rect, Image image, ContentAlignment iconAlign)
+        /// <param name="imageAlign">The image align.</param>
+        public static void DrawImage(Graphics graphics, Rectangle rect, Image image, ContentAlignment imageAlign)
         {
             if (image != null)
             {
@@ -221,7 +160,7 @@ namespace TimeSheetControl
                 int x = rect.X;
                 int y = rect.Y;
                                 
-                switch (iconAlign)
+                switch (imageAlign)
                 {
                     case ContentAlignment.BottomCenter:
                         x += (rect.Width - image.Width) / 2;
@@ -264,7 +203,7 @@ namespace TimeSheetControl
 
         public static void DrawStatusIcon(Graphics graphics, Rectangle rect, Color color)
         {
-            Bitmap commentIcon = new Bitmap(5, 5);
+            Bitmap commentIcon = new Bitmap(rect.Height / 2, rect.Height / 2);
 
             using (Graphics g = Graphics.FromImage(commentIcon))
             {
