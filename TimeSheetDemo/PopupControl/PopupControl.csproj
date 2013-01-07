@@ -45,11 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HelpTip.cs">
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Popup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HelpTip.Designer.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Popup.Designer.cs">
+      <DependentUpon>Popup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
