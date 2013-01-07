@@ -125,8 +125,8 @@ namespace TimeSheetControl
                 TimeSheetDay data = value as TimeSheetDay;
                 if (data != null)
                 {
-                    Color catColor = this.OwnTimeSheetGridView.GetColor(data.Catalog);
-                    Color statusColor = this.OwnTimeSheetGridView.GetColor(data.Status);
+                    Color catColor = this.OwnTimeSheetGridView.GetColorByTimeSheetCatalog(data.Catalog);
+                    Color statusColor = this.OwnTimeSheetGridView.GetColorByTimeSheetStatus(data.Status);
                     Render.DrawBox(g, rect, catColor, statusColor, 1, DashStyle.Solid);
                 }
 
@@ -161,11 +161,11 @@ namespace TimeSheetControl
                             plannedItemBarWidth, plannedItemBarHeight);
 
                         // Draw timeline bar
-                        Color color = this.OwnTimeSheetGridView.GetColor(plannedItem.TimeSheetType.Catalog);
+                        Color color = this.OwnTimeSheetGridView.GetColorByTimeSheetCatalog(plannedItem.TimeSheetType.Catalog);
                         Render.DrawBoxWithText(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
 
                         // Draw status
-                        Color statusColor = this.OwnTimeSheetGridView.GetColor(plannedItem.Status);
+                        Color statusColor = this.OwnTimeSheetGridView.GetColorByTimeSheetStatus(plannedItem.Status);
                         Render.DrawStatusIcon(graphics, barRect, statusColor);
                     }
                 }
@@ -189,7 +189,7 @@ namespace TimeSheetControl
                             realtimeItemBarWidth, realtimeItemBarHeight);
 
                         // Draw timeline bar
-                        Color color = this.OwnTimeSheetGridView.GetColor(realtimeItem.TimeSheetType.Catalog);
+                        Color color = this.OwnTimeSheetGridView.GetColorByTimeSheetCatalog(realtimeItem.TimeSheetType.Catalog);
                         Render.DrawBoxWithText(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, this.DataGridView.DefaultCellStyle.Font, ContentAlignment.MiddleCenter);
                         
                     }
