@@ -69,7 +69,7 @@ namespace TimeSheetControl
                 case TimeSheetControl.TimeSheetStatus.Locked:
                     return Color.FromArgb(255, 0, 0);
                 default:
-                    throw new Exception("Invalid value for TimeSheetStatus");
+                    return Color.Transparent;
             }
         }
 
@@ -106,7 +106,7 @@ namespace TimeSheetControl
         {
             Size textSize = DataGridViewCell.MeasureTextSize(graphics, text, font, TextFormatFlags.SingleLine);
 
-            float x = rect.X;
+            float x = rect.X + 3;
             float y = rect.Y;
 
             switch (textAlign)
@@ -148,7 +148,7 @@ namespace TimeSheetControl
         }
 
         /// <summary>
-        /// Draws the box.
+        /// Draws the time sheet bar.
         /// </summary>
         /// <param name="graphics">The graphics.</param>
         /// <param name="boxRect">The box rect.</param>
@@ -157,22 +157,10 @@ namespace TimeSheetControl
         /// <param name="text">The text.</param>
         /// <param name="font">The font.</param>
         /// <param name="textAlign">The text align.</param>
-        public static void DrawBox(Graphics graphics, Rectangle boxRect, Color color, bool drawBorder, string text, Font font, ContentAlignment textAlign)
+        public static void DrawTimeSheetBar(Graphics graphics, Rectangle boxRect, Color color, bool drawBorder, string text, Font font, ContentAlignment textAlign)
         {
-            // Fill background
-            using (Brush fillBrush = new SolidBrush(color))
-            {
-                graphics.FillRectangle(fillBrush, boxRect);
-            }
-
-            // Border
-            if (drawBorder)
-            {
-                using (Pen borderPen = new Pen(ControlPaint.DarkDark(color)))
-                {
-                    graphics.DrawRectangle(borderPen, boxRect);
-                }
-            }
+            // Draw bar
+            TimeSheetRender.DrawBox(graphics, boxRect, color, true, ControlPaint.Dark(color), true);
 
             // Text
             if (!string.IsNullOrEmpty(text))
@@ -183,6 +171,38 @@ namespace TimeSheetControl
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Draws the box.
+        /// </summary>
+        /// <param name="graphics">The graphics.</param>
+        /// <param name="boxRect">The box rect.</param>
+        /// <param name="backgroundColor">Color of the background.</param>
+        /// <param name="drawBackground">if set to <c>true</c> [draw background].</param>
+        /// <param name="borderColor">Color of the border.</param>
+        /// <param name="drawBorder">if set to <c>true</c> [draw border].</param>
+        public static void DrawBox(Graphics graphics, Rectangle boxRect,
+            Color backgroundColor, bool drawBackground,
+            Color borderColor, bool drawBorder)
+        {
+            // Fill background
+            if (drawBackground)
+            {
+                using (Brush fillBrush = new SolidBrush(backgroundColor))
+                {
+                    graphics.FillRectangle(fillBrush, boxRect);
+                } 
+            }
+
+            // Border
+            if (drawBorder)
+            {
+                using (Pen borderPen = new Pen(ControlPaint.DarkDark(borderColor)))
+                {
+                    graphics.DrawRectangle(borderPen, boxRect);
+                }
+            }
         }
 
         /// <summary>
@@ -253,14 +273,13 @@ namespace TimeSheetControl
             using (Graphics g = Graphics.FromImage(commentIcon))
             {
                 DrawSquareTriangle(g, new Rectangle(0, 0, commentIcon.Width, commentIcon.Height), 
-                    color, Direction.LeftDown);
+                    color, Direction.LeftUp);
             }
 
-            DrawImage(graphics, rect, commentIcon, ContentAlignment.TopLeft);
-        }
+            rect.X += 1;
+            rect.Y += 1;
 
-        public static void DrawTimeSheetStatus(Graphics graphics, Rectangle rect, TimeSheetStatus status)
-        {
+            DrawImage(graphics, rect, commentIcon, ContentAlignment.TopLeft);
         }
 
         /// <summary>
@@ -310,6 +329,13 @@ namespace TimeSheetControl
             }
         }
 
+        /// <summary>
+        /// Draws the square triangle.
+        /// </summary>
+        /// <param name="g">The g.</param>
+        /// <param name="rect">The rect.</param>
+        /// <param name="color">The color.</param>
+        /// <param name="direction">The direction.</param>
         public static void DrawSquareTriangle(Graphics g, Rectangle rect, Color color, Direction direction)
         {           
             Point p0 = Point.Empty;
@@ -378,7 +404,7 @@ namespace TimeSheetControl
 
                         // Draw timeline bar
                         Color color = TimeSheetRender.GetColor(plannedItem.TimeSheetType.Catalog);
-                        TimeSheetRender.DrawBox(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.MiddleCenter);                                                
+                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, plannedItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.MiddleCenter);                                                
 
                         // Draw status
                         Color statusColor = TimeSheetRender.GetColor(plannedItem.Status);
@@ -403,9 +429,15 @@ namespace TimeSheetControl
 
                         // Draw timeline bar
                         Color color = ControlPaint.Light(TimeSheetRender.GetColor(realtimeItem.TimeSheetType.Catalog));
-                        TimeSheetRender.DrawBox(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.BottomCenter);                       
+                        TimeSheetRender.DrawTimeSheetBar(graphics, barRect, color, true, realtimeItem.TimeSheetType.Code, cellStyle.Font, ContentAlignment.BottomCenter);
+
+                        // Draw status
+                        //Color statusColor = TimeSheetRender.GetColor(realtimeItem.Status);
+                        //TimeSheetRender.DrawStatusIcon(graphics, barRect, statusColor);
                     }
                 }
+                
+                TimeSheetRender.DrawStatusIcon(graphics, cellBounds, TimeSheetRender.GetColor(data.Status));
             }
         }
     }

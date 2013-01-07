@@ -16,6 +16,7 @@ namespace TimeSheetDemo
             var tsday = new TimeSheetDay();
             tsday.Day = initDay;
             tsday.Catalog = GetTimeSheetType(tsday.Day);
+            tsday.Status = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.Locked;
             
             // Generate Planned Items
             tsday.PlannedItems = new List<PlannedItem>();
@@ -29,10 +30,10 @@ namespace TimeSheetDemo
                 plannedItem.TimeSheetType = new TimeSheet();
                 plannedItem.TimeSheetType.Catalog = 
                     k == 0 
-                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift)
-                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift);
-                plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);                
-                
+                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift)
+                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);
+                plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);
+                plannedItem.Status = GetTimeSheetStatus(plannedItem.TimeSheetType.Catalog);
                 tsday.PlannedItems.Add(plannedItem);
             }
 
@@ -48,11 +49,11 @@ namespace TimeSheetDemo
                 realItem.TimeSheetType = new TimeSheet();
                 realItem.TimeSheetType.Catalog =
                     k == 0
-                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift)
-                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave, TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);
-                realItem.TimeSheetType.Code = GetTimeSheetCode(realItem.TimeSheetType.Catalog);      
-
-                tsday.RealTimeItems.Add(realItem);    
+                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave)
+                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave);
+                realItem.TimeSheetType.Code = GetTimeSheetCode(realItem.TimeSheetType.Catalog);
+                realItem.Status = GetTimeSheetStatus(realItem.TimeSheetType.Catalog);
+                tsday.RealTimeItems.Add(realItem);
             }
 
             return tsday;
@@ -119,27 +120,67 @@ namespace TimeSheetDemo
 
         public static TimeSheetStatus GetTimeSheetStatus(TimeSheetCatalog catalog)
         {
+            var st = TimeSheetStatus.None;
             switch (catalog)
             {
                 case TimeSheetCatalog.WorkingDay:
+                    st = TimeSheetStatus.None;
                     break;
+
                 case TimeSheetCatalog.Holiday:
+                    st = TimeSheetStatus.None;
                     break;
+
                 case TimeSheetCatalog.WeekendOff:
+                    st = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
+
                 case TimeSheetCatalog.WeekendOffHalf:
+                    st = rand.Next(0, 1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
+
                 case TimeSheetCatalog.Leave:
+                    st = rand.Next(0,1) == 0 ? TimeSheetStatus.None : TimeSheetStatus.ApprovedLeave;
                     break;
+
                 case TimeSheetCatalog.BusinessTrip:
-                    break;
+                    return TimeSheetStatus.None;
+
                 case TimeSheetCatalog.Overtime:
-                    break;
+                    switch (rand.Next(0, 2))
+                    {
+                        case 0:
+                            st = TimeSheetStatus.None;
+                            break;
+                        case 1:
+                            st =  TimeSheetStatus.ApprovedOT;
+                            break;
+                        case 2:
+                            st = TimeSheetStatus.UnApprovedOT;
+                            break;
+                    }
+                    return st;
+
                 case TimeSheetCatalog.Shift:
+                    switch (rand.Next(0, 2))
+                    {
+                        case 0:
+                            st = TimeSheetStatus.None;
+                            break;
+                        case 1:
+                            st =  TimeSheetStatus.ValidTS;
+                            break;
+                        case 2:
+                            st = TimeSheetStatus.InvalidTS;
+                            break;
+                    }
                     break;
+
                 default:
-                    break;
+                    return TimeSheetStatus.None;
             }
+
+            return st;
         }
 
         public static T RandomEnum<T>()
