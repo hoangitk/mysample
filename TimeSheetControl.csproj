@@ -56,6 +56,10 @@
     <Compile Include="CommentToolTip.Designer.cs">
       <DependentUpon>CommentToolTip.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataGridViewCalendarCell.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataGridViewCalendarColumn.cs" />
     <Compile Include="DataGridViewTextAndImageColumn.cs" />
     <Compile Include="DataGridViewTimeSheetCell.cs" />
     <Compile Include="DataGridViewTimeSheetColumn.cs" />

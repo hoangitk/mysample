@@ -215,7 +215,7 @@ namespace TimeSheetControl
 
         protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
         {
-            base.OnCellMouseClick(e);
+            base.OnCellMouseClick(e);            
             
             if (e.Button == System.Windows.Forms.MouseButtons.Left
                 && !popupToolTip.Visible
@@ -223,11 +223,11 @@ namespace TimeSheetControl
                 && e.RowIndex >= 0)
             {
                 var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
-                if (tsDay != null)
+                Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, ContentAlignment.TopRight))
                 {
                     commentToolTip.Title = tsDay.GetTitle();
-                    commentToolTip.Content = tsDay.GetContent();
-                    Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                    commentToolTip.Content = tsDay.GetContent();                    
                     popupToolTip.Show(this, rect);
                 }
             }
@@ -246,6 +246,10 @@ namespace TimeSheetControl
         public Func<TimeSheetCatalog, Color> GetColorByTimeSheetCatalog;
         public Func<TimeSheetStatus, Color> GetColorByTimeSheetStatus;               
 
+        #endregion
+
+        #region Other supporting functions
+        
         #endregion
     }
 }
