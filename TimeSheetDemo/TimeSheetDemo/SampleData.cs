@@ -26,7 +26,7 @@ namespace TimeSheetDemo
                 ShiftRecord plannedItem = new ShiftRecord();
                 plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(2));
                 plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(4) + 6);
-                plannedItem.TimeSheetType = new TimeSheet();
+                plannedItem.TimeSheetType = new TimeSheetType();
                 plannedItem.TimeSheetType.Catalog = 
                     k == 0 
                     ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift)
@@ -45,7 +45,7 @@ namespace TimeSheetDemo
                 LeaveRecord realItem = new LeaveRecord();
                 realItem.FromTime = k == 0 ? tsday.ShiftItems[0].FromTime : tsday.LeaveItems[k - 1].ToTime.AddHours(rand.Next(3));
                 realItem.ToTime = realItem.FromTime.AddHours(rand.Next(4) + 6);
-                realItem.TimeSheetType = new TimeSheet();
+                realItem.TimeSheetType = new TimeSheetType();
                 realItem.TimeSheetType.Catalog =
                     k == 0
                     ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave)
@@ -205,20 +205,6 @@ namespace TimeSheetDemo
         public static T SelectRandom<T>(this IList list)
         {
             return (T)list[rand.Next(list.Count)];
-        }
-
-        public static IList EnumToList<T>()
-        {
-            var results = new ArrayList();
-            var values = (T[])Enum.GetValues(typeof(T));
-            var names = Enum.GetNames(typeof(T));
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                results.Add(new KeyValuePair<string, T>(names[i], values[i]));
-            }
-
-            return results;
-        }
+        }        
     }
 }

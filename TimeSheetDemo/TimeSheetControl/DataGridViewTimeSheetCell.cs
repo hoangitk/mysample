@@ -106,7 +106,7 @@ namespace TimeSheetControl
 		
 		public override object DefaultNewRowValue 
 		{
-			get { return default(TimeSheetDay); }
+			get { return TimeSheetDay.Empty; }
 		}
 
         private TimeSheetGridView OwnTimeSheetGridView
@@ -123,13 +123,12 @@ namespace TimeSheetControl
                 var rect = new Rectangle(1, 1, resultImage.Width - 3, resultImage.Height - 3);
 
                 TimeSheetDay data = value as TimeSheetDay;
-                if (data != null)
+                if (data != null && data != TimeSheetDay.Empty)
                 {
                     Color catColor = this.OwnTimeSheetGridView.GetColorByTimeSheetCatalog(data.Catalog);
                     Color statusColor = this.OwnTimeSheetGridView.GetColorByTimeSheetStatus(data.Status);
                     Render.DrawBox(g, rect, catColor, statusColor, 1, DashStyle.Solid);
                 }
-
             }
 
             return resultImage;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,8 @@ namespace TimeSheetDemo
 
             _data = tsDay;
 
-            var catalogDataSource = SampleData.EnumToList<TimeSheetCatalog>();
-            var statusDataSource = SampleData.EnumToList<TimeSheetStatus>();
+            var catalogDataSource = ExtendMethodHelper.EnumToList<TimeSheetCatalog>();
+            var statusDataSource = ExtendMethodHelper.EnumToList<TimeSheetStatus>();
 
             this.catalogComboBox.DataSource = catalogDataSource;
             this.catalogComboBox.DisplayMember = "Key";
@@ -47,11 +48,27 @@ namespace TimeSheetDemo
 
             this.timeSheetDayBindingSource.DataSource = _data;
 
-            this.btnUpdate.Click += OnButtonClick;
-            this.btnCancel.Click += OnButtonClick;
+            this.btnUpdate.Click += OnButton_Click;
+            this.btnCancel.Click += OnButton_Click;
+
+            this.Load += OnForm_Load;
         }
 
-        private void OnButtonClick(object sender, EventArgs e)
+        private void OnForm_Load(object sender, EventArgs e)
+        {
+            this.shiftItemsDataGridView.CellBeginEdit += ShiftItemsDataGridView_CellBeginEdit;
+        }
+
+        void ShiftItemsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.RowIndex == this.shiftItemsDataGridView.NewRowIndex)
+            {
+                this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[0].Value = this.dayDateTimePicker.Value;
+                this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[1].Value = this.dayDateTimePicker.Value;
+            }
+        }
+
+        private void OnButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }

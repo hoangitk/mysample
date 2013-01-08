@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,9 +8,18 @@ namespace TimeSheetControl
 {
     public class TimeSheetGridView : DataGridView
     {
+        #region Constants
+        
         public static readonly int MIN_HEADER_HEIGHT = 40;
         public static readonly int MIN_HEADER_WIDTH = 100;
-        public static readonly int MIN_CELL_HEIGHT = 25;        
+        public static readonly int MIN_CELL_HEIGHT = 25;
+        public static readonly string COLUMN_TIMESHEET_NAME_ID_FORMAT = "yyyy_MM_dd";
+        public static readonly string EMPLOYEE_ID_COLUMN_NAME = "EmployeeId";
+        public static readonly string EMPLOYEE_FULLNAME_COLUMN_NAME = "EmployeeFullName";
+
+        #endregion Constants
+
+        #region Properties
 
         private DateTime _fromDate;
 
@@ -46,6 +56,17 @@ namespace TimeSheetControl
         {
             get { return 2; }
         }
+
+        private string _headerDateFormat;
+
+        [Category("TimeSheet")]
+        public string HeaderDateFormat
+        {
+            get { return _headerDateFormat; }
+            set { _headerDateFormat = value; }
+        } 
+
+        #endregion Properties
         
         public TimeSheetGridView()
         {
@@ -53,6 +74,8 @@ namespace TimeSheetControl
                 | ControlStyles.AllPaintingInWmPaint
                 | ControlStyles.OptimizedDoubleBuffer, true);
 
+            #region Default grid view
+            
             this.AutoSize = true;
             this.AutoGenerateColumns = false;
             this.AllowUserToOrderColumns = false;
@@ -60,10 +83,14 @@ namespace TimeSheetControl
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             this.RowTemplate.Height = MIN_CELL_HEIGHT;
             this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
+            
+            #endregion
 
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
+
+            _headerDateFormat = "ddd, dd/MM/yyyy";
 
             // Init PopupToolTip
             popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
@@ -98,9 +125,11 @@ namespace TimeSheetControl
                 // Add column date
                 for (int i = 0; i < this.DayCount; i++)
                 {
+                    var idDate = _fromDate.AddDays(i);
                     DataGridViewTimeSheetColumn tsColumn = new DataGridViewTimeSheetColumn()
                     {
-                        HeaderText = _fromDate.AddDays(i).ToString("ddd, dd/MM/yyyy")
+                        Name = idDate.ToString(COLUMN_TIMESHEET_NAME_ID_FORMAT),
+                        HeaderText = idDate.ToString(this.HeaderDateFormat),
                     };
                     this.Columns.Add(tsColumn);
                 }
@@ -118,15 +147,23 @@ namespace TimeSheetControl
                                 var dtgRow = this.Rows[i];
 
                                 // Bind employee info into header column
-                                dtgRow.Cells["EmployeeId"].Value = tsItem.EmployeeId;
-                                dtgRow.Cells["EmployeeFullName"].Value = tsItem.EmployeeFullName;
+                                dtgRow.Cells[EMPLOYEE_ID_COLUMN_NAME].Value = tsItem.EmployeeId;
+                                dtgRow.Cells[EMPLOYEE_FULLNAME_COLUMN_NAME].Value = tsItem.EmployeeFullName;
 
                                 // Bind timesheet days
                                 for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
                                 {
                                     var tsDay = tsItem.TimeSheetDays[j];
-                                    int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
-                                    this.Rows[i].Cells[columnDayIndex].Value = tsDay;
+                                    
+                                    // old method: bind by array
+                                    //int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
+                                    //this.Rows[i].Cells[columnDayIndex].Value = tsDay;
+
+                                    // new method: bind by column name
+                                    var columnDayName = tsDay.Day.ToString(COLUMN_TIMESHEET_NAME_ID_FORMAT);
+                                    var cell = this.Rows[i].Cells[columnDayName];                                    
+                                    if (cell != null)
+                                        cell.Value = tsDay;
                                 }
                             }// Check TimeSheetDay is available
                         }// Bind data row
@@ -221,8 +258,10 @@ namespace TimeSheetControl
                 && !popupToolTip.Visible
                 && e.ColumnIndex >= this.ColumnHeaderCount
                 && e.RowIndex >= 0)
-            {
+            {                
                 var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
+
+                // Only show tooltip when the mouse is in topright corner of cell
                 Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, ContentAlignment.TopRight))
                 {

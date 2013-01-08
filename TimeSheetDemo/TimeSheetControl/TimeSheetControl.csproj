@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingExtensions.cs" />
     <Compile Include="CommentToolTip.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -64,36 +65,38 @@
     <Compile Include="DataGridViewTimeSheetCell.cs" />
     <Compile Include="DataGridViewTimeSheetColumn.cs" />
     <Compile Include="DataGridViewTimeSheetColumnHeaderCell.cs" />
+    <Compile Include="DataGridViewTimeSheetTypeCell.cs" />
+    <Compile Include="DataGridViewTimeSheetTypeColumn.cs" />
+    <Compile Include="DataGridViewTimeSheetTypeEditingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataGridViewTimeSheetTypeEditingControl.Designer.cs">
+      <DependentUpon>DataGridViewTimeSheetTypeEditingControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtendMethodHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataGridViewTextAndImageCell.cs" />
-    <Compile Include="TimeSheetEditingControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeSheetEditingControl.Designer.cs">
-      <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeSheetEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TimeSheetEditorForm.Designer.cs">
-      <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="TimeSheetGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="Render.cs" />
+    <Compile Include="TimeSheetTypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSheetTypeEditor.Designer.cs">
+      <DependentUpon>TimeSheetTypeEditor.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommentToolTip.resx">
       <DependentUpon>CommentToolTip.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSheetEditingControl.resx">
-      <DependentUpon>TimeSheetEditingControl.cs</DependentUpon>
+    <EmbeddedResource Include="DataGridViewTimeSheetTypeEditingControl.resx">
+      <DependentUpon>DataGridViewTimeSheetTypeEditingControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSheetEditorForm.resx">
-      <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
+    <EmbeddedResource Include="TimeSheetTypeEditor.resx">
+      <DependentUpon>TimeSheetTypeEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +104,10 @@
       <Project>{c4a0078e-e691-42cc-a1ab-56ed4719b3f4}</Project>
       <Name>PopupControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\DataSources\TimeSheetType.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

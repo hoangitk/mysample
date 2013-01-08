@@ -41,10 +41,10 @@ namespace TimeSheetDemo
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.btnAddNew = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.timeSheetGridView1 = new TimeSheetControl.TimeSheetGridView();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetGridView1)).BeginInit();
             this.SuspendLayout();
@@ -58,6 +58,15 @@ namespace TimeSheetDemo
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(614, 65);
             this.panel1.TabIndex = 1;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(93, 21);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 1;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnAddNew
             // 
@@ -124,6 +133,7 @@ namespace TimeSheetDemo
             this.timeSheetGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.timeSheetGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.timeSheetGridView1.FromDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
+            this.timeSheetGridView1.HeaderDateFormat = "ddd, dd/MM/yyyy";
             this.timeSheetGridView1.Location = new System.Drawing.Point(0, 0);
             this.timeSheetGridView1.Name = "timeSheetGridView1";
             this.timeSheetGridView1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -131,15 +141,6 @@ namespace TimeSheetDemo
             this.timeSheetGridView1.Size = new System.Drawing.Size(614, 356);
             this.timeSheetGridView1.TabIndex = 2;
             this.timeSheetGridView1.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(93, 21);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
