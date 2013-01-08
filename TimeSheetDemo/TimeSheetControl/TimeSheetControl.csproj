@@ -84,6 +84,12 @@
     <Compile Include="TimeSheetTypeEditorControl.Designer.cs">
       <DependentUpon>TimeSheetTypeEditorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheetTypeEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSheetTypeEditorForm.Designer.cs">
+      <DependentUpon>TimeSheetTypeEditorForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommentToolTip.resx">
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeSheetTypeEditorControl.resx">
       <DependentUpon>TimeSheetTypeEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSheetTypeEditorForm.resx">
+      <DependentUpon>TimeSheetTypeEditorForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
