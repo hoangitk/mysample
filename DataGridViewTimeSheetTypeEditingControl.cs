@@ -6,30 +6,66 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Cadena.WinForms;
 
 namespace TimeSheetControl
 {
-    public partial class TimeSheetEditingControl : UserControl, IDataGridViewEditingControl
+    [ToolboxItem(false)]
+    public partial class DataGridViewTimeSheetTypeEditingControl : UserControl, IDataGridViewEditingControl
     {
-        public TimeSheetEditingControl()
+        private TimeSheetType _value;
+
+        public TimeSheetType Value
+        {
+            get { return _value; }
+            set 
+            { 
+                _value = value;
+            }
+        }
+
+        DataGridView _dataGridView;
+        int _rowIndex;
+        bool _valueChanged = false;
+
+        PopupControl.Popup _popup;
+        TimeSheetTypeEditor tsTypeEditor;
+
+        public DataGridViewTimeSheetTypeEditingControl()
         {
             InitializeComponent();
+
+            this.Value = new TimeSheetType();            
+
+            _popup = new PopupControl.Popup(tsTypeEditor = new TimeSheetTypeEditor())
+            {
+                AutoClose = false                
+            };
+
+            this.btnOpen.Click += (s, e) =>
+            {
+                var p = this.Location;
+                p.Y += this.Height;
+                tsTypeEditor.Value = this.Value;
+                tsTypeEditor.Show();
+                _popup.Show(this, p);
+            };
         }
 
         public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
         {
-            throw new NotImplementedException();
+
         }
 
         public DataGridView EditingControlDataGridView
         {
             get
             {
-                throw new NotImplementedException();
+                return _dataGridView;
             }
             set
             {
-                throw new NotImplementedException();
+                _dataGridView = value;
             }
         }
 
@@ -37,11 +73,11 @@ namespace TimeSheetControl
         {
             get
             {
-                throw new NotImplementedException();
+                return string.Empty;
             }
             set
             {
-                throw new NotImplementedException();
+
             }
         }
 
@@ -49,11 +85,11 @@ namespace TimeSheetControl
         {
             get
             {
-                throw new NotImplementedException();
+                return _rowIndex;
             }
             set
             {
-                throw new NotImplementedException();
+                _rowIndex = value;
             }
         }
 
@@ -61,37 +97,37 @@ namespace TimeSheetControl
         {
             get
             {
-                throw new NotImplementedException();
+                return _valueChanged;
             }
             set
             {
-                throw new NotImplementedException();
+                _valueChanged = value;
             }
         }
 
         public bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public Cursor EditingPanelCursor
         {
-            get { throw new NotImplementedException(); }
+            get { return base.Cursor; }
         }
 
         public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
         {
-            throw new NotImplementedException();
+            return this.EditingControlFormattedValue;
         }
 
         public void PrepareEditingControlForEdit(bool selectAll)
         {
-            throw new NotImplementedException();
+
         }
 
         public bool RepositionEditingControlOnValueChange
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }

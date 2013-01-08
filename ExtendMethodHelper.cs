@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -163,6 +164,25 @@ namespace TimeSheetControl
                     );
                 }
             }
+        }
+
+        /// <summary>
+        /// Enums to list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IList EnumToList<T>()
+        {
+            var results = new ArrayList();
+            var values = (T[])Enum.GetValues(typeof(T));
+            var names = Enum.GetNames(typeof(T));
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                results.Add(new KeyValuePair<string, T>(names[i], values[i]));
+            }
+
+            return results;
         }
     }
 }

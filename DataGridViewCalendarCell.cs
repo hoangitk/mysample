@@ -6,62 +6,6 @@ using System.Windows.Forms;
 
 namespace TimeSheetControl
 {
-    public class DataGridViewCalendarCell : DataGridViewTextBoxCell
-    {
-
-        public DataGridViewCalendarCell()
-            : base()
-        {                        
-        }
-
-        public override void InitializeEditingControl(int rowIndex, object 
-            initialFormattedValue, DataGridViewCellStyle dataGridViewCellStyle)
-        {
-            // Set the value of the editing control to the current cell value. 
-            base.InitializeEditingControl(rowIndex, initialFormattedValue, 
-                dataGridViewCellStyle);
-            DataGridViewCalendarEditingControl ctl = 
-                DataGridView.EditingControl as DataGridViewCalendarEditingControl;
-            // Use the default row value when Value property is null. 
-            if (this.Value == null)
-            {
-                ctl.Value = (DateTime)this.DefaultNewRowValue;
-            }
-            else
-            {
-                ctl.Value = (DateTime)this.Value;
-            }
-        }
-
-        public override Type EditType
-        {
-            get
-            {
-                // Return the type of the editing control that CalendarCell uses. 
-                return typeof(DataGridViewCalendarEditingControl);
-            }
-        }
-
-        public override Type ValueType
-        {
-            get
-            {
-                // Return the type of the value that CalendarCell contains. 
-
-                return typeof(DateTime);
-            }
-        }
-
-        public override object DefaultNewRowValue
-        {
-            get
-            {
-                // Use the current date and time as the default value. 
-                return DateTime.Now;
-            }
-        }
-    }
-
     internal class DataGridViewCalendarEditingControl : DateTimePicker, IDataGridViewEditingControl
     {
         DataGridView dataGridView;
@@ -70,7 +14,7 @@ namespace TimeSheetControl
 
         public DataGridViewCalendarEditingControl()
         {
-            this.Format = DateTimePickerFormat.Short;
+            //this.Format = DateTimePickerFormat.Short;
         }
 
         // Implements the IDataGridViewEditingControl.EditingControlFormattedValue  
@@ -220,4 +164,59 @@ namespace TimeSheetControl
             base.OnValueChanged(eventargs);
         }
     }
+
+    public class DataGridViewCalendarCell : DataGridViewTextBoxCell
+    {
+        public DataGridViewCalendarCell()
+            : base()
+        {                        
+        }
+
+        public override void InitializeEditingControl(int rowIndex, object 
+            initialFormattedValue, DataGridViewCellStyle dataGridViewCellStyle)
+        {
+            // Set the value of the editing control to the current cell value. 
+            base.InitializeEditingControl(rowIndex, initialFormattedValue, 
+                dataGridViewCellStyle);
+            DataGridViewCalendarEditingControl ctl = 
+                DataGridView.EditingControl as DataGridViewCalendarEditingControl;
+            // Use the default row value when Value property is null. 
+            if (this.Value == null)
+            {
+                ctl.Value = (DateTime)this.DefaultNewRowValue;
+            }
+            else
+            {
+                ctl.Value = (DateTime)this.Value;
+            }
+        }
+
+        public override Type EditType
+        {
+            get
+            {
+                // Return the type of the editing control that CalendarCell uses. 
+                return typeof(DataGridViewCalendarEditingControl);
+            }
+        }
+
+        public override Type ValueType
+        {
+            get
+            {
+                // Return the type of the value that CalendarCell contains. 
+
+                return typeof(DateTime);
+            }
+        }
+
+        public override object DefaultNewRowValue
+        {
+            get
+            {
+                // Use the current date and time as the default value. 
+                return DateTime.Now;
+            }
+        }
+    }    
 }

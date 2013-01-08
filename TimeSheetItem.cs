@@ -38,6 +38,12 @@ namespace TimeSheetControl
             get { return _timeSheetDays; }
             set { _timeSheetDays = value; }
         }
+
+        public TimeSheetItem()
+        {
+            _employeeId = string.Empty;
+            _employeeFullName = string.Empty;
+        }
     }
 
 	/// <summary>
@@ -102,18 +108,30 @@ namespace TimeSheetControl
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// TimeSheetDay is Empty
+        /// </summary>
+        public static readonly TimeSheetDay Empty = default(TimeSheetDay);
 	}
 	
     public abstract class TimeSheetRecord
     {
         public DateTime FromTime { get; set; }
         public DateTime ToTime { get; set; }
-        public TimeSheet TimeSheetType { get; set; }
+        public TimeSheetType TimeSheetType { get; set; }
         public TimeSheetStatus Status { get; set; }
 
         public virtual int TotalHours()
         {
             return (this.ToTime - this.FromTime).Hours;
+        }
+
+        public TimeSheetRecord()
+        {
+            this.FromTime = DateTime.MinValue;
+            this.ToTime = DateTime.MinValue;
+            this.TimeSheetType = new TimeSheetType();
         }
 
         public override string ToString()
@@ -133,8 +151,7 @@ namespace TimeSheetControl
     {
     }
 
-
-    public class TimeSheet
+    public class TimeSheetType
     {
         private int _id;
 
@@ -160,10 +177,23 @@ namespace TimeSheetControl
             set { _catalog = value; }
         }
 
+        public TimeSheetType()
+        {
+            _id = 0;
+            _code = string.Empty;
+            _catalog = TimeSheetCatalog.None;
+        }     
+
         public override string ToString()
         {
             return string.Format("{0} ({1})", Code, Catalog);
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode() ^ Code.GetHashCode() ^ Catalog.GetHashCode();
+        }
+
     }
 	
 	public enum TimeSheetStatus
@@ -179,6 +209,7 @@ namespace TimeSheetControl
 	
 	public enum TimeSheetCatalog
 	{
+        None,
 		WorkingDay,
 		Holiday,
 		WeekendOff,
