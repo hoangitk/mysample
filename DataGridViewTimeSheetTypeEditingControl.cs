@@ -11,7 +11,7 @@ using Cadena.WinForms;
 namespace TimeSheetControl
 {
     [ToolboxItem(false)]
-    public partial class DataGridViewTimeSheetTypeEditingControl : UserControl, IDataGridViewEditingControl
+    internal partial class DataGridViewTimeSheetTypeEditingControl : UserControl, IDataGridViewEditingControl
     {
         private TimeSheetType _value;
 
@@ -29,27 +29,39 @@ namespace TimeSheetControl
         bool _valueChanged = false;
 
         PopupControl.Popup _popup;
-        TimeSheetTypeEditor tsTypeEditor;
+        TimeSheetTypeEditorControl tsEditor;
 
         public DataGridViewTimeSheetTypeEditingControl()
         {
             InitializeComponent();
 
             this.Value = new TimeSheetType();            
-
-            _popup = new PopupControl.Popup(tsTypeEditor = new TimeSheetTypeEditor())
+            
+            _popup = new PopupControl.Popup(tsEditor = new TimeSheetTypeEditorControl())
             {
-                AutoClose = false                
+                AutoClose = false
             };
 
-            this.btnOpen.Click += (s, e) =>
+            tsEditor.Closed += (s, e) =>
             {
-                var p = this.Location;
-                p.Y += this.Height;
-                tsTypeEditor.Value = this.Value;
-                tsTypeEditor.Show();
-                _popup.Show(this, p);
+                _popup.Hide();
+                
+                _valueChanged = true;
+                this.EditingControlDataGridView.NotifyCurrentCellDirty(true);                
             };
+
+            this.Load += (s, e) =>
+            {
+                ShowEditor();
+            };
+        }
+
+        private void ShowEditor()
+        {
+            var p = this.Location;
+            p.Y += this.Height;
+            tsEditor.Value = this.Value;
+            _popup.Show(this, p);
         }
 
         public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)

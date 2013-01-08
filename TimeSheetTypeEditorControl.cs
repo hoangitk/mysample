@@ -6,11 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Cadena.WinForms;
 
 namespace TimeSheetControl
 {
-    public partial class TimeSheetTypeEditor : UserControl
+    public partial class TimeSheetTypeEditorControl : UserControl
     {
         private TimeSheetType _value;
 
@@ -20,26 +19,39 @@ namespace TimeSheetControl
             set { _value = value; }
         }
 
-        public TimeSheetTypeEditor()
+        public event EventHandler Closed;
+        protected virtual void OnClose()
+        {
+            EventHandler handler = Closed;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
+        public TimeSheetTypeEditorControl(TimeSheetType tsType)
         {
             InitializeComponent();
-
-            this.Value = new TimeSheetType();
 
             var catalogDataSource = ExtendMethodHelper.EnumToList<TimeSheetCatalog>();
             this.catalogComboBox.DataSource = catalogDataSource;
             this.catalogComboBox.DisplayMember = "Key";
             this.catalogComboBox.ValueMember = "Value";            
 
-            this.btnClose.Click += (s, e) =>
-            {
-                this.Hide();
-            };
+            this.Value = tsType;
 
             this.Load += (s, e) =>
             {
                 this.timeSheetTypeBindingSource.DataSource = this.Value;
             };
+
+            this.btnClose.Click += (s, e) =>
+            {
+                this.Hide();
+            };
+        }
+
+        public TimeSheetTypeEditorControl() 
+            : this(new TimeSheetType())
+        {
         }
     }
 }

@@ -28,19 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtCode = new System.Windows.Forms.TextBox();
             this.btnOpen = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // txtCode
-            // 
-            this.txtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCode.Location = new System.Drawing.Point(0, 0);
-            this.txtCode.Multiline = true;
-            this.txtCode.Name = "txtCode";
-            this.txtCode.ReadOnly = true;
-            this.txtCode.Size = new System.Drawing.Size(163, 26);
-            this.txtCode.TabIndex = 0;
             // 
             // btnOpen
             // 
@@ -53,22 +43,32 @@
             this.btnOpen.Text = "▼";
             this.btnOpen.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(140, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(23, 26);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "▼";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // DataGridViewTimeSheetTypeEditingControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.txtCode);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnOpen);
             this.Name = "DataGridViewTimeSheetTypeEditingControl";
             this.Size = new System.Drawing.Size(186, 26);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtCode;
         private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Button button1;
     }
 }

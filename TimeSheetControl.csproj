@@ -81,11 +81,11 @@
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="Render.cs" />
-    <Compile Include="TimeSheetTypeEditor.cs">
+    <Compile Include="TimeSheetTypeEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeSheetTypeEditor.Designer.cs">
-      <DependentUpon>TimeSheetTypeEditor.cs</DependentUpon>
+    <Compile Include="TimeSheetTypeEditorControl.Designer.cs">
+      <DependentUpon>TimeSheetTypeEditorControl.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -95,8 +95,8 @@
     <EmbeddedResource Include="DataGridViewTimeSheetTypeEditingControl.resx">
       <DependentUpon>DataGridViewTimeSheetTypeEditingControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeSheetTypeEditor.resx">
-      <DependentUpon>TimeSheetTypeEditor.cs</DependentUpon>
+    <EmbeddedResource Include="TimeSheetTypeEditorControl.resx">
+      <DependentUpon>TimeSheetTypeEditorControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 
@@ -151,14 +152,14 @@ namespace TimeSheetControl
     {
     }
 
-    public class TimeSheetType
+    public class TimeSheetType : INotifyPropertyChanged
     {
         private int _id;
 
         public int Id
         {
             get { return _id; }
-            set { _id = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _id, value, () => Id); }
         }
 
         private string _code;
@@ -166,7 +167,7 @@ namespace TimeSheetControl
         public string Code
         {
             get { return _code; }
-            set { _code = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _code, value, () => Code); }
         }
 
         private TimeSheetCatalog _catalog;
@@ -174,7 +175,7 @@ namespace TimeSheetControl
         public TimeSheetCatalog Catalog
         {
             get { return _catalog; }
-            set { _catalog = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _catalog, value, () => Catalog); }
         }
 
         public TimeSheetType()
@@ -194,6 +195,8 @@ namespace TimeSheetControl
             return Id.GetHashCode() ^ Code.GetHashCode() ^ Catalog.GetHashCode();
         }
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 	
 	public enum TimeSheetStatus
