@@ -11,57 +11,14 @@ using Cadena.WinForms;
 namespace TimeSheetControl
 {
     [ToolboxItem(false)]
-    internal partial class DataGridViewTimeSheetTypeEditingControl : UserControl, IDataGridViewEditingControl
+    internal partial class DataGridViewTimeSheetTypeEditingControl : TimeSheetTypeEditorControl, IDataGridViewEditingControl
     {
-        private TimeSheetType _value;
-
-        public TimeSheetType Value
-        {
-            get { return _value; }
-            set 
-            { 
-                _value = value;
-            }
-        }
-
         DataGridView _dataGridView;
         int _rowIndex;
-        bool _valueChanged = false;
+        bool _valueChanged = false;       
 
-        PopupControl.Popup _popup;
-        TimeSheetTypeEditorControl tsEditor;
-
-        public DataGridViewTimeSheetTypeEditingControl()
-        {
-            InitializeComponent();
-
-            this.Value = new TimeSheetType();            
-            
-            _popup = new PopupControl.Popup(tsEditor = new TimeSheetTypeEditorControl())
-            {
-                AutoClose = false
-            };
-
-            tsEditor.Closed += (s, e) =>
-            {
-                _popup.Hide();
-                
-                _valueChanged = true;
-                this.EditingControlDataGridView.NotifyCurrentCellDirty(true);                
-            };
-
-            this.Load += (s, e) =>
-            {
-                ShowEditor();
-            };
-        }
-
-        private void ShowEditor()
-        {
-            var p = this.Location;
-            p.Y += this.Height;
-            tsEditor.Value = this.Value;
-            _popup.Show(this, p);
+        public DataGridViewTimeSheetTypeEditingControl() : base(new TimeSheetType())
+        {            
         }
 
         public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
@@ -85,7 +42,7 @@ namespace TimeSheetControl
         {
             get
             {
-                return string.Empty;
+                return this.Value.Code;
             }
             set
             {

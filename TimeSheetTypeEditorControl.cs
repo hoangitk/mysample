@@ -29,7 +29,7 @@ namespace TimeSheetControl
 
         public TimeSheetTypeEditorControl(TimeSheetType tsType)
         {
-            InitializeComponent();
+            InitializeComponent();            
 
             var catalogDataSource = ExtendMethodHelper.EnumToList<TimeSheetCatalog>();
             this.catalogComboBox.DataSource = catalogDataSource;

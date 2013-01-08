@@ -70,9 +70,6 @@
     <Compile Include="DataGridViewTimeSheetTypeEditingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DataGridViewTimeSheetTypeEditingControl.Designer.cs">
-      <DependentUpon>DataGridViewTimeSheetTypeEditingControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExtendMethodHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataGridViewTextAndImageCell.cs" />
@@ -91,9 +88,6 @@
   <ItemGroup>
     <EmbeddedResource Include="CommentToolTip.resx">
       <DependentUpon>CommentToolTip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DataGridViewTimeSheetTypeEditingControl.resx">
-      <DependentUpon>DataGridViewTimeSheetTypeEditingControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeSheetTypeEditorControl.resx">
       <DependentUpon>TimeSheetTypeEditorControl.cs</DependentUpon>
