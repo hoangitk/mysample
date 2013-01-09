@@ -77,7 +77,7 @@ namespace TimeSheetControl
                value, formattedValue, errorText, cellStyle,
                advancedBorderStyle, paintParts);
 
-            Render.DrawImage(graphics, cellBounds, this.Image, this.ImageAlign);
+            Renderer.DrawImage(graphics, cellBounds, this.Image, this.ImageAlign);
         }
 
         private DataGridViewTextAndImageColumn OwningTextAndImageColumn
