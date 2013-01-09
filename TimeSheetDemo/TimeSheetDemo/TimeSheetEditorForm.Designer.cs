@@ -37,7 +37,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.catalogComboBox = new System.Windows.Forms.ComboBox();
-            this.timeSheetDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dayDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.statusComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,6 +48,9 @@
             this.shiftItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.timeSheetDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.shiftFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shiftToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shiftTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn();
@@ -60,7 +62,6 @@
             catalogLabel = new System.Windows.Forms.Label();
             dayLabel = new System.Windows.Forms.Label();
             statusLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leaveItemsDataGridView)).BeginInit();
@@ -68,6 +69,9 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsBindingSource)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // catalogLabel
@@ -106,10 +110,6 @@
             this.catalogComboBox.Size = new System.Drawing.Size(200, 21);
             this.catalogComboBox.TabIndex = 2;
             // 
-            // timeSheetDayBindingSource
-            // 
-            this.timeSheetDayBindingSource.DataSource = typeof(TimeSheetControl.TimeSheetDay);
-            // 
             // dayDateTimePicker
             // 
             this.dayDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.timeSheetDayBindingSource, "Day", true));
@@ -135,10 +135,10 @@
             this.groupBox1.Controls.Add(catalogLabel);
             this.groupBox1.Controls.Add(this.dayDateTimePicker);
             this.groupBox1.Controls.Add(dayLabel);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(507, 107);
+            this.groupBox1.Size = new System.Drawing.Size(501, 114);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Time Sheet Day";
@@ -146,10 +146,10 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.leaveItemsDataGridView);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 229);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 235);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(507, 115);
+            this.groupBox2.Size = new System.Drawing.Size(501, 106);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Leaves";
@@ -167,7 +167,7 @@
             this.leaveItemsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leaveItemsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.leaveItemsDataGridView.Name = "leaveItemsDataGridView";
-            this.leaveItemsDataGridView.Size = new System.Drawing.Size(501, 96);
+            this.leaveItemsDataGridView.Size = new System.Drawing.Size(495, 87);
             this.leaveItemsDataGridView.TabIndex = 0;
             // 
             // leaveItemsBindingSource
@@ -178,10 +178,10 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.shiftItemsDataGridView);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(0, 107);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(3, 123);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(507, 122);
+            this.groupBox3.Size = new System.Drawing.Size(501, 106);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Shifts";
@@ -199,7 +199,7 @@
             this.shiftItemsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.shiftItemsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.shiftItemsDataGridView.Name = "shiftItemsDataGridView";
-            this.shiftItemsDataGridView.Size = new System.Drawing.Size(501, 103);
+            this.shiftItemsDataGridView.Size = new System.Drawing.Size(495, 87);
             this.shiftItemsDataGridView.TabIndex = 0;
             // 
             // shiftItemsBindingSource
@@ -209,8 +209,9 @@
             // 
             // btnUpdate
             // 
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnUpdate.Location = new System.Drawing.Point(348, 360);
+            this.btnUpdate.Location = new System.Drawing.Point(336, 9);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnUpdate.TabIndex = 9;
@@ -219,13 +220,47 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(429, 360);
+            this.btnCancel.Location = new System.Drawing.Point(417, 9);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 3);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(507, 395);
+            this.tableLayoutPanel1.TabIndex = 11;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnUpdate);
+            this.panel1.Controls.Add(this.btnCancel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 347);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(501, 45);
+            this.panel1.TabIndex = 9;
+            // 
+            // timeSheetDayBindingSource
+            // 
+            this.timeSheetDayBindingSource.DataSource = typeof(TimeSheetControl.TimeSheetDay);
             // 
             // shiftFromTimeColumn
             // 
@@ -301,14 +336,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(507, 395);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TimeSheetEditorForm";
             this.Text = "Time Sheet Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -317,6 +347,9 @@
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsBindingSource)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -344,6 +377,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn shiftToTimeColumn;
         private TimeSheetControl.DataGridViewTimeSheetTypeColumn shiftTimeSheetTypeColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn shiftStatusColumn;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
 
 
     }

@@ -33,10 +33,10 @@
             System.Windows.Forms.Label codeLabel;
             System.Windows.Forms.Label idLabel;
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.catalogComboBox = new System.Windows.Forms.ComboBox();
-            this.codeTextBox = new System.Windows.Forms.TextBox();
             this.idTextBox = new System.Windows.Forms.TextBox();
             this.timeSheetTypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.codeTextBox = new System.Windows.Forms.TextBox();
+            this.catalogComboBox = new System.Windows.Forms.ComboBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             catalogLabel = new System.Windows.Forms.Label();
             codeLabel = new System.Windows.Forms.Label();
@@ -44,6 +44,33 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeSheetTypeBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // catalogLabel
+            // 
+            catalogLabel.AutoSize = true;
+            catalogLabel.Location = new System.Drawing.Point(3, 48);
+            catalogLabel.Name = "catalogLabel";
+            catalogLabel.Size = new System.Drawing.Size(46, 13);
+            catalogLabel.TabIndex = 0;
+            catalogLabel.Text = "Catalog:";
+            // 
+            // codeLabel
+            // 
+            codeLabel.AutoSize = true;
+            codeLabel.Location = new System.Drawing.Point(3, 24);
+            codeLabel.Name = "codeLabel";
+            codeLabel.Size = new System.Drawing.Size(35, 13);
+            codeLabel.TabIndex = 2;
+            codeLabel.Text = "Code:";
+            // 
+            // idLabel
+            // 
+            idLabel.AutoSize = true;
+            idLabel.Location = new System.Drawing.Point(3, 0);
+            idLabel.Name = "idLabel";
+            idLabel.Size = new System.Drawing.Size(19, 13);
+            idLabel.TabIndex = 4;
+            idLabel.Text = "Id:";
             // 
             // tableLayoutPanel1
             // 
@@ -66,52 +93,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(205, 74);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // catalogLabel
-            // 
-            catalogLabel.AutoSize = true;
-            catalogLabel.Location = new System.Drawing.Point(3, 48);
-            catalogLabel.Name = "catalogLabel";
-            catalogLabel.Size = new System.Drawing.Size(46, 13);
-            catalogLabel.TabIndex = 0;
-            catalogLabel.Text = "Catalog:";
-            // 
-            // catalogComboBox
-            // 
-            this.catalogComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Catalog", true));
-            this.catalogComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.catalogComboBox.FormattingEnabled = true;
-            this.catalogComboBox.Location = new System.Drawing.Point(78, 51);
-            this.catalogComboBox.Name = "catalogComboBox";
-            this.catalogComboBox.Size = new System.Drawing.Size(124, 21);
-            this.catalogComboBox.TabIndex = 1;
-            // 
-            // codeLabel
-            // 
-            codeLabel.AutoSize = true;
-            codeLabel.Location = new System.Drawing.Point(3, 24);
-            codeLabel.Name = "codeLabel";
-            codeLabel.Size = new System.Drawing.Size(35, 13);
-            codeLabel.TabIndex = 2;
-            codeLabel.Text = "Code:";
-            // 
-            // codeTextBox
-            // 
-            this.codeTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Code", true));
-            this.codeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.codeTextBox.Location = new System.Drawing.Point(78, 27);
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.Size = new System.Drawing.Size(124, 20);
-            this.codeTextBox.TabIndex = 3;
-            // 
-            // idLabel
-            // 
-            idLabel.AutoSize = true;
-            idLabel.Location = new System.Drawing.Point(3, 0);
-            idLabel.Name = "idLabel";
-            idLabel.Size = new System.Drawing.Size(19, 13);
-            idLabel.TabIndex = 4;
-            idLabel.Text = "Id:";
-            // 
             // idTextBox
             // 
             this.idTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Id", true));
@@ -124,6 +105,25 @@
             // timeSheetTypeBindingSource
             // 
             this.timeSheetTypeBindingSource.DataSource = typeof(TimeSheetControl.TimeSheetType);
+            // 
+            // codeTextBox
+            // 
+            this.codeTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Code", true));
+            this.codeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codeTextBox.Location = new System.Drawing.Point(78, 27);
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.Size = new System.Drawing.Size(124, 20);
+            this.codeTextBox.TabIndex = 3;
+            // 
+            // catalogComboBox
+            // 
+            this.catalogComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Catalog", true));
+            this.catalogComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.catalogComboBox.FormattingEnabled = true;
+            this.catalogComboBox.Location = new System.Drawing.Point(78, 51);
+            this.catalogComboBox.Name = "catalogComboBox";
+            this.catalogComboBox.Size = new System.Drawing.Size(124, 21);
+            this.catalogComboBox.TabIndex = 1;
             // 
             // btnUpdate
             // 
@@ -139,7 +139,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(211, 103);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnUpdate);

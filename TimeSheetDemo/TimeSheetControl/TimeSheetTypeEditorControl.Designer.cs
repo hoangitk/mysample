@@ -37,7 +37,7 @@
             this.timeSheetTypeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.codeTextBox = new System.Windows.Forms.TextBox();
             this.catalogComboBox = new System.Windows.Forms.ComboBox();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             idLabel = new System.Windows.Forms.Label();
             codeLabel = new System.Windows.Forms.Label();
             catalogLabel = new System.Windows.Forms.Label();
@@ -127,13 +127,13 @@
             // 
             // btnClose
             // 
-            this.btnClose.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnClose.Location = new System.Drawing.Point(3, 80);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(204, 23);
-            this.btnClose.TabIndex = 3;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnUpdate.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnUpdate.Location = new System.Drawing.Point(3, 80);
+            this.btnUpdate.Name = "btnClose";
+            this.btnUpdate.Size = new System.Drawing.Size(204, 23);
+            this.btnUpdate.TabIndex = 3;
+            this.btnUpdate.Text = "Close";
+            this.btnUpdate.UseVisualStyleBackColor = true;
             // 
             // TimeSheetTypeEditorControl
             // 
@@ -141,7 +141,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnUpdate);
             this.Name = "TimeSheetTypeEditorControl";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.Size = new System.Drawing.Size(210, 106);
@@ -159,6 +159,6 @@
         private System.Windows.Forms.BindingSource timeSheetTypeBindingSource;
         private System.Windows.Forms.TextBox codeTextBox;
         private System.Windows.Forms.ComboBox catalogComboBox;
-        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
