@@ -185,6 +185,12 @@ namespace TimeSheetControl
             return results;
         }
 
+        /// <summary>
+        /// Filters the specified list.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        /// <param name="condition">The condition.</param>
+        /// <returns></returns>
         public static IList Filter(this IList list, Predicate<object> condition)
         {
             if (list == null)
@@ -197,6 +203,25 @@ namespace TimeSheetControl
                 var item = list[i];
                 if (condition(item))
                     results.Add(item);
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// To the list key value pair.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="getKey">The get key.</param>
+        /// <returns></returns>
+        public static IList ToIListKeyValuePair<T>(this IEnumerable<T> list, Func<T, string> getKey)
+        {
+            var results = new ArrayList();
+
+            foreach (var item in list)
+            {
+                results.Add(new KeyValuePair<string, T>(getKey(item), item));
             }
 
             return results;

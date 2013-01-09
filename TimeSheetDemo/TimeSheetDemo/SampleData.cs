@@ -156,7 +156,7 @@ namespace TimeSheetDemo
 
         public static IList<TimeSheetType> GenerateListOfTimeSheetType(int minLengthOfEachCatalog = 5, int maxLengthOfEachCatalog = 10)
         {
-            var results = new List<TimeSheetType>();
+            var results = new List<TimeSheetType>();            
 
             var listCatalog = (TimeSheetCatalog[])Enum.GetValues(typeof(TimeSheetCatalog));
 
@@ -166,8 +166,9 @@ namespace TimeSheetDemo
             if (maxLengthOfEachCatalog < 10)
                 maxLengthOfEachCatalog = 10;
 
-            foreach (var cat in listCatalog)
+            for (int c = 2; c < listCatalog.Length; c++)
             {
+                var cat = listCatalog[c];
                 var catLen = rand.Next(minLengthOfEachCatalog, maxLengthOfEachCatalog);
                 for (int i = 0; i < catLen; i++)
                 {
@@ -283,7 +284,7 @@ namespace TimeSheetDemo
 
         public static TimeSheetType RandomBelongsCatalogs(this IList<TimeSheetType> list, params TimeSheetCatalog[] catalog)
         {
-            var listWithCatalog = list.Where(t => catalog.Contains(t.Catalog)).ToList();
+            var listWithCatalog = list.Where(t => t != null && catalog.Contains(t.Catalog)).ToList();
 
             return listWithCatalog[rand.Next(listWithCatalog.Count)];
         }

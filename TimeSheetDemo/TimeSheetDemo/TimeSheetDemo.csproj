@@ -75,6 +75,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\DataSources\TimeSheetControl.TimeSheetDay.datasource" />
+    <None Include="Properties\DataSources\TimeSheetControl.TimeSheetType.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TimeSheetControl\TimeSheetControl.csproj">

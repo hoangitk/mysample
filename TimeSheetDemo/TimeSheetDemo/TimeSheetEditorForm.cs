@@ -37,9 +37,16 @@ namespace TimeSheetDemo
         private void OnForm_Load(object sender, EventArgs e)
         {
             this.shiftItemsDataGridView.CellBeginEdit += ShiftItemsDataGridView_CellBeginEdit;
+            this.shiftItemsDataGridView.CellEndEdit += ShiftItemsDataGridView_CellEndEdit;
+            this.shiftItemsDataGridView.CellValidating += ShiftItemsDataGridView_CellValidating;
+            this.shiftItemsDataGridView.CellValidated += shiftItemsDataGridView_CellValidated;
+            this.shiftItemsDataGridView.RowValidating += ShiftItemsDataGridView_RowValidating;
 
             var catalogDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetCatalog>();
             var statusDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetStatus>();
+            var timeSheetTypeDataSource = new List<TimeSheetType>();
+            timeSheetTypeDataSource.Add(default(TimeSheetType));
+            timeSheetTypeDataSource.AddRange(SampleData.Default.SampleTimeSheetTypeList);            
 
             this.catalogComboBox.DataSource = catalogDataSource;
             this.catalogComboBox.DisplayMember = "Key";
@@ -57,8 +64,66 @@ namespace TimeSheetDemo
             this.leaveStatusColumn.DisplayMember = "Key";
             this.leaveStatusColumn.ValueMember = "Value";
 
-            this.timeSheetDayBindingSource.DataSource = _data;
+            this.shiftTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource
+                                                        .Where(t =>
+                                                            t == default(TimeSheetType) ||
+                                                            t.Catalog == TimeSheetCatalog.Shift ||
+                                                            t.Catalog == TimeSheetCatalog.Overtime)
+                                                            .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            this.shiftTimeSheetTypeColumn.DisplayMember = "Key";
+            this.shiftTimeSheetTypeColumn.ValueMember = "Value";
 
+            this.leaveTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource
+                                                        .Where(t =>
+                                                            t == default(TimeSheetType) ||
+                                                            t.Catalog == TimeSheetCatalog.Leave)
+                                                        .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            this.leaveTimeSheetTypeColumn.DisplayMember = "Key";
+            this.leaveTimeSheetTypeColumn.ValueMember = "Value";
+
+            this.timeSheetDayBindingSource.DataSource = _data;
+        }
+
+        void ShiftItemsDataGridView_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            bool haveError = false;
+            string errorMsg = string.Empty;
+            
+            if (this.shiftItemsDataGridView.IsCurrentRowDirty)
+            {
+                System.Windows.Forms.DataGridViewRow editingRow = this.shiftItemsDataGridView.Rows[e.RowIndex];                                
+
+                if (haveError)
+                {
+                    editingRow.ErrorText = errorMsg;
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        void ShiftItemsDataGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            //this.shiftItemsDataGridView.EndEdit(); // Trick to update changed_value to cell.Value
+            
+            // No cell validation for new rows. New rows are validated on Row Validation.
+            if (this.shiftItemsDataGridView.Rows[e.RowIndex].IsNewRow) { return; }
+
+            var editingCell = this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            editingCell.ErrorText = "";
+
+            if (this.shiftItemsDataGridView.IsCurrentCellDirty)
+            {
+                if (e.FormattedValue == null)
+                {
+                    editingCell.ErrorText = "Value is null";
+                }
+            }
+        }
+
+        void shiftItemsDataGridView_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            var editingCell = this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            Debug.WriteLine(editingCell.Value);
         }
 
         void ShiftItemsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -68,6 +133,12 @@ namespace TimeSheetDemo
                 this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[0].Value = this.dayDateTimePicker.Value;
                 this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[1].Value = this.dayDateTimePicker.Value;
             }
+        }
+
+        void ShiftItemsDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = string.Empty;
+            //this.shiftItemsDataGridView.Rows[e.RowIndex].ErrorText = string.Empty;
         }
 
         private void OnButton_Click(object sender, EventArgs e)
