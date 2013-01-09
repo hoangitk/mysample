@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace TimeSheetControl
 {
-    public class Render
+    public class Renderer
     {        
         #region Get Color
         
@@ -28,7 +28,7 @@ namespace TimeSheetControl
         /// <param name="brush">The brush.</param>
         public static void DrawString(Graphics graphics, string text, Rectangle rect, Font font, Brush brush)
         {
-            Render.DrawString(graphics, text, rect, font, brush, ContentAlignment.MiddleCenter);
+            Renderer.DrawString(graphics, text, rect, font, brush, ContentAlignment.MiddleCenter);
         }
 
 
@@ -100,16 +100,16 @@ namespace TimeSheetControl
         {
             // Draw bar
             if (drawBorder)
-                Render.DrawBox(graphics, boxRect, color, ControlPaint.Dark(color));
+                Renderer.DrawBox(graphics, boxRect, color, ControlPaint.Dark(color));
             else
-                Render.DrawBox(graphics, boxRect, color, Color.Empty);
+                Renderer.DrawBox(graphics, boxRect, color, Color.Empty);
 
             // Text
             if (!string.IsNullOrEmpty(text))
             {
-                using (Brush textBrush = new SolidBrush(Render.InvertColor(color)))
+                using (Brush textBrush = new SolidBrush(Renderer.InvertColor(color)))
                 {
-                    Render.DrawString(graphics, text, boxRect, font, textBrush, textAlign);
+                    Renderer.DrawString(graphics, text, boxRect, font, textBrush, textAlign);
                 }
             }
 
@@ -155,8 +155,7 @@ namespace TimeSheetControl
             if (image != null)
             {
                 // Draw the image clipped to the cell.
-                System.Drawing.Drawing2D.GraphicsContainer container =
-                graphics.BeginContainer();
+                System.Drawing.Drawing2D.GraphicsContainer container = graphics.BeginContainer();
 
                 graphics.SetClip(rect);
 

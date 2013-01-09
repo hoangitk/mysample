@@ -277,8 +277,7 @@ namespace TimeSheetDemo
         private static Random rand = new Random();
 
         public static T SelectRandom<T>(this IList list)
-        {
-            Random rand = new Random();
+        {            
             return (T)list[rand.Next(list.Count)];
         }
 

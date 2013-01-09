@@ -78,7 +78,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
-    <Compile Include="Render.cs" />
+    <Compile Include="Renderer.cs" />
     <Compile Include="TimeSheetTypeEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

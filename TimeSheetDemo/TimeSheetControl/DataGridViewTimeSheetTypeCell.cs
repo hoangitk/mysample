@@ -153,7 +153,7 @@ namespace TimeSheetControl
                 TimeSheetType data = value as TimeSheetType;
                 if (data != null)
                 {                    
-                    Render.DrawBoxWithText(g, rect, cellStyle.BackColor, false, data.ToString(), cellStyle.Font, ContentAlignment.MiddleLeft);
+                    Renderer.DrawBoxWithText(g, rect, cellStyle.BackColor, false, data.ToString(), cellStyle.Font, ContentAlignment.MiddleLeft);
                 }
             }
 

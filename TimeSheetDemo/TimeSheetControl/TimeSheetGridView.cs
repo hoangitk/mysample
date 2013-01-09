@@ -64,7 +64,16 @@ namespace TimeSheetControl
         {
             get { return _headerDateFormat; }
             set { _headerDateFormat = value; }
-        } 
+        }
+
+        private Color _headerColor;
+
+        [Category("TimeSheet")]
+        public Color HeaderColor
+        {
+            get { return _headerColor; }
+            set { _headerColor = value; }
+        }
 
         #endregion Properties
         
@@ -243,7 +252,7 @@ namespace TimeSheetControl
                     }
                 }
             }
-        }
+        }       
 
         #region Comment ToolTip
 
