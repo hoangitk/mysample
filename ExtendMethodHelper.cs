@@ -171,7 +171,7 @@ namespace TimeSheetControl
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IList EnumToList<T>()
+        public static IList EnumToListKeyValuePair<T>()
         {
             var results = new ArrayList();
             var values = (T[])Enum.GetValues(typeof(T));
@@ -180,6 +180,23 @@ namespace TimeSheetControl
             for (int i = 0; i < values.Length; i++)
             {
                 results.Add(new KeyValuePair<string, T>(names[i], values[i]));
+            }            
+
+            return results;
+        }
+
+        public static IList Filter(this IList list, Predicate<object> condition)
+        {
+            if (list == null)
+                return null;
+
+            var results = new ArrayList();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var item = list[i];
+                if (condition(item))
+                    results.Add(item);
             }
 
             return results;
