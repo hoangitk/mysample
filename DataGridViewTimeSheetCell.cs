@@ -153,7 +153,7 @@ namespace TimeSheetControl
                 if (data.ShiftItems != null && data.ShiftItems.Count > 0)
                 {
                     foreach (var plannedItem in data.ShiftItems)
-                    {
+                    {                        
                         plannedItemBarX = (int)(plannedItem.FromTime.Hour * rate);
                         plannedItemBarWidth = (int)(plannedItem.TotalHours() * rate);
                         Rectangle barRect = new Rectangle(cellBounds.X + plannedItemBarX, cellBounds.Y + plannedItemBarY,

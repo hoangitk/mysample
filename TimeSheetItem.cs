@@ -132,7 +132,7 @@ namespace TimeSheetControl
         {
             this.FromTime = DateTime.MinValue;
             this.ToTime = DateTime.MinValue;
-            this.TimeSheetType = new TimeSheetType();
+            this.TimeSheetType = default(TimeSheetType);
         }
 
         public override string ToString()
@@ -193,11 +193,10 @@ namespace TimeSheetControl
         public override int GetHashCode()
         {
             return Id.GetHashCode() ^ Code.GetHashCode() ^ Catalog.GetHashCode();
-        }
-
+        }        
 
         public event PropertyChangedEventHandler PropertyChanged;
-    }
+    }    
 	
 	public enum TimeSheetStatus
 	{
