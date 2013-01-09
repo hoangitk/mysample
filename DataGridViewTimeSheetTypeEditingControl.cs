@@ -26,6 +26,14 @@ namespace TimeSheetControl
 
         }
 
+        protected override void OnValueUpdated()
+        {
+            base.OnValueUpdated();
+
+            _valueChanged = true;
+            this.EditingControlDataGridView.NotifyCurrentCellDirty(true);
+        }
+
         public DataGridView EditingControlDataGridView
         {
             get
@@ -42,13 +50,12 @@ namespace TimeSheetControl
         {
             get
             {
-                return this.Value.Code;
+                return this.Value;
             }
             set
             {
-
             }
-        }
+        }        
 
         public int EditingControlRowIndex
         {
@@ -76,7 +83,7 @@ namespace TimeSheetControl
 
         public bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
         {
-            return false;
+            return !dataGridViewWantsInputKey;
         }
 
         public Cursor EditingPanelCursor

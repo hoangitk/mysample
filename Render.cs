@@ -99,7 +99,10 @@ namespace TimeSheetControl
         public static void DrawBoxWithText(Graphics graphics, Rectangle boxRect, Color color, bool drawBorder, string text, Font font, ContentAlignment textAlign)
         {
             // Draw bar
-            Render.DrawBox(graphics, boxRect, color, ControlPaint.Dark(color));
+            if (drawBorder)
+                Render.DrawBox(graphics, boxRect, color, ControlPaint.Dark(color));
+            else
+                Render.DrawBox(graphics, boxRect, color, Color.Empty);
 
             // Text
             if (!string.IsNullOrEmpty(text))

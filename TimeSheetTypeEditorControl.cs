@@ -19,10 +19,10 @@ namespace TimeSheetControl
             set { _value = value; }
         }
 
-        public event EventHandler Closed;
-        protected virtual void OnClose()
+        public event EventHandler ValueUpdated;
+        protected virtual void OnValueUpdated()
         {
-            EventHandler handler = Closed;
+            EventHandler handler = ValueUpdated;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -43,8 +43,9 @@ namespace TimeSheetControl
                 this.timeSheetTypeBindingSource.DataSource = this.Value;
             };
 
-            this.btnClose.Click += (s, e) =>
+            this.btnUpdate.Click += (s, e) =>
             {
+                OnValueUpdated();
                 this.Hide();
             };
         }
