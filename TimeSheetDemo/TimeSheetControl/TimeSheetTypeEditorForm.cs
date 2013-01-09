@@ -208,7 +208,7 @@ namespace TimeSheetControl
         {
             get
             {
-                return this.Value.ToString();
+                return this.Value;
             }
             set
             {                

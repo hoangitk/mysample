@@ -66,6 +66,7 @@
     <Compile Include="DataGridViewTimeSheetColumn.cs" />
     <Compile Include="DataGridViewTimeSheetColumnHeaderCell.cs" />
     <Compile Include="DataGridViewTimeSheetTypeCell.cs" />
+    <Compile Include="DataGridViewTimeSheetTypeCell2.cs" />
     <Compile Include="DataGridViewTimeSheetTypeColumn.cs" />
     <Compile Include="DataGridViewTimeSheetTypeEditingControl.cs">
       <SubType>UserControl</SubType>

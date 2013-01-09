@@ -37,6 +37,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.catalogComboBox = new System.Windows.Forms.ComboBox();
+            this.timeSheetDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dayDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.statusComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -45,23 +46,23 @@
             this.leaveItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.shiftItemsDataGridView = new System.Windows.Forms.DataGridView();
+            this.shiftFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shiftToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shiftTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn();
+            this.shiftStatusColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.shiftItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.timeSheetDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.shiftFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shiftToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shiftTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn();
-            this.shiftStatusColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.leaveFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.leaveToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.leaveTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn();
+            this.leaveTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn2();
             this.leaveStatusColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             catalogLabel = new System.Windows.Forms.Label();
             dayLabel = new System.Windows.Forms.Label();
             statusLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leaveItemsDataGridView)).BeginInit();
@@ -71,7 +72,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // catalogLabel
@@ -109,6 +109,10 @@
             this.catalogComboBox.Name = "catalogComboBox";
             this.catalogComboBox.Size = new System.Drawing.Size(200, 21);
             this.catalogComboBox.TabIndex = 2;
+            // 
+            // timeSheetDayBindingSource
+            // 
+            this.timeSheetDayBindingSource.DataSource = typeof(TimeSheetControl.TimeSheetDay);
             // 
             // dayDateTimePicker
             // 
@@ -202,6 +206,40 @@
             this.shiftItemsDataGridView.Size = new System.Drawing.Size(495, 87);
             this.shiftItemsDataGridView.TabIndex = 0;
             // 
+            // shiftFromTimeColumn
+            // 
+            this.shiftFromTimeColumn.DataPropertyName = "FromTime";
+            dataGridViewCellStyle3.Format = "yyyy/MM/dd HH:mm";
+            this.shiftFromTimeColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.shiftFromTimeColumn.HeaderText = "FromTime";
+            this.shiftFromTimeColumn.Name = "shiftFromTimeColumn";
+            this.shiftFromTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // shiftToTimeColumn
+            // 
+            this.shiftToTimeColumn.DataPropertyName = "ToTime";
+            dataGridViewCellStyle4.Format = "yyyy/MM/dd HH:mm";
+            this.shiftToTimeColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.shiftToTimeColumn.HeaderText = "ToTime";
+            this.shiftToTimeColumn.Name = "shiftToTimeColumn";
+            this.shiftToTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // shiftTimeSheetTypeColumn
+            // 
+            this.shiftTimeSheetTypeColumn.DataPropertyName = "TimeSheetType";
+            this.shiftTimeSheetTypeColumn.HeaderText = "TimeSheetType";
+            this.shiftTimeSheetTypeColumn.Name = "shiftTimeSheetTypeColumn";
+            this.shiftTimeSheetTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.shiftTimeSheetTypeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // shiftStatusColumn
+            // 
+            this.shiftStatusColumn.DataPropertyName = "Status";
+            this.shiftStatusColumn.HeaderText = "Status";
+            this.shiftStatusColumn.Name = "shiftStatusColumn";
+            this.shiftStatusColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.shiftStatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // shiftItemsBindingSource
             // 
             this.shiftItemsBindingSource.DataMember = "ShiftItems";
@@ -258,44 +296,6 @@
             this.panel1.Size = new System.Drawing.Size(501, 45);
             this.panel1.TabIndex = 9;
             // 
-            // timeSheetDayBindingSource
-            // 
-            this.timeSheetDayBindingSource.DataSource = typeof(TimeSheetControl.TimeSheetDay);
-            // 
-            // shiftFromTimeColumn
-            // 
-            this.shiftFromTimeColumn.DataPropertyName = "FromTime";
-            dataGridViewCellStyle3.Format = "yyyy/MM/dd HH:mm";
-            this.shiftFromTimeColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.shiftFromTimeColumn.HeaderText = "FromTime";
-            this.shiftFromTimeColumn.Name = "shiftFromTimeColumn";
-            this.shiftFromTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // shiftToTimeColumn
-            // 
-            this.shiftToTimeColumn.DataPropertyName = "ToTime";
-            dataGridViewCellStyle4.Format = "yyyy/MM/dd HH:mm";
-            this.shiftToTimeColumn.DefaultCellStyle = dataGridViewCellStyle4;
-            this.shiftToTimeColumn.HeaderText = "ToTime";
-            this.shiftToTimeColumn.Name = "shiftToTimeColumn";
-            this.shiftToTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // shiftTimeSheetTypeColumn
-            // 
-            this.shiftTimeSheetTypeColumn.DataPropertyName = "TimeSheetType";
-            this.shiftTimeSheetTypeColumn.HeaderText = "TimeSheetType";
-            this.shiftTimeSheetTypeColumn.Name = "shiftTimeSheetTypeColumn";
-            this.shiftTimeSheetTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.shiftTimeSheetTypeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // shiftStatusColumn
-            // 
-            this.shiftStatusColumn.DataPropertyName = "Status";
-            this.shiftStatusColumn.HeaderText = "Status";
-            this.shiftStatusColumn.Name = "shiftStatusColumn";
-            this.shiftStatusColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.shiftStatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // leaveFromTimeColumn
             // 
             this.leaveFromTimeColumn.DataPropertyName = "FromTime";
@@ -339,6 +339,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TimeSheetEditorForm";
             this.Text = "Time Sheet Editor";
+            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -349,7 +350,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.shiftItemsBindingSource)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.timeSheetDayBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -369,16 +369,16 @@
         private System.Windows.Forms.DataGridView leaveItemsDataGridView;
         private System.Windows.Forms.DataGridView shiftItemsDataGridView;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn leaveFromTimeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn leaveToTimeColumn;
-        private TimeSheetControl.DataGridViewTimeSheetTypeColumn leaveTimeSheetTypeColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn leaveStatusColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shiftFromTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shiftToTimeColumn;
         private TimeSheetControl.DataGridViewTimeSheetTypeColumn shiftTimeSheetTypeColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn shiftStatusColumn;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn leaveFromTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn leaveToTimeColumn;
+        private TimeSheetControl.DataGridViewTimeSheetTypeColumn2 leaveTimeSheetTypeColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn leaveStatusColumn;
 
 
     }
