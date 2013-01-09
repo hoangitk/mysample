@@ -34,15 +34,15 @@ namespace TimeSheetDemo
 			
 			this.Load += new EventHandler(MainForm_Load);
 
-            this.btnEdit.Click += BtnEdit_Click;
+            this.timeSheetGridView1.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;            
 		}
 
-
-        void BtnEdit_Click(object sender, EventArgs e)
+        private void OnTimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.timeSheetGridView1.SelectedCells.Count > 0)
+            if (e.ColumnIndex >= this.timeSheetGridView1.ColumnHeaderCount
+                && e.RowIndex >= 0)
             {
-                var selectedCell = this.timeSheetGridView1.SelectedCells[0];
+                var selectedCell = this.timeSheetGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 TimeSheetEditorForm tsEditor = new TimeSheetEditorForm(selectedCell.Value as TimeSheetDay);
                 tsEditor.StartPosition = FormStartPosition.CenterParent;
                 if (tsEditor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -71,7 +71,8 @@ namespace TimeSheetDemo
 
                 for (int j = 0; j < this.timeSheetGridView1.DayCount; j++)
                 {
-                    var tsday = SampleData.GenerateATimeSheetDay(this.timeSheetGridView1.FromDate.AddDays(j));
+                    var day = this.timeSheetGridView1.FromDate.AddDays(j);
+                    var tsday = SampleData.Default.GenerateATimeSheetDay(day);
                     newTsItem.TimeSheetDays.Add(tsday);
                 }
 

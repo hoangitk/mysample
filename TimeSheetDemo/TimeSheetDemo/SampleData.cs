@@ -7,11 +7,28 @@ using TimeSheetControl;
 
 namespace TimeSheetDemo
 {
-    public static class SampleData
+    public class SampleData
     {
         private static Random rand = new Random();
 
-        public static TimeSheetDay GenerateATimeSheetDay(DateTime initDay)
+        public IList<TimeSheetType> SampleTimeSheetTypeList = GenerateListOfTimeSheetType();
+
+        private static SampleData _default = null;
+        public static SampleData Default
+        {
+            get
+            {
+                if (_default == null)
+                    _default = new SampleData();
+                return _default;
+            }
+        }
+
+        private SampleData()
+        {
+        }
+
+        public TimeSheetDay GenerateATimeSheetDay(DateTime initDay)
         {
             var tsday = new TimeSheetDay();
             tsday.Day = initDay;
@@ -26,12 +43,7 @@ namespace TimeSheetDemo
                 ShiftRecord plannedItem = new ShiftRecord();
                 plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(2));
                 plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(4) + 6);
-                plannedItem.TimeSheetType = new TimeSheetType();
-                plannedItem.TimeSheetType.Catalog = 
-                    k == 0 
-                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift)
-                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);
-                plannedItem.TimeSheetType.Code = GetTimeSheetCode(plannedItem.TimeSheetType.Catalog);
+                plannedItem.TimeSheetType =  SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);                
                 plannedItem.Status = GetTimeSheetStatus(plannedItem.TimeSheetType.Catalog);
                 tsday.ShiftItems.Add(plannedItem);
             }
@@ -45,12 +57,7 @@ namespace TimeSheetDemo
                 LeaveRecord realItem = new LeaveRecord();
                 realItem.FromTime = k == 0 ? tsday.ShiftItems[0].FromTime : tsday.LeaveItems[k - 1].ToTime.AddHours(rand.Next(3));
                 realItem.ToTime = realItem.FromTime.AddHours(rand.Next(4) + 6);
-                realItem.TimeSheetType = new TimeSheetType();
-                realItem.TimeSheetType.Catalog =
-                    k == 0
-                    ? GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave)
-                    : GetRandomFrom<TimeSheetCatalog>(TimeSheetCatalog.Leave);
-                realItem.TimeSheetType.Code = GetTimeSheetCode(realItem.TimeSheetType.Catalog);
+                realItem.TimeSheetType = SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Leave);
                 realItem.Status = GetTimeSheetStatus(realItem.TimeSheetType.Catalog);
                 tsday.LeaveItems.Add(realItem);
             }
@@ -61,6 +68,33 @@ namespace TimeSheetDemo
             return tsday;
         }
 
+        public TimeSheetType GenerateTimeSheetType(DateTime day)
+        {
+            if (rand.Next(1000) % 23 == 0)
+                return SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.BusinessTrip);
+
+            switch (day.DayOfWeek)
+            {
+                case DayOfWeek.Sunday:
+                    return SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Holiday);
+
+                case DayOfWeek.Monday:
+                case DayOfWeek.Tuesday:
+                case DayOfWeek.Wednesday:
+                case DayOfWeek.Thursday:
+                case DayOfWeek.Friday:
+                    return SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.WorkingDay);
+
+                case DayOfWeek.Saturday:
+                    return SampleTimeSheetTypeList.RandomBelongsCatalogs(GetRandomFrom<TimeSheetCatalog>(
+                        TimeSheetCatalog.WeekendOff,
+                        TimeSheetCatalog.WeekendOffHalf));
+                default:
+                    throw new Exception("Invalid value for DayOfWeek");
+            }
+        }
+
+        #region static methods
         public static TimeSheetCatalog GetTimeSheetType(DateTime day)
         {
             if (rand.Next(1000) % 23 == 0)
@@ -118,6 +152,37 @@ namespace TimeSheetDemo
                 default:
                     return string.Empty;
             }
+        }
+
+        public static IList<TimeSheetType> GenerateListOfTimeSheetType(int minLengthOfEachCatalog = 5, int maxLengthOfEachCatalog = 10)
+        {
+            var results = new List<TimeSheetType>();
+
+            var listCatalog = (TimeSheetCatalog[])Enum.GetValues(typeof(TimeSheetCatalog));
+
+            if (minLengthOfEachCatalog < 1)
+                minLengthOfEachCatalog = 5;
+
+            if (maxLengthOfEachCatalog < 10)
+                maxLengthOfEachCatalog = 10;
+
+            foreach (var cat in listCatalog)
+            {
+                var catLen = rand.Next(minLengthOfEachCatalog, maxLengthOfEachCatalog);
+                for (int i = 0; i < catLen; i++)
+                {
+                    var tsType = new TimeSheetType()
+                    {
+                        Id = i + 1,
+                        Catalog = cat,
+                        Code = GetTimeSheetCode(cat),
+                    };
+
+                    results.Add(tsType);
+                }
+            }
+
+            return results;
         }
 
         public static TimeSheetStatus GetTimeSheetStatus(TimeSheetCatalog catalog)
@@ -185,6 +250,9 @@ namespace TimeSheetDemo
             return st;
         }
 
+        #endregion
+
+        #region extend methods
         public static T RandomEnum<T>()
         {
             var values = (T[])Enum.GetValues(typeof(T));
@@ -201,10 +269,24 @@ namespace TimeSheetDemo
         {
             return list[rand.Next(list.Length)];
         }
+        #endregion
+    }
+
+    public static class SampleDataExt
+    {
+        private static Random rand = new Random();
 
         public static T SelectRandom<T>(this IList list)
         {
+            Random rand = new Random();
             return (T)list[rand.Next(list.Count)];
-        }        
+        }
+
+        public static TimeSheetType RandomBelongsCatalogs(this IList<TimeSheetType> list, params TimeSheetCatalog[] catalog)
+        {
+            var listWithCatalog = list.Where(t => catalog.Contains(t.Catalog)).ToList();
+
+            return listWithCatalog[rand.Next(listWithCatalog.Count)];
+        }
     }
 }

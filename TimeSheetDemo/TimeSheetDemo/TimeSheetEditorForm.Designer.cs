@@ -32,10 +32,10 @@
             System.Windows.Forms.Label catalogLabel;
             System.Windows.Forms.Label dayLabel;
             System.Windows.Forms.Label statusLabel;
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.catalogComboBox = new System.Windows.Forms.ComboBox();
             this.timeSheetDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dayDateTimePicker = new System.Windows.Forms.DateTimePicker();
@@ -43,6 +43,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.leaveItemsDataGridView = new System.Windows.Forms.DataGridView();
+            this.leaveFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.leaveToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.leaveTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn2();
+            this.leaveStatusColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.leaveItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.shiftItemsDataGridView = new System.Windows.Forms.DataGridView();
@@ -55,10 +59,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.leaveFromTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.leaveToTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.leaveTimeSheetTypeColumn = new TimeSheetControl.DataGridViewTimeSheetTypeColumn2();
-            this.leaveStatusColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             catalogLabel = new System.Windows.Forms.Label();
             dayLabel = new System.Windows.Forms.Label();
             statusLabel = new System.Windows.Forms.Label();
@@ -142,7 +142,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(501, 114);
+            this.groupBox1.Size = new System.Drawing.Size(538, 114);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Time Sheet Day";
@@ -151,9 +151,9 @@
             // 
             this.groupBox2.Controls.Add(this.leaveItemsDataGridView);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 235);
+            this.groupBox2.Location = new System.Drawing.Point(3, 258);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(501, 106);
+            this.groupBox2.Size = new System.Drawing.Size(538, 129);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Leaves";
@@ -171,8 +171,42 @@
             this.leaveItemsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leaveItemsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.leaveItemsDataGridView.Name = "leaveItemsDataGridView";
-            this.leaveItemsDataGridView.Size = new System.Drawing.Size(495, 87);
+            this.leaveItemsDataGridView.Size = new System.Drawing.Size(532, 110);
             this.leaveItemsDataGridView.TabIndex = 0;
+            // 
+            // leaveFromTimeColumn
+            // 
+            this.leaveFromTimeColumn.DataPropertyName = "FromTime";
+            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm";
+            this.leaveFromTimeColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.leaveFromTimeColumn.HeaderText = "FromTime";
+            this.leaveFromTimeColumn.Name = "leaveFromTimeColumn";
+            this.leaveFromTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // leaveToTimeColumn
+            // 
+            this.leaveToTimeColumn.DataPropertyName = "ToTime";
+            dataGridViewCellStyle2.Format = "yyyy/MM/dd HH:mm";
+            this.leaveToTimeColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.leaveToTimeColumn.HeaderText = "ToTime";
+            this.leaveToTimeColumn.Name = "leaveToTimeColumn";
+            this.leaveToTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // leaveTimeSheetTypeColumn
+            // 
+            this.leaveTimeSheetTypeColumn.DataPropertyName = "TimeSheetType";
+            this.leaveTimeSheetTypeColumn.HeaderText = "TimeSheetType";
+            this.leaveTimeSheetTypeColumn.Name = "leaveTimeSheetTypeColumn";
+            this.leaveTimeSheetTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.leaveTimeSheetTypeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // leaveStatusColumn
+            // 
+            this.leaveStatusColumn.DataPropertyName = "Status";
+            this.leaveStatusColumn.HeaderText = "Status";
+            this.leaveStatusColumn.Name = "leaveStatusColumn";
+            this.leaveStatusColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.leaveStatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // leaveItemsBindingSource
             // 
@@ -185,7 +219,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 123);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(501, 106);
+            this.groupBox3.Size = new System.Drawing.Size(538, 129);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Shifts";
@@ -203,7 +237,7 @@
             this.shiftItemsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.shiftItemsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.shiftItemsDataGridView.Name = "shiftItemsDataGridView";
-            this.shiftItemsDataGridView.Size = new System.Drawing.Size(495, 87);
+            this.shiftItemsDataGridView.Size = new System.Drawing.Size(532, 110);
             this.shiftItemsDataGridView.TabIndex = 0;
             // 
             // shiftFromTimeColumn
@@ -249,7 +283,7 @@
             // 
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnUpdate.Location = new System.Drawing.Point(336, 9);
+            this.btnUpdate.Location = new System.Drawing.Point(373, 9);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnUpdate.TabIndex = 9;
@@ -260,7 +294,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(417, 9);
+            this.btnCancel.Location = new System.Drawing.Point(454, 9);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
@@ -283,7 +317,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(507, 395);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(544, 441);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // panel1
@@ -291,51 +325,17 @@
             this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 347);
+            this.panel1.Location = new System.Drawing.Point(3, 393);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(501, 45);
+            this.panel1.Size = new System.Drawing.Size(538, 45);
             this.panel1.TabIndex = 9;
-            // 
-            // leaveFromTimeColumn
-            // 
-            this.leaveFromTimeColumn.DataPropertyName = "FromTime";
-            dataGridViewCellStyle1.Format = "yyyy/MM/dd HH:mm";
-            this.leaveFromTimeColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.leaveFromTimeColumn.HeaderText = "FromTime";
-            this.leaveFromTimeColumn.Name = "leaveFromTimeColumn";
-            this.leaveFromTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // leaveToTimeColumn
-            // 
-            this.leaveToTimeColumn.DataPropertyName = "ToTime";
-            dataGridViewCellStyle2.Format = "yyyy/MM/dd HH:mm";
-            this.leaveToTimeColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.leaveToTimeColumn.HeaderText = "ToTime";
-            this.leaveToTimeColumn.Name = "leaveToTimeColumn";
-            this.leaveToTimeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // leaveTimeSheetTypeColumn
-            // 
-            this.leaveTimeSheetTypeColumn.DataPropertyName = "TimeSheetType";
-            this.leaveTimeSheetTypeColumn.HeaderText = "TimeSheetType";
-            this.leaveTimeSheetTypeColumn.Name = "leaveTimeSheetTypeColumn";
-            this.leaveTimeSheetTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.leaveTimeSheetTypeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // leaveStatusColumn
-            // 
-            this.leaveStatusColumn.DataPropertyName = "Status";
-            this.leaveStatusColumn.HeaderText = "Status";
-            this.leaveStatusColumn.Name = "leaveStatusColumn";
-            this.leaveStatusColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.leaveStatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // TimeSheetEditorForm
             // 
             this.AcceptButton = this.btnUpdate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 395);
+            this.ClientSize = new System.Drawing.Size(544, 441);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TimeSheetEditorForm";
             this.Text = "Time Sheet Editor";

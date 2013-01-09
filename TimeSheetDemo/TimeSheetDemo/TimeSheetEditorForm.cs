@@ -27,8 +27,19 @@ namespace TimeSheetDemo
 
             _data = tsDay;
 
-            var catalogDataSource = ExtendMethodHelper.EnumToList<TimeSheetCatalog>();
-            var statusDataSource = ExtendMethodHelper.EnumToList<TimeSheetStatus>();
+            
+            this.btnUpdate.Click += OnButton_Click;
+            this.btnCancel.Click += OnButton_Click;
+
+            this.Load += OnForm_Load;
+        }
+
+        private void OnForm_Load(object sender, EventArgs e)
+        {
+            this.shiftItemsDataGridView.CellBeginEdit += ShiftItemsDataGridView_CellBeginEdit;
+
+            var catalogDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetCatalog>();
+            var statusDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetStatus>();
 
             this.catalogComboBox.DataSource = catalogDataSource;
             this.catalogComboBox.DisplayMember = "Key";
@@ -41,22 +52,13 @@ namespace TimeSheetDemo
             this.shiftStatusColumn.DataSource = statusDataSource;
             this.shiftStatusColumn.DisplayMember = "Key";
             this.shiftStatusColumn.ValueMember = "Value";
-            
+
             this.leaveStatusColumn.DataSource = statusDataSource;
             this.leaveStatusColumn.DisplayMember = "Key";
             this.leaveStatusColumn.ValueMember = "Value";
 
             this.timeSheetDayBindingSource.DataSource = _data;
 
-            this.btnUpdate.Click += OnButton_Click;
-            this.btnCancel.Click += OnButton_Click;
-
-            this.Load += OnForm_Load;
-        }
-
-        private void OnForm_Load(object sender, EventArgs e)
-        {
-            this.shiftItemsDataGridView.CellBeginEdit += ShiftItemsDataGridView_CellBeginEdit;
         }
 
         void ShiftItemsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)

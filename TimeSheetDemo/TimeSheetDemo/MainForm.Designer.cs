@@ -41,7 +41,6 @@ namespace TimeSheetDemo
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnEdit = new System.Windows.Forms.Button();
             this.btnAddNew = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.timeSheetGridView1 = new TimeSheetControl.TimeSheetGridView();
@@ -51,22 +50,12 @@ namespace TimeSheetDemo
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnEdit);
             this.panel1.Controls.Add(this.btnAddNew);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 356);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(614, 65);
             this.panel1.TabIndex = 1;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(93, 21);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnAddNew
             // 
@@ -162,6 +151,5 @@ namespace TimeSheetDemo
         private System.Windows.Forms.Button btnAddNew;
         private TimeSheetControl.TimeSheetGridView timeSheetGridView1;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button btnEdit;
 	}
 }

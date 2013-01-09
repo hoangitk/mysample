@@ -119,20 +119,21 @@
             // 
             this.catalogComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.timeSheetTypeBindingSource, "Catalog", true));
             this.catalogComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.catalogComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.catalogComboBox.FormattingEnabled = true;
             this.catalogComboBox.Location = new System.Drawing.Point(78, 53);
             this.catalogComboBox.Name = "catalogComboBox";
             this.catalogComboBox.Size = new System.Drawing.Size(123, 21);
             this.catalogComboBox.TabIndex = 1;
             // 
-            // btnClose
+            // btnUpdate
             // 
             this.btnUpdate.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnUpdate.Location = new System.Drawing.Point(3, 80);
-            this.btnUpdate.Name = "btnClose";
+            this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(204, 23);
             this.btnUpdate.TabIndex = 3;
-            this.btnUpdate.Text = "Close";
+            this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             // 
             // TimeSheetTypeEditorControl

@@ -36,17 +36,27 @@ namespace TimeSheetControl
         {
             InitializeComponent();
 
-            var catalogDataSource = ExtendMethodHelper.EnumToList<TimeSheetCatalog>();
-            this.catalogComboBox.DataSource = catalogDataSource;
-            this.catalogComboBox.DisplayMember = "Key";
-            this.catalogComboBox.ValueMember = "Value";
-
             this.Value = tsType;
+
+            this.Paint += (s, e) =>
+            {
+                using (Pen pen = new Pen(Color.Black, 2))
+                {
+                    e.Graphics.DrawRectangle(pen, e.ClipRectangle);
+                }
+            };
 
             this.Load += (s, e) =>
             {
+                var catalogDataSource = ExtendMethodHelper
+                    .EnumToListKeyValuePair<TimeSheetCatalog>()
+                    .Filter(kv => ((KeyValuePair<string, TimeSheetCatalog>)kv).Value == this.Value.Catalog);
+                this.catalogComboBox.DataSource = catalogDataSource;
+                this.catalogComboBox.DisplayMember = "Key";
+                this.catalogComboBox.ValueMember = "Value";
+
                 this.timeSheetTypeBindingSource.DataSource = this.Value;
-            };
+            };            
 
             this.btnUpdate.Click += (s, e) =>
             {
@@ -110,7 +120,6 @@ namespace TimeSheetControl
                 return _dataGridView.TopLevelControl as Form;
             }
         }
-
 
         protected override void WndProc(ref Message m)
         {
