@@ -81,7 +81,6 @@
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="TimeSheetItemEx.cs" />
     <Compile Include="TimeSheetTypeEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -14,8 +14,7 @@ using System.Text;
 using System.Linq;
 
 namespace TimeSheetControl
-{
-    //[TypeDescriptionProvider(typeof(TimeSheetItemDescriptionProvider))]
+{    
     public class TimeSheetItem
     {
         private string _employeeId;
@@ -69,6 +68,34 @@ namespace TimeSheetControl
                 }
 
                 var tsDay = TimeSheetDays.Where(d => d.Day.ToString("yyyy_MM_ddd") == day).SingleOrDefault();
+                if (tsDay == null)
+                    TimeSheetDays.Add(value);
+                else
+                    tsDay = value;
+            }
+        }
+
+        public TimeSheetDay this[DateTime day]
+        {
+            get
+            {
+                if (TimeSheetDays == null)
+                    return null;
+
+                return TimeSheetDays.Where(d => d.Day == day).SingleOrDefault();
+            }
+
+            set
+            {
+                if (TimeSheetDays == null)
+                {
+                    lock (TimeSheetDays)
+                    {
+                        TimeSheetDays = new List<TimeSheetDay>();
+                    }
+                }
+
+                var tsDay = TimeSheetDays.Where(d => d.Day == day).SingleOrDefault();
                 if (tsDay == null)
                     TimeSheetDays.Add(value);
                 else
@@ -146,12 +173,39 @@ namespace TimeSheetControl
         public static readonly TimeSheetDay Empty = default(TimeSheetDay);
 	}
 	
-    public abstract class TimeSheetRecord
-    {
-        public DateTime FromTime { get; set; }
-        public DateTime ToTime { get; set; }
-        public TimeSheetType TimeSheetType { get; set; }
-        public TimeSheetStatus Status { get; set; }
+    public abstract class TimeSheetRecord : INotifyPropertyChanged
+    {        
+        private DateTime _fromTime;
+
+        public DateTime FromTime
+        {
+            get { return _fromTime; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _fromTime, value, () => FromTime); }
+        }
+
+        private DateTime _toTime;
+
+        public DateTime ToTime
+        {
+            get { return _toTime; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _toTime, value, () => ToTime); }
+        }
+
+        private TimeSheetType _timeSheetType;
+
+        public TimeSheetType TimeSheetType
+        {
+            get { return _timeSheetType; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _timeSheetType, value, () => TimeSheetType); }
+        }
+
+        private TimeSheetStatus _status;
+
+        public TimeSheetStatus Status
+        {
+            get { return _status; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _status, value, () => Status); }
+        }
 
         public virtual int TotalHours()
         {
@@ -172,6 +226,8 @@ namespace TimeSheetControl
                 this.TotalHours(),
                 this.TimeSheetType.ToString());
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class ShiftRecord : TimeSheetRecord
