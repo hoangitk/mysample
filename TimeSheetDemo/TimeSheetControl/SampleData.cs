@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using TimeSheetControl;
 
-namespace TimeSheetDemo
+namespace TimeSheetControl
 {
     public class SampleData
     {

@@ -53,32 +53,13 @@ namespace TimeSheetDemo
         }
 
 		void MainForm_Load(object sender, EventArgs e)
-		{
-            _timeSheetItems = new BindingList<TimeSheetItem>();
+		{            
             this.timeSheetGridView1.FromDate = DateTime.Now.AddDays(-15);
             this.timeSheetGridView1.ToDate = DateTime.Now.AddDays(15);
 
-            // Add Cells
-            int empCount = rand.Next(20, 50);
-            for (int i = 1; i <= empCount; i++)
-            {
-                var newTsItem = new TimeSheetItem();
-
-                newTsItem.EmployeeId = string.Format("{0:d6}", i);
-                newTsItem.EmployeeFullName = "Employee " + i;
-
-                newTsItem.TimeSheetDays = new List<TimeSheetDay>();
-
-                for (int j = 0; j < this.timeSheetGridView1.DayCount; j++)
-                {
-                    var day = this.timeSheetGridView1.FromDate.AddDays(j);
-                    var tsday = SampleData.Default.GenerateATimeSheetDay(day);
-                    newTsItem.TimeSheetDays.Add(tsday);
-                }
-
-                _timeSheetItems.Add(newTsItem);
-            }
-
+            // Add Cells           
+            _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
+                this.timeSheetGridView1.FromDate, this.timeSheetGridView1.ToDate);
 
             this.timeSheetGridView1.DataSource = _timeSheetItems;
 

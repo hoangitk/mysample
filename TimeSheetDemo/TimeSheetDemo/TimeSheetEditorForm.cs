@@ -42,8 +42,8 @@ namespace TimeSheetDemo
             this.shiftItemsDataGridView.CellValidated += shiftItemsDataGridView_CellValidated;
             this.shiftItemsDataGridView.RowValidating += ShiftItemsDataGridView_RowValidating;
 
-            var catalogDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetCatalog>();
-            var statusDataSource = ExtendMethodHelper.EnumToListKeyValuePair<TimeSheetStatus>();
+            var catalogDataSource = MethodHelper.EnumToListKeyValuePair<TimeSheetCatalog>();
+            var statusDataSource = MethodHelper.EnumToListKeyValuePair<TimeSheetStatus>();
             var timeSheetTypeDataSource = new List<TimeSheetType>();
             timeSheetTypeDataSource.Add(default(TimeSheetType));
             timeSheetTypeDataSource.AddRange(SampleData.Default.SampleTimeSheetTypeList);            
@@ -93,6 +93,8 @@ namespace TimeSheetDemo
             {
                 System.Windows.Forms.DataGridViewRow editingRow = this.shiftItemsDataGridView.Rows[e.RowIndex];                                
 
+
+
                 if (haveError)
                 {
                     editingRow.ErrorText = errorMsg;
@@ -109,6 +111,7 @@ namespace TimeSheetDemo
             if (this.shiftItemsDataGridView.Rows[e.RowIndex].IsNewRow) { return; }
 
             var editingCell = this.shiftItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
             editingCell.ErrorText = "";
 
             if (this.shiftItemsDataGridView.IsCurrentCellDirty)
