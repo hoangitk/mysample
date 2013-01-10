@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 
 namespace TimeSheetControl
 {
+    //[TypeDescriptionProvider(typeof(TimeSheetItemDescriptionProvider))]
     public class TimeSheetItem
     {
         private string _employeeId;
@@ -44,6 +46,34 @@ namespace TimeSheetControl
         {
             _employeeId = string.Empty;
             _employeeFullName = string.Empty;
+        }
+
+        public TimeSheetDay this[string day]
+        {
+            get
+            {
+                if (TimeSheetDays == null)
+                    return null;
+
+                return TimeSheetDays.Where(d => d.Day.ToString("yyyy_MM_ddd") == day).SingleOrDefault();
+            }
+
+            set
+            {
+                if (TimeSheetDays == null)
+                {
+                    lock (TimeSheetDays)
+                    {
+                        TimeSheetDays = new List<TimeSheetDay>();
+                    }
+                }
+
+                var tsDay = TimeSheetDays.Where(d => d.Day.ToString("yyyy_MM_ddd") == day).SingleOrDefault();
+                if (tsDay == null)
+                    TimeSheetDays.Add(value);
+                else
+                    tsDay = value;
+            }
         }
     }
 

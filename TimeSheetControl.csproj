@@ -75,11 +75,13 @@
     <Compile Include="MethodHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataGridViewTextAndImageCell.cs" />
+    <Compile Include="SampleData.cs" />
     <Compile Include="TimeSheetGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="TimeSheetItemEx.cs" />
     <Compile Include="TimeSheetTypeEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
