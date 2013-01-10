@@ -48,7 +48,7 @@ namespace TimeSheetControl
 
             this.Load += (s, e) =>
             {
-                var catalogDataSource = ExtendMethodHelper
+                var catalogDataSource = MethodHelper
                     .EnumToListKeyValuePair<TimeSheetCatalog>()
                     .Filter(kv => ((KeyValuePair<string, TimeSheetCatalog>)kv).Value == this.Value.Catalog);
                 this.catalogComboBox.DataSource = catalogDataSource;

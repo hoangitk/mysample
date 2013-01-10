@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace TimeSheetControl
 {
-    public static class ExtendMethodHelper
+    public static class MethodHelper
     {
         /// <summary>
         /// Helper method to gets the title of a TimeSheetDay.
