@@ -226,5 +226,27 @@ namespace TimeSheetControl
 
             return results;
         }
+
+        public static string ToJoinString<T>(this IList<T> list, string seperator, string format = "")
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (list != null)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(format))
+                    {
+                        sb.Append(list[i]);
+                    }
+                    else
+                    {
+                        sb.AppendFormat(format, list[i]);
+                    }
+                }
+            }
+
+            return sb.ToString();
+        }
     }
 }

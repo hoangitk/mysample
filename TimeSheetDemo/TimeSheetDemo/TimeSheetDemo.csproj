@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.3.4.6.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,21 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Demo2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Demo2.Designer.cs">
-      <DependentUpon>Demo2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,16 +66,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SampleData.cs" />
     <Compile Include="TimeSheetEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TimeSheetEditorForm.Designer.cs">
       <DependentUpon>TimeSheetEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimeSheetValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\TimeSheetControl.TimeSheetDay.datasource" />
     <None Include="Properties\DataSources\TimeSheetControl.TimeSheetType.datasource" />
   </ItemGroup>
@@ -98,9 +87,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Demo2.resx">
-      <DependentUpon>Demo2.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

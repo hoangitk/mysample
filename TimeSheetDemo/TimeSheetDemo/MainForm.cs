@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using TimeSheetControl;
 using Cadena.WinForms;
+using System.Diagnostics;
 
 namespace TimeSheetDemo
 {
@@ -49,6 +50,8 @@ namespace TimeSheetDemo
                 {
                     selectedCell.Value = tsEditor.Data;
                 }
+
+                //Debug.WriteLine(this.timeSheetGridView1.Rows[e.RowIndex].DataBoundItem);
             }
         }
 

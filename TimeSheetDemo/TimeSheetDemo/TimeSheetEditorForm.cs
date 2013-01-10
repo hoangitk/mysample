@@ -86,19 +86,25 @@ namespace TimeSheetDemo
 
         void ShiftItemsDataGridView_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            bool haveError = false;
-            string errorMsg = string.Empty;
-            
             if (this.shiftItemsDataGridView.IsCurrentRowDirty)
             {
-                System.Windows.Forms.DataGridViewRow editingRow = this.shiftItemsDataGridView.Rows[e.RowIndex];                                
+                System.Windows.Forms.DataGridViewRow editingRow = this.shiftItemsDataGridView.Rows[e.RowIndex];
 
+                TimeSheetRecordValidation tsValidation = new TimeSheetRecordValidation();
+                var tsRecord = editingRow.DataBoundItem as ShiftRecord;
 
-
-                if (haveError)
+                if (tsRecord != null)
                 {
-                    editingRow.ErrorText = errorMsg;
-                    e.Cancel = true;
+                    var validResult = tsValidation.Validate(tsRecord);
+
+                    if (validResult.IsValid)
+                    {
+                        editingRow.ErrorText = string.Empty;
+                    }
+                    else
+                    {
+                        editingRow.ErrorText = validResult.Errors.ToJoinString(Environment.NewLine);
+                    }
                 }
             }
         }
