@@ -15,6 +15,7 @@ using System.Linq;
 
 namespace TimeSheetControl
 {    
+    [Serializable]
     public class TimeSheetItem
     {
         private string _employeeId;
@@ -107,6 +108,7 @@ namespace TimeSheetControl
 	/// <summary>
 	/// Description of TimeSheetDay.
 	/// </summary>
+    [Serializable]
 	public class TimeSheetDay
 	{
         private DateTime _day;
@@ -114,7 +116,10 @@ namespace TimeSheetControl
         public DateTime Day
         {
             get { return _day; }
-            set { _day = value; }
+            set { 
+                _day = value;
+                UpdateNewDay(_day);
+            }
         }
 
         private TimeSheetStatus _status;
@@ -125,14 +130,67 @@ namespace TimeSheetControl
             set { _status = value; }
         }
 
+        private TimeSheetCatalog _catalog;
+
+        public TimeSheetCatalog Catalog
+        {
+            get { return _catalog; }
+            set { _catalog = value; }
+        }
+
+
 		public List<ShiftRecord> ShiftItems { get; set; }
 		public List<LeaveRecord> LeaveItems { get; set; }
-		public TimeSheetCatalog Catalog { get; set; }
+		
 		
 		public TimeSheetDay()
-		{
-            _day = DateTime.Now;
+		{            
 		}
+
+        public TimeSheetDay(TimeSheetDay tsDay)
+        {
+            // Copy status
+            _status = tsDay.Status;
+            _catalog = tsDay.Catalog;
+
+            // Copy shifts
+            if (tsDay.ShiftItems != null)
+            {
+                this.ShiftItems = new List<ShiftRecord>();
+                this.ShiftItems.AddRange(tsDay.ShiftItems);                
+            }
+
+            // Copy leaves
+            if (tsDay.LeaveItems != null)
+            {
+                this.LeaveItems = new List<LeaveRecord>();
+                this.LeaveItems.AddRange(tsDay.LeaveItems);
+            }
+
+            // Copy day          
+            _day = tsDay.Day;
+        }
+
+        public void UpdateNewDay(DateTime newDay)
+        {
+            // Update day for all Shifts
+            if (this.ShiftItems != null && this.ShiftItems.Count > 0)
+            {
+                foreach (var tsRecord in this.ShiftItems)
+                {
+                    tsRecord.UpdateNewDay(newDay);
+                }
+            }
+
+            // Update day for all Leaves
+            if (this.LeaveItems != null && this.LeaveItems.Count > 0)
+            {
+                foreach (var tsRecord in this.LeaveItems)
+                {
+                    tsRecord.UpdateNewDay(newDay);
+                }
+            }
+        }
 
         public override string ToString()
         {
@@ -173,6 +231,7 @@ namespace TimeSheetControl
         public static readonly TimeSheetDay Empty = default(TimeSheetDay);
 	}
 	
+    [Serializable]
     public abstract class TimeSheetRecord : INotifyPropertyChanged
     {        
         private DateTime _fromTime;
@@ -219,6 +278,27 @@ namespace TimeSheetControl
             this.TimeSheetType = default(TimeSheetType);
         }
 
+        public TimeSheetRecord(TimeSheetRecord tsRecord)
+        {
+            _fromTime = tsRecord.FromTime;
+            _toTime = tsRecord.ToTime;
+            _timeSheetType = tsRecord.TimeSheetType;
+            _status = tsRecord.Status;
+        }
+
+        public virtual void UpdateNewDay(DateTime newDay)
+        {
+            var deltaTime = _toTime - _fromTime;
+
+            // Update new FromTime
+            _fromTime = new DateTime(
+                newDay.Year, newDay.Month, newDay.Day,
+                _fromTime.Hour, _fromTime.Minute, _fromTime.Second); ;
+            
+            // Update new ToTime
+            _toTime = _fromTime + deltaTime;
+        }
+
         public override string ToString()
         {
             return string.Format("[{0} -> {1}]/{2}: {3}",
@@ -230,14 +310,35 @@ namespace TimeSheetControl
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
+    [Serializable]
     public class ShiftRecord : TimeSheetRecord
     {
+        public ShiftRecord() : base()
+        {
+
+        }
+
+        public ShiftRecord(ShiftRecord shiftRecord) : base(shiftRecord)
+        {
+
+        }
     }
 
+    [Serializable]
     public class LeaveRecord : TimeSheetRecord
     {
+        public LeaveRecord() : base()
+        {
+
+        }
+
+        public LeaveRecord(LeaveRecord leaveRecord) : base(leaveRecord)
+        {
+
+        }
     }
 
+    [Serializable]
     public class TimeSheetType : INotifyPropertyChanged
     {
         private int _id;
@@ -282,8 +383,9 @@ namespace TimeSheetControl
         }        
 
         public event PropertyChangedEventHandler PropertyChanged;
-    }    
-	
+    }
+
+    [Serializable]
 	public enum TimeSheetStatus
 	{
         None,
@@ -294,7 +396,8 @@ namespace TimeSheetControl
 		ApprovedLeave,
 		Locked
 	}
-	
+
+    [Serializable]
 	public enum TimeSheetCatalog
 	{
         None,

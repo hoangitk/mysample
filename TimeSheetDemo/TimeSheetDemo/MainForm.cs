@@ -30,20 +30,20 @@ namespace TimeSheetDemo
 		{
 			InitializeComponent();
 
-            this.timeSheetGridView1.GetColorByTimeSheetCatalog = GetColorByTimeSheetCatalog;
-            this.timeSheetGridView1.GetColorByTimeSheetStatus = GetColorByTimeSheetStatus;
+            this.tsGridView.GetColorByTimeSheetCatalog = GetColorByTimeSheetCatalog;
+            this.tsGridView.GetColorByTimeSheetStatus = GetColorByTimeSheetStatus;
 			
 			this.Load += new EventHandler(MainForm_Load);
 
-            this.timeSheetGridView1.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;            
+            this.tsGridView.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;            
 		}
 
         private void OnTimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex >= this.timeSheetGridView1.ColumnHeaderCount
+            if (e.ColumnIndex >= this.tsGridView.ColumnHeaderCount
                 && e.RowIndex >= 0)
             {
-                var selectedCell = this.timeSheetGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                var selectedCell = this.tsGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 TimeSheetEditorForm tsEditor = new TimeSheetEditorForm(selectedCell.Value as TimeSheetDay);
                 tsEditor.StartPosition = FormStartPosition.CenterParent;
                 if (tsEditor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -57,24 +57,39 @@ namespace TimeSheetDemo
 
 		void MainForm_Load(object sender, EventArgs e)
 		{            
-            this.timeSheetGridView1.FromDate = DateTime.Now.AddDays(-15);
-            this.timeSheetGridView1.ToDate = DateTime.Now.AddDays(15);
+            this.tsGridView.FromDate = DateTime.Now.AddDays(-15);
+            this.tsGridView.ToDate = DateTime.Now.AddDays(15);
 
             // Add Cells           
             _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
-                this.timeSheetGridView1.FromDate, this.timeSheetGridView1.ToDate);
+                this.tsGridView.FromDate, this.tsGridView.ToDate);
 
-            this.timeSheetGridView1.DataSource = _timeSheetItems;
+            this.tsGridView.DataSource = _timeSheetItems;
 
-            for (int i = 0; i < this.timeSheetGridView1.Rows.Count; i++)
+            for (int i = 0; i < this.tsGridView.Rows.Count; i++)
             {
-                var employeeIdCell = this.timeSheetGridView1.Rows[i].Cells["EmployeeId"] as DataGridViewTextAndImageCell;
+                var employeeIdCell = this.tsGridView.Rows[i].Cells["EmployeeId"] as DataGridViewTextAndImageCell;
                 if (employeeIdCell != null)
                 {
                     employeeIdCell.Image = this.imageList1.Images.SelectRandom<Image>();
                 }
 
             }
+
+            // Define context menu for grid
+            this.gridContextMenu.AddNewCommand(
+                "Copy",
+                (s, me) =>
+                {
+                    this.tsGridView.CopyToClipBoard();
+                }, null);
+
+            this.gridContextMenu.AddNewCommand(
+                "Paste",
+                (s, me) =>
+                {
+                    this.tsGridView.PasteFromClipBoard();
+                }, null);
 		}
 
         public Color GetColorByTimeSheetCatalog(TimeSheetCatalog tsType)

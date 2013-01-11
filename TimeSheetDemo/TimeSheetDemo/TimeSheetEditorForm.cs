@@ -64,20 +64,20 @@ namespace TimeSheetDemo
             this.leaveStatusColumn.DisplayMember = "Key";
             this.leaveStatusColumn.ValueMember = "Value";
 
-            this.shiftTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource
-                                                        .Where(t =>
-                                                            t == default(TimeSheetType) ||
-                                                            t.Catalog == TimeSheetCatalog.Shift ||
-                                                            t.Catalog == TimeSheetCatalog.Overtime)
-                                                            .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            this.shiftTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+                                                        //.Where(t =>
+                                                        //    t == default(TimeSheetType) ||
+                                                        //    t.Catalog == TimeSheetCatalog.Shift ||
+                                                        //    t.Catalog == TimeSheetCatalog.Overtime)
+                                                        //    .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
             this.shiftTimeSheetTypeColumn.DisplayMember = "Key";
             this.shiftTimeSheetTypeColumn.ValueMember = "Value";
 
-            this.leaveTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource
-                                                        .Where(t =>
-                                                            t == default(TimeSheetType) ||
-                                                            t.Catalog == TimeSheetCatalog.Leave)
-                                                        .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            this.leaveTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+                                                        //.Where(t =>
+                                                        //    t == default(TimeSheetType) ||
+                                                        //    t.Catalog == TimeSheetCatalog.Leave)
+                                                        //.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
             this.leaveTimeSheetTypeColumn.DisplayMember = "Key";
             this.leaveTimeSheetTypeColumn.ValueMember = "Value";
 
