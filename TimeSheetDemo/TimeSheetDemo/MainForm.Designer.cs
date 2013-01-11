@@ -40,6 +40,7 @@ namespace TimeSheetDemo
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddNew = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -101,11 +102,11 @@ namespace TimeSheetDemo
             this.imageList1.Images.SetKeyName(27, "staff-training.ico");
             this.imageList1.Images.SetKeyName(28, "staff-waitforresign.ico");
             // 
-            // timeSheetGridView1
+            // tsGridView
             // 
             this.tsGridView.AllowUserToAddRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -126,8 +127,16 @@ namespace TimeSheetDemo
             this.tsGridView.FromDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
             this.tsGridView.HeaderDateFormat = "ddd, dd/MM/yyyy";
             this.tsGridView.Location = new System.Drawing.Point(0, 0);
-            this.tsGridView.Name = "timeSheetGridView1";
+            this.tsGridView.Name = "tsGridView";
             this.tsGridView.PositionShowToolTip = System.Drawing.ContentAlignment.TopRight;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tsGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsGridView.RowTemplate.Height = 25;
             this.tsGridView.Size = new System.Drawing.Size(614, 356);
@@ -137,7 +146,7 @@ namespace TimeSheetDemo
             // gridContextMenu
             // 
             this.gridContextMenu.Name = "gridContextMenu";
-            this.gridContextMenu.Size = new System.Drawing.Size(153, 26);
+            this.gridContextMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 

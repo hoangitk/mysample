@@ -145,7 +145,7 @@ namespace TimeSheetDemo
                     return Color.FromArgb(0, 255, 0);
 
                 case TimeSheetControl.TimeSheetStatus.Locked:
-                    return Color.FromArgb(255, 0, 0);
+                    return Color.FromArgb(255, 255, 0);
 
                 default:
                     return Color.Empty;
