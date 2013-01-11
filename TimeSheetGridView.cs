@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -23,6 +24,12 @@ namespace TimeSheetControl
 
         private DateTime _fromDate;
 
+        /// <summary>
+        /// Gets or sets from date.
+        /// </summary>
+        /// <value>
+        /// From date.
+        /// </value>
         public DateTime FromDate
         {
             get { return _fromDate; }
@@ -35,6 +42,13 @@ namespace TimeSheetControl
 
         private DateTime _toDate;
 
+        /// <summary>
+        /// Gets or sets to date.
+        /// </summary>
+        /// <value>
+        /// To date.
+        /// </value>
+        /// <exception cref="System.ArgumentOutOfRangeException">ToDate must be great than or equal FromDate</exception>
         public DateTime ToDate
         {
             get { return _toDate; }
@@ -66,6 +80,22 @@ namespace TimeSheetControl
             set { _headerDateFormat = value; }
         }
 
+        private ContentAlignment _positionShowToolTip;
+
+        /// <summary>
+        /// Gets or sets the position show tool tip.
+        /// </summary>
+        /// <value>
+        /// The position show tool tip.
+        /// </value>
+        [Category("TimeSheet")]
+        public ContentAlignment PositionShowToolTip
+        {
+            get { return _positionShowToolTip; }
+            set { _positionShowToolTip = value; }
+        }
+
+
         #endregion Properties
         
         public TimeSheetGridView()
@@ -91,6 +121,8 @@ namespace TimeSheetControl
             _toDate = DateTime.Now;
 
             _headerDateFormat = "ddd, dd/MM/yyyy";
+
+            _positionShowToolTip = ContentAlignment.TopRight;
 
             // Init PopupToolTip
             popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
@@ -126,9 +158,8 @@ namespace TimeSheetControl
                 for (int i = 0; i < this.DayCount; i++)
                 {
                     var idDate = _fromDate.AddDays(i);
-                    DataGridViewTimeSheetColumn tsColumn = new DataGridViewTimeSheetColumn()
+                    DataGridViewTimeSheetColumn tsColumn = new DataGridViewTimeSheetColumn(idDate)
                     {
-                        Name = idDate.ToString(COLUMN_TIMESHEET_NAME_ID_FORMAT),
                         HeaderText = idDate.ToString(this.HeaderDateFormat),
                     };
                     this.Columns.Add(tsColumn);
@@ -263,7 +294,7 @@ namespace TimeSheetControl
 
                 // Only show tooltip when the mouse is in topright corner of cell
                 Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, ContentAlignment.TopRight))
+                if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, this.PositionShowToolTip))
                 {
                     commentToolTip.Title = tsDay.GetTitle();
                     commentToolTip.Content = tsDay.GetContent();                    
@@ -279,6 +310,85 @@ namespace TimeSheetControl
         }
 
         #endregion  Comment ToolTip
+
+        #region Action on interface
+        
+        //public void CopyCell(DataGridViewCell fromCell, DataGridViewCell toCell)
+        //{
+        //    if (fromCell != null && toCell != null 
+        //        && !(fromCell.RowIndex == toCell.RowIndex && fromCell.ColumnIndex == toCell.ColumnIndex) /*not same cell*/
+        //        && fromCell.ValueType == toCell.ValueType /*cells have to same type*/
+        //        && fromCell.ValueType == typeof(TimeSheetDay) /*type must be TimeSheetDay*/
+        //        ) 
+        //    {
+        //        //var tsItemFromCell = fromCell.OwningRow.DataBoundItem as TimeSheetItem;
+        //        //var tsItemToCell = toCell.OwningRow.DataBoundItem as TimeSheetItem;
+
+        //        var fromTimeSheetDayCell = fromCell.Value as TimeSheetDay;
+        //        var toTimeSheetDayCell = toCell.Value as TimeSheetDay;
+
+        //        // Copy new
+        //        var newTimeSheetDay = new TimeSheetDay(fromTimeSheetDayCell);
+        //        newTimeSheetDay.Day = toTimeSheetDayCell.Day;
+
+        //        // Paste new
+        //        toCell.Value = newTimeSheetDay;                
+        //    }
+        //}
+
+        public void CopyToClipBoard()
+        {
+            if (this.SelectedCells.Count > 0)
+            {
+                var copyData = this.SelectedCells[0].Value;
+                if (copyData != null)
+                {
+                    var copyDataObject = new DataObject(copyData);
+                    Clipboard.SetDataObject(copyDataObject);
+                }
+            }
+        }
+
+        public void PasteFromClipBoard()
+        {
+            if (this.SelectedCells.Count != 0)
+            {
+                var clipboardDataObject = (DataObject)Clipboard.GetDataObject();
+                if (clipboardDataObject.GetDataPresent(typeof(TimeSheetDay)))
+                {
+                    var clipboardTimeSheetDay = clipboardDataObject.GetData(typeof(TimeSheetDay)) as TimeSheetDay;
+                    if (clipboardTimeSheetDay != null)
+                    {
+                        var selectedCell = this.SelectedCells[0];
+                        var selectedCellValue = selectedCell.Value as TimeSheetDay;
+                        
+                        // Copy new
+                        var updateDay = DateTime.MinValue;
+
+                        if (selectedCellValue != null)
+                        {
+                            updateDay = selectedCellValue.Day;
+                        }
+                        else
+                        {
+                            var selectedColumn = selectedCell.OwningColumn as DataGridViewTimeSheetColumn;
+                            if (selectedColumn != null)
+                                updateDay = selectedColumn.PresentDay;
+                        }
+
+                        // Paste new
+                        if (updateDay > DateTime.MinValue)
+                        {
+                            var newTimeSheetDay = new TimeSheetDay(clipboardTimeSheetDay);
+                            newTimeSheetDay.Day = updateDay;                            
+                            selectedCell.Value = newTimeSheetDay;
+                        }
+                    }
+                }
+            }            
+        }
+
+        #endregion
 
         #region Function for getting color from setting
 
