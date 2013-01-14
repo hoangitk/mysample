@@ -73,7 +73,9 @@ namespace TimeSheetControl
                 ShiftRecord plannedItem = new ShiftRecord();
                 plannedItem.FromTime = k == 0 ? tsday.Day.AddHours(-tsday.Day.Hour + rand.Next(8)) : tsday.ShiftItems[k-1].ToTime.AddHours(rand.Next(2));
                 plannedItem.ToTime = plannedItem.FromTime.AddHours(rand.Next(4) + 6);
-                plannedItem.TimeSheetType =  SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);                
+                plannedItem.TimeSheetType =  k == 0 
+                    ? SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Shift)
+                    : SampleTimeSheetTypeList.RandomBelongsCatalogs(TimeSheetCatalog.Shift, TimeSheetCatalog.Overtime);                
                 plannedItem.Status = GetTimeSheetStatus(plannedItem.TimeSheetType.Catalog);
                 tsday.ShiftItems.Add(plannedItem);
             }

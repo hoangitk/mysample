@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using TimeSheetControl;
 using Cadena.WinForms;
 using System.Diagnostics;
+using System.Collections;
 
 namespace TimeSheetDemo
 {
@@ -25,18 +26,183 @@ namespace TimeSheetDemo
 		private Random rand = new Random();
 
         private BindingList<TimeSheetItem> _timeSheetItems;
+
+        private ArrayList _styleList;
 		
 		public MainForm()
 		{
 			InitializeComponent();
 
-            this.tsGridView.GetColorByTimeSheetCatalog = GetColorByTimeSheetCatalog;
-            this.tsGridView.GetColorByTimeSheetStatus = GetColorByTimeSheetStatus;
-			
-			this.Load += new EventHandler(MainForm_Load);
+            #region Style
+            _styleList = new ArrayList()
+            {
+                new KeyValuePair<string, Func<TimeSheetCatalog, Color>>(
+                    "Style 1",
+                    (tsc) => 
+                    {
+                        switch (tsc)
+                        {
+                            case TimeSheetCatalog.WorkingDay:
+                                return Color.FromArgb(255, 255, 255);
 
-            this.tsGridView.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;            
+                            case TimeSheetCatalog.Holiday:
+                                return Color.FromArgb(248, 210, 255);
+
+                            case TimeSheetCatalog.WeekendOff:
+                                return Color.FromArgb(172, 156, 157);
+
+                            case TimeSheetCatalog.WeekendOffHalf:
+                                return Color.FromArgb(227, 227, 227);
+
+                            case TimeSheetCatalog.Leave:
+                                return Color.FromArgb(255, 249, 189);
+
+                            case TimeSheetCatalog.BusinessTrip:
+                                return Color.FromArgb(97, 166, 171);
+
+                            case TimeSheetCatalog.Overtime:
+                                return Color.FromArgb(246, 134, 134);
+
+                            case TimeSheetCatalog.Shift:
+                                return Color.FromArgb(228, 249, 255);
+
+                            default:
+                                return Color.Empty;
+                        }
+                    }
+                ),
+
+                new KeyValuePair<string, Func<TimeSheetCatalog, Color>>(
+                    "Style 2",
+                    (tsc) =>
+                    {
+                        switch (tsc)
+                        {
+                            case TimeSheetCatalog.WorkingDay:
+                                return Color.FromArgb(165, 165, 165);
+
+                            case TimeSheetCatalog.Holiday:
+                                return Color.FromArgb(252, 213, 180);
+
+                            case TimeSheetCatalog.WeekendOff:
+                                return Color.FromArgb(255, 190, 0);
+
+                            case TimeSheetCatalog.WeekendOffHalf:
+                                return Color.FromArgb(178, 161, 199);
+
+                            case TimeSheetCatalog.Leave:
+                                return Color.FromArgb(0, 112, 192);
+
+                            case TimeSheetCatalog.BusinessTrip:
+                                return Color.FromArgb(255, 255, 255);
+
+                            case TimeSheetCatalog.Overtime:
+                                return Color.FromArgb(192, 0, 0);
+
+                            case TimeSheetCatalog.Shift:
+                                return Color.FromArgb(182, 221, 232);
+
+                            default:
+                                return Color.Empty;
+                        }
+                    }
+                ),
+            };
+        
+            #endregion Style
+
+            this.cmbStyle.DataSource = _styleList;
+            this.cmbStyle.DisplayMember = "Key";
+            this.cmbStyle.ValueMember = "Value";
+
+            this.tsGridView.GetColorByTimeSheetCatalog = this.cmbStyle.SelectedValue as Func<TimeSheetCatalog, Color>;
+            this.tsGridView.GetColorByTimeSheetStatus = GetColorByTimeSheetStatus;
+
+            this.Load += new EventHandler(MainForm_Load);            
+
+            this.tsGridView.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;
+            this.tsGridView.CellPasting += OnTimeSheetGridView_CellPasting;
+		}              
+
+		void MainForm_Load(object sender, EventArgs e)
+		{            
+            this.tsGridView.FromDate = DateTime.Now.AddDays(-15);
+            this.tsGridView.ToDate = DateTime.Now.AddDays(15);
+
+            // Add Cells           
+            _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
+                this.tsGridView.FromDate, this.tsGridView.ToDate);
+
+            this.tsGridView.DataSource = _timeSheetItems;
+
+            // Sample set a image for a employee
+            for (int i = 0; i < this.tsGridView.Rows.Count; i++)
+            {
+                var employeeIdCell = this.tsGridView.Rows[i].Cells["EmployeeId"] as DataGridViewTextAndImageCell;
+                if (employeeIdCell != null)
+                {
+                    employeeIdCell.Image = this.imageList1.Images.SelectRandom<Image>();
+                }
+
+            }
+
+            // Define context menu for grid
+            #region Sample define context menu
+            this.gridContextMenu.AddNewCommand(
+                    "cmdCopy",
+                    "Copy",
+                    (s, me) =>
+                    {
+                        this.tsGridView.CopyToClipBoard();
+                    });
+
+            this.gridContextMenu.AddNewCommand(
+                "cmdPaste",
+                "Paste",
+                (s, me) =>
+                {
+                    this.tsGridView.PasteFromClipBoard(false);
+                });
+
+            this.gridContextMenu.AddNewCommand(
+                "cmdPasteOnSelectedCells",
+                "Paste on selected cell(s)",
+                (s, me) =>
+                {
+                    this.tsGridView.PasteFromClipBoard();
+                });
+
+            this.gridContextMenu.AddNewCommand(
+                "cmdAssignShift",
+                "Assign Shift");
+
+            this.gridContextMenu.AddNewCommand(
+                "cmdAssignShift_S01",
+                "S01",
+                (s, me) =>
+                {
+                    MessageBox.Show("Command S01");
+                }, parentId: "cmdAssignShift"); 
+            #endregion
+
+            this.cmbStyle.SelectedIndexChanged += (s, cbe) =>
+            {
+                if (cmbStyle.SelectedIndex > -1)
+                {
+                    this.tsGridView.GetColorByTimeSheetCatalog = this.cmbStyle.SelectedValue as Func<TimeSheetCatalog, Color>;
+                    this.tsGridView.Refresh();
+                }
+            };
 		}
+
+        void OnTimeSheetGridView_CellPasting(object sender, CellPastingEventArgs e)
+        {
+            // Handle validate selected cell
+            // If the cell is not validated then set cancel = true
+            // Ex: do not allow copy&paste with BusinessTrip
+            if(e.NewValue.Catalog == TimeSheetCatalog.BusinessTrip)
+                e.Cancel = true;
+        }  
 
         private void OnTimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -53,77 +219,7 @@ namespace TimeSheetDemo
 
                 //Debug.WriteLine(this.timeSheetGridView1.Rows[e.RowIndex].DataBoundItem);
             }
-        }
-
-		void MainForm_Load(object sender, EventArgs e)
-		{            
-            this.tsGridView.FromDate = DateTime.Now.AddDays(-15);
-            this.tsGridView.ToDate = DateTime.Now.AddDays(15);
-
-            // Add Cells           
-            _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
-                this.tsGridView.FromDate, this.tsGridView.ToDate);
-
-            this.tsGridView.DataSource = _timeSheetItems;
-
-            for (int i = 0; i < this.tsGridView.Rows.Count; i++)
-            {
-                var employeeIdCell = this.tsGridView.Rows[i].Cells["EmployeeId"] as DataGridViewTextAndImageCell;
-                if (employeeIdCell != null)
-                {
-                    employeeIdCell.Image = this.imageList1.Images.SelectRandom<Image>();
-                }
-
-            }
-
-            // Define context menu for grid
-            this.gridContextMenu.AddNewCommand(
-                "Copy",
-                (s, me) =>
-                {
-                    this.tsGridView.CopyToClipBoard();
-                }, null);
-
-            this.gridContextMenu.AddNewCommand(
-                "Paste",
-                (s, me) =>
-                {
-                    this.tsGridView.PasteFromClipBoard();
-                }, null);
-		}
-
-        public Color GetColorByTimeSheetCatalog(TimeSheetCatalog tsType)
-        {
-            switch (tsType)
-            {
-                case TimeSheetCatalog.WorkingDay:
-                    return Color.FromArgb(165, 165, 165);
-
-                case TimeSheetCatalog.Holiday:
-                    return Color.FromArgb(252, 213, 180);
-
-                case TimeSheetCatalog.WeekendOff:
-                    return Color.FromArgb(255, 190, 0);
-
-                case TimeSheetCatalog.WeekendOffHalf:
-                    return Color.FromArgb(178, 161, 199);
-
-                case TimeSheetCatalog.Leave:
-                    return Color.FromArgb(0, 112, 192);
-
-                case TimeSheetCatalog.BusinessTrip:
-                    return Color.FromArgb(255, 255, 255);
-
-                case TimeSheetCatalog.Overtime:
-                    return Color.FromArgb(192, 0, 0);
-
-                case TimeSheetCatalog.Shift:
-                    return Color.FromArgb(182, 221, 232);
-
-                default:
-                    return Color.Empty;
-            }
-        }
+        }        
 
         public Color GetColorByTimeSheetStatus(TimeSheetStatus tsStatus)
         {
@@ -145,7 +241,7 @@ namespace TimeSheetDemo
                     return Color.FromArgb(0, 255, 0);
 
                 case TimeSheetControl.TimeSheetStatus.Locked:
-                    return Color.FromArgb(255, 255, 0);
+                    return Color.FromArgb(255, 0, 0);
 
                 default:
                     return Color.Empty;
