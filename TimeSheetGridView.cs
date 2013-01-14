@@ -285,20 +285,35 @@ namespace TimeSheetControl
         {
             base.OnCellMouseClick(e);            
             
-            if (e.Button == System.Windows.Forms.MouseButtons.Left
-                && !popupToolTip.Visible
-                && e.ColumnIndex >= this.ColumnHeaderCount
-                && e.RowIndex >= 0)
-            {                
+            if(e.ColumnIndex >= this.ColumnHeaderCount && e.RowIndex >= 0)
+            {
                 var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
-
-                // Only show tooltip when the mouse is in topright corner of cell
-                Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, this.PositionShowToolTip))
+                
+                // Check point in over a TimeSheetRecord
+                if (tsDay != null)
                 {
-                    commentToolTip.Title = tsDay.GetTitle();
-                    commentToolTip.Content = tsDay.GetContent();                    
-                    popupToolTip.Show(this, rect);
+                    // Check mouse point is inbound a TimeSheetRecord
+                    var tsCell = this.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTimeSheetCell;
+                    var tsRecord = tsCell.FindTimeSheetRecord(e.X, e.Y);
+
+                    if (tsRecord != null)
+                    {
+                        Debug.WriteLine(tsRecord);
+                        OnTimeSheetRecordSelected(new TimeSheetRecordSelectedEventArgs(tsCell, tsRecord));
+                    }
+                }
+
+                // show tool tip
+                if (e.Button == System.Windows.Forms.MouseButtons.Left && !popupToolTip.Visible)
+                {
+                    // Only show tooltip when the mouse is in topright corner of cell
+                    Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                    if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, this.PositionShowToolTip))
+                    {
+                        commentToolTip.Title = tsDay.GetTitle();
+                        commentToolTip.Content = tsDay.GetContent();
+                        popupToolTip.Show(this, rect);
+                    }
                 }
             }
         }
@@ -435,6 +450,7 @@ namespace TimeSheetControl
 
         #region Events
 
+        #region Cell is Pasting
         private static readonly object EVENT_CELLPASTING = new object();
 
         /// <summary>
@@ -460,8 +476,10 @@ namespace TimeSheetControl
             {
                 handler(this, e);
             }
-        }
+        } 
+        #endregion
 
+        #region Cell is pasted
         private static readonly object EVENT_CELLPASTED = new object();
 
         /// <summary>
@@ -487,7 +505,35 @@ namespace TimeSheetControl
             {
                 handler(this, e);
             }
+        } 
+        #endregion
+
+        #region A part of cell is selected
+        private static readonly object EVENT_TIMESHEETRECORDSELECTED = new object();
+        
+        public event EventHandler<TimeSheetRecordSelectedEventArgs> TimeSheetRecordSelected
+        {
+            add
+            {
+                base.Events.AddHandler(EVENT_TIMESHEETRECORDSELECTED, value);
+            }
+
+            remove
+            {
+                base.Events.RemoveHandler(EVENT_TIMESHEETRECORDSELECTED, value);
+            }
         }
+
+        protected virtual void OnTimeSheetRecordSelected(TimeSheetRecordSelectedEventArgs e)
+        {
+            var handler = base.Events[EVENT_TIMESHEETRECORDSELECTED] as EventHandler<TimeSheetRecordSelectedEventArgs>;
+            if (handler != null && !base.IsDisposed)
+            {
+                handler(this, e);
+            }
+        }
+        #endregion
+
         #endregion Events
 
         #region Function for getting color from setting
@@ -503,6 +549,10 @@ namespace TimeSheetControl
     }
 
     #region EventArgs
+
+    /// <summary>
+    /// CellPastingEventArgs
+    /// </summary>
     public class CellPastingEventArgs : EventArgs
     {
         public DataGridViewCell SelectedCell { get; set; }
@@ -521,6 +571,9 @@ namespace TimeSheetControl
         }
     }
 
+    /// <summary>
+    /// CellPastedEventArgs
+    /// </summary>
     public class CellPastedEventArgs : EventArgs
     {
         public DataGridViewCell SelectedCell { get; set; }
@@ -535,6 +588,27 @@ namespace TimeSheetControl
             this.SelectedCell = selectedCell;
         }
     }
+
+    /// <summary>
+    /// PartCellSelectedEventArgs
+    /// </summary>
+    public class TimeSheetRecordSelectedEventArgs : EventArgs
+    {
+        public TimeSheetRecord SelectedTimeSheetRecord { get; set; }
+        public DataGridViewCell SelectedCell { get; set; }
+
+        public TimeSheetRecordSelectedEventArgs()
+        {
+
+        }
+
+        public TimeSheetRecordSelectedEventArgs(DataGridViewCell selectedCell, TimeSheetRecord tsRecord)
+        {
+            this.SelectedCell = selectedCell;
+            this.SelectedTimeSheetRecord = tsRecord;
+        }
+    }
+
     #endregion EventArgs
 
     /// <summary>
@@ -592,7 +666,7 @@ namespace TimeSheetControl
                     _timeSheetDayArray[ri, ci] = selectedCell.Value as TimeSheetDay;
                 }
 
-                Debug.WriteLine(_timeSheetDayArray.Print(ts => ts.Day.ToString("dd/MM")));
+                Debug.WriteLine(_timeSheetDayArray.Print(ts => ts == null ? "(null)" : ts.Day.ToString("dd/MM")));
             }
         }
 
