@@ -114,7 +114,7 @@ namespace TimeSheetControl
             this.RowTemplate.Height = MIN_CELL_HEIGHT;
             this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
             
-            #endregion
+            #endregion                       
 
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
@@ -312,93 +312,351 @@ namespace TimeSheetControl
         #endregion  Comment ToolTip
 
         #region Action on interface
-        
-        //public void CopyCell(DataGridViewCell fromCell, DataGridViewCell toCell)
-        //{
-        //    if (fromCell != null && toCell != null 
-        //        && !(fromCell.RowIndex == toCell.RowIndex && fromCell.ColumnIndex == toCell.ColumnIndex) /*not same cell*/
-        //        && fromCell.ValueType == toCell.ValueType /*cells have to same type*/
-        //        && fromCell.ValueType == typeof(TimeSheetDay) /*type must be TimeSheetDay*/
-        //        ) 
-        //    {
-        //        //var tsItemFromCell = fromCell.OwningRow.DataBoundItem as TimeSheetItem;
-        //        //var tsItemToCell = toCell.OwningRow.DataBoundItem as TimeSheetItem;
 
-        //        var fromTimeSheetDayCell = fromCell.Value as TimeSheetDay;
-        //        var toTimeSheetDayCell = toCell.Value as TimeSheetDay;
-
-        //        // Copy new
-        //        var newTimeSheetDay = new TimeSheetDay(fromTimeSheetDayCell);
-        //        newTimeSheetDay.Day = toTimeSheetDayCell.Day;
-
-        //        // Paste new
-        //        toCell.Value = newTimeSheetDay;                
-        //    }
-        //}
-
+        /// <summary>
+        /// Copies to clip board.
+        /// </summary>
         public void CopyToClipBoard()
         {
             if (this.SelectedCells.Count > 0)
-            {
-                var copyData = this.SelectedCells[0].Value;
-                if (copyData != null)
+            {               
+                TimeSheetDayCopiedArray copiedArray = new TimeSheetDayCopiedArray(this.SelectedCells);
+                if (copiedArray.HasData)
                 {
-                    var copyDataObject = new DataObject(copyData);
+                    var copyDataObject = new DataObject(copiedArray);
                     Clipboard.SetDataObject(copyDataObject);
                 }
             }
         }
 
-        public void PasteFromClipBoard()
+        /// <summary>
+        /// Pastes from clip board.
+        /// </summary>
+        public void PasteFromClipBoard(bool onlySelectedCells = true)
         {
-            if (this.SelectedCells.Count != 0)
+            if (this.SelectedCells.Count > 0)
             {
                 var clipboardDataObject = (DataObject)Clipboard.GetDataObject();
-                if (clipboardDataObject.GetDataPresent(typeof(TimeSheetDay)))
+                if (clipboardDataObject.GetDataPresent(typeof(TimeSheetDayCopiedArray)))
                 {
-                    var clipboardTimeSheetDay = clipboardDataObject.GetData(typeof(TimeSheetDay)) as TimeSheetDay;
-                    if (clipboardTimeSheetDay != null)
+                    var clipboardTimeSheetDayArray = clipboardDataObject.GetData(typeof(TimeSheetDayCopiedArray)) as TimeSheetDayCopiedArray;
+                    if (clipboardTimeSheetDayArray != null)
                     {
-                        var selectedCell = this.SelectedCells[0];
-                        var selectedCellValue = selectedCell.Value as TimeSheetDay;
-                        
-                        // Copy new
-                        var updateDay = DateTime.MinValue;
+                        int minRow, minCol, maxRow, maxCol;
+                        if (TimeSheetDayCopiedArray.FindBound(this.SelectedCells,
+                            out minRow, out minCol, out maxRow, out maxCol))
+                        {
+                            // Only fill on selected cells
+                            // Case 1: copied array is equal selected cells
+                            // Case 2: copied array is inside selected cells
+                            // Case 3: copied array is outside selected cells                           
+                            int deltaRow, deltaCol;
+                            if (onlySelectedCells)
+                            {
+                                deltaRow = maxRow - minRow + 1;
+                                deltaCol = maxCol - minCol + 1;                                                           
+                            }
+                            else
+                            {
+                                // Only use a presented selected cell
+                                // Case 1: enough range to fill from copied array
+                                // Case 2: not enough range to fill from copied array 
 
-                        if (selectedCellValue != null)
-                        {
-                            updateDay = selectedCellValue.Day;
-                        }
-                        else
-                        {
-                            var selectedColumn = selectedCell.OwningColumn as DataGridViewTimeSheetColumn;
-                            if (selectedColumn != null)
-                                updateDay = selectedColumn.PresentDay;
-                        }
+                                deltaRow = this.Rows.Count - minRow;
+                                deltaCol = this.Columns.Count - minCol - this.ColumnHeaderCount;
+                            }
 
-                        // Paste new
-                        if (updateDay > DateTime.MinValue)
-                        {
-                            var newTimeSheetDay = new TimeSheetDay(clipboardTimeSheetDay);
-                            newTimeSheetDay.Day = updateDay;                            
-                            selectedCell.Value = newTimeSheetDay;
+                            // Get max bound
+                            if (clipboardTimeSheetDayArray.MaxRow < deltaRow)
+                                maxRow = minRow + clipboardTimeSheetDayArray.MaxRow;
+                            if (clipboardTimeSheetDayArray.MaxCol < deltaCol)
+                                maxCol = minCol + clipboardTimeSheetDayArray.MaxCol;     
+
+                            for (int i = minRow; i <= maxRow; i++)
+                            {
+                                for (int j = minCol; j <= maxCol; j++)
+                                {
+                                    var selectedCell = this.Rows[i].Cells[j];
+
+                                    int rowIndex = i - minRow;
+                                    int colIndex = j - minCol;
+
+                                    // Check index inbound of copied array
+                                    if (rowIndex < clipboardTimeSheetDayArray.MaxRow
+                                        && colIndex < clipboardTimeSheetDayArray.MaxCol)
+                                    {
+                                        var clipboardValue = clipboardTimeSheetDayArray[rowIndex, colIndex];
+
+                                        var cellPastingEventArgs = new CellPastingEventArgs(selectedCell, clipboardValue);
+                                        // Perform before cell is pasted
+                                        OnCellPasting(cellPastingEventArgs);
+                                        if (!cellPastingEventArgs.Cancel)
+                                        {
+                                            CopyAndPasteCell(selectedCell, clipboardValue);
+                                            // Perform after cell is pasted
+                                            OnCellPasted(new CellPastedEventArgs(selectedCell));
+                                        }
+                                    }// Check index inbound of copied array
+                                }
+                            }
                         }
                     }
-                }
-            }            
+                }// Clipboard present TimeSheetDayCopiedArray
+            } // Check SelectedCells           
         }
 
+        private static void CopyAndPasteCell(DataGridViewCell selectedCell, TimeSheetDay clipboarValue)
+        {
+            // Copy new
+            TimeSheetDay selectedCellValue = selectedCell.Value as TimeSheetDay;
+            var updateDay = DateTime.MinValue;
+
+            if (selectedCellValue != null)
+            {
+                updateDay = selectedCellValue.Day;
+            }
+            else
+            {
+                var selectedColumn = selectedCell.OwningColumn as DataGridViewTimeSheetColumn;
+                if (selectedColumn != null)
+                    updateDay = selectedColumn.PresentDay;
+            }
+
+            // Paste new
+            if (updateDay > DateTime.MinValue)
+            {
+                var newTimeSheetDay = new TimeSheetDay(clipboarValue);
+                newTimeSheetDay.Day = updateDay;
+                selectedCell.Value = newTimeSheetDay;
+            }
+        }             
+
         #endregion
+
+        #region Events
+
+        private static readonly object EVENT_CELLPASTING = new object();
+
+        /// <summary>
+        /// Occurs when [cell pasting].
+        /// </summary>
+        public event EventHandler<CellPastingEventArgs> CellPasting
+        {
+            add
+            {
+                base.Events.AddHandler(EVENT_CELLPASTING, value);
+            }
+
+            remove
+            {
+                base.Events.RemoveHandler(EVENT_CELLPASTING, value);
+            }
+        }
+
+        protected virtual void OnCellPasting(CellPastingEventArgs e)
+        {
+            EventHandler<CellPastingEventArgs> handler = base.Events[TimeSheetGridView.EVENT_CELLPASTING] as EventHandler<CellPastingEventArgs>;
+            if (handler != null && !base.IsDisposed)
+            {
+                handler(this, e);
+            }
+        }
+
+        private static readonly object EVENT_CELLPASTED = new object();
+
+        /// <summary>
+        /// Occurs when [cell pasted].
+        /// </summary>
+        public event EventHandler<CellPastedEventArgs> CellPasted
+        {
+            add
+            {
+                base.Events.AddHandler(EVENT_CELLPASTED, value);
+            }
+
+            remove
+            {
+                base.Events.RemoveHandler(EVENT_CELLPASTED, value);
+            }
+        }
+
+        protected virtual void OnCellPasted(CellPastedEventArgs e)
+        {
+            EventHandler<CellPastedEventArgs> handler = base.Events[EVENT_CELLPASTED] as EventHandler<CellPastedEventArgs>;
+            if (handler != null && !base.IsDisposed)
+            {
+                handler(this, e);
+            }
+        }
+        #endregion Events
 
         #region Function for getting color from setting
 
         public Func<TimeSheetCatalog, Color> GetColorByTimeSheetCatalog;
         public Func<TimeSheetStatus, Color> GetColorByTimeSheetStatus;               
 
-        #endregion
+        #endregion        
 
         #region Other supporting functions
-        
+
         #endregion
+    }
+
+    #region EventArgs
+    public class CellPastingEventArgs : EventArgs
+    {
+        public DataGridViewCell SelectedCell { get; set; }
+        public TimeSheetDay NewValue { get; set; }
+        public bool Cancel { get; set; }
+
+        public CellPastingEventArgs()
+        {
+            this.Cancel = false;
+        }
+
+        public CellPastingEventArgs(DataGridViewCell selectedCell, TimeSheetDay newValue) : this()
+        {
+            this.SelectedCell = selectedCell;
+            this.NewValue = newValue;
+        }
+    }
+
+    public class CellPastedEventArgs : EventArgs
+    {
+        public DataGridViewCell SelectedCell { get; set; }
+
+        public CellPastedEventArgs()
+        {
+
+        }
+
+        public CellPastedEventArgs(DataGridViewCell selectedCell)
+        {
+            this.SelectedCell = selectedCell;
+        }
+    }
+    #endregion EventArgs
+
+    /// <summary>
+    /// TimeSheetDayCopiedArray is used for storing copied from gridview
+    /// </summary>
+    [Serializable]
+    internal class TimeSheetDayCopiedArray
+    {        
+        public int MaxRow { get; private set; }
+        public int MaxCol { get; private set; }
+
+        private TimeSheetDay[,] _timeSheetDayArray;
+
+        public TimeSheetDayCopiedArray()
+        {
+            this.MaxRow = 0;
+            this.MaxCol = 0;            
+        }
+
+        public TimeSheetDayCopiedArray(DataGridViewSelectedCellCollection selectedCells) : this()
+        {
+            CopyFrom(selectedCells);
+        }
+
+        public void CopyFrom(DataGridViewSelectedCellCollection selectedCells)
+        {
+            int minRow = int.MaxValue;
+            int minCol = int.MaxValue;
+            int maxRow = int.MinValue;
+            int maxCol = int.MinValue;
+
+            if (FindBound(selectedCells, out minRow, out minCol, out maxRow, out maxCol))
+            {
+                Debug.WriteLine("({0}, {1}), ({2}, {3})", minRow, minCol, maxRow, maxCol);
+
+                // Delta
+                int deltaRow = maxRow - minRow + 1;
+                int deltaCol = maxCol - minCol + 1;
+
+                // Adjust index
+                if (deltaRow > 0 && deltaCol > 0)
+                {
+                    MaxRow = deltaRow;
+                    MaxCol = deltaCol;
+                }
+
+                // New copy
+                _timeSheetDayArray = new TimeSheetDay[MaxRow, MaxCol];
+
+                for (int i = 0; i < selectedCells.Count; i++)
+                {
+                    DataGridViewCell selectedCell = selectedCells[i];
+                    int ri = selectedCell.RowIndex - minRow;
+                    int ci = selectedCell.ColumnIndex - minCol;
+                    _timeSheetDayArray[ri, ci] = selectedCell.Value as TimeSheetDay;
+                }
+
+                Debug.WriteLine(_timeSheetDayArray.Print(ts => ts.Day.ToString("dd/MM")));
+            }
+        }
+
+        public TimeSheetDay this[int rowIndex, int colIndex]
+        {
+            get
+            {
+                try
+                {
+                    return _timeSheetDayArray[rowIndex, colIndex];
+                }
+                catch (Exception)
+                {                    
+                    throw;
+                }
+                
+            }
+        }
+
+        public bool HasData
+        {
+            get
+            {
+                return Count > 0;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return MaxCol * MaxRow;
+            }
+        }
+
+        public static bool FindBound(DataGridViewSelectedCellCollection selectedCells, 
+            out int minRow, out int minCol, out int maxRow, out int maxCol)
+        {
+            minRow = int.MaxValue;
+            minCol = int.MaxValue;
+            maxRow = int.MinValue;
+            maxCol = int.MinValue;
+
+            if (selectedCells != null && selectedCells.Count > 0)
+            {
+                for (int i = 0; i < selectedCells.Count; i++)
+                {
+                    DataGridViewCell selectedCell = selectedCells[i];
+
+                    if (selectedCell.RowIndex < minRow)
+                        minRow = selectedCell.RowIndex;
+                    if (selectedCell.RowIndex > maxRow)
+                        maxRow = selectedCell.RowIndex;
+                    if (selectedCell.ColumnIndex < minCol)
+                        minCol = selectedCell.ColumnIndex;
+                    if (selectedCell.ColumnIndex > maxCol)
+                        maxCol = selectedCell.ColumnIndex;
+                }                               
+
+                // Throw exception if selectedcell is not serial
+                return (maxRow - minRow + 1) * (maxCol - minCol + 1) == selectedCells.Count;
+            }
+
+            return false;
+        }
     }
 }

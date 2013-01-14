@@ -248,5 +248,24 @@ namespace TimeSheetControl
 
             return sb.ToString();
         }
+
+        public static string Print<T>(this T[,] array, Func<T, string> formatOuput)
+        {
+            StringBuilder sb = new StringBuilder();
+            int rm = array.GetUpperBound(0) + 1;
+            int cm = array.Length / rm;
+
+            for (int i = 0; i < rm; i++)
+            {
+                for (int j = 0; j < cm; j++)
+                {
+                    sb.Append(formatOuput(array[i, j]));
+                    sb.Append("\t");
+                }
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }        
     }
 }
