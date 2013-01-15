@@ -93,17 +93,29 @@ namespace TimeSheetControl
         IMyMenuItem DeleteChild(IMyMenuItem childMenuItem);
         IMyMenuItem SetIcon(System.Drawing.Image icon);
         IMyMenuItem SetShortcutKeys(Keys shortcutKeys);
+        IMyMenuItem SetEnable(bool enable);
     }
 
     public class MyMenuItem : ToolStripMenuItem, IMyMenuItem
     {
-        public MyMenuItem(string text) : base(text)
+        public MyMenuItem(string text)
+            : base(text)
+        {            
+        }        
+
+        public MyMenuItem(string menuName, string text) : this(text)
         {
-        }
+            Name = menuName;
+        }        
 
         public MyMenuItem(string text, Action<object, EventArgs> command) : this(text)
         {
             this.Click += new EventHandler(command);
+        }
+
+        public MyMenuItem(string menuName, string text, Action<object, EventArgs> command)
+            : this(text, command)
+        {            
         }
 
         #region IMyMenuItem Members
@@ -140,6 +152,13 @@ namespace TimeSheetControl
         public IMyMenuItem SetShortcutKeys(Keys shortcutKeys)
         {
             this.ShortcutKeys = shortcutKeys;
+
+            return this;
+        }
+
+        public IMyMenuItem SetEnable(bool enable)
+        {
+            this.Enabled = enable;
 
             return this;
         }

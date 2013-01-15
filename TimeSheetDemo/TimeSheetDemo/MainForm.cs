@@ -28,7 +28,9 @@ namespace TimeSheetDemo
         private BindingList<TimeSheetItem> _timeSheetItems;
 
         private ArrayList _styleList;
-		
+
+        TimeSheetGridContextMenu ctxmnuGridView;
+
 		public MainForm()
 		{
 			InitializeComponent();           
@@ -38,6 +40,8 @@ namespace TimeSheetDemo
             this.tsGridView.CellContentDoubleClick += TimeSheetGridView_CellContentDoubleClick;
             this.tsGridView.CellPasting += TimeSheetGridView_CellPasting;
             this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;
+
+            
 		}
 
 		void MainForm_Load(object sender, EventArgs e)
@@ -63,14 +67,8 @@ namespace TimeSheetDemo
             }
 
             // Define context menu for grid
-            #region Sample define context menu
-
-            this.ctxmnuGridView
-                .AddMenuItem(new MyMenuItem("Copy", (s, me) => { this.tsGridView.CopyToClipBoard(); }))
-                .AddMenuItem(new MyMenuItem("Paste")
-                                    .AddChild(new MyMenuItem("Normal", (s, me) => { this.tsGridView.PasteFromClipBoard(false); }))
-                                    .AddChild(new MyMenuItem("Into Selected cell(s)", (s, me) => { this.tsGridView.PasteFromClipBoard(); })));               
-
+            #region Sample define context menu            
+            this.ctxmnuGridView = new TimeSheetGridContextMenu();            
             #endregion
 
 		}

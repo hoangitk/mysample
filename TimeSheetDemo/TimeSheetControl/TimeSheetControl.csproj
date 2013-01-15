@@ -80,6 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataGridViewTextAndImageCell.cs" />
     <Compile Include="SampleData.cs" />
+    <Compile Include="TimeSheetGridContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TimeSheetGridView.cs">
       <SubType>Component</SubType>
     </Compile>

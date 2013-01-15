@@ -58,7 +58,6 @@ namespace TimeSheetDemo
             TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor7 = new TimeSheetControl.TimeSheetStatusColor();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ctxmnuGridView = new TimeSheetControl.MyContextMenu(this.components);
             this.tsGridView = new TimeSheetControl.TimeSheetGridView();
             ((System.ComponentModel.ISupportInitialize)(this.tsGridView)).BeginInit();
             this.SuspendLayout();
@@ -105,28 +104,23 @@ namespace TimeSheetDemo
             this.imageList1.Images.SetKeyName(27, "staff-training.ico");
             this.imageList1.Images.SetKeyName(28, "staff-waitforresign.ico");
             // 
-            // ctxmnuGridView
-            // 
-            this.ctxmnuGridView.Name = "gridContextMenu";
-            this.ctxmnuGridView.Size = new System.Drawing.Size(61, 4);
-            // 
             // tsGridView
             // 
             this.tsGridView.AllowUserToAddRows = false;
             timeSheetCatalogColor1.Catalog = TimeSheetControl.TimeSheetCatalog.None;
             timeSheetCatalogColor1.Color = System.Drawing.Color.Empty;
             timeSheetCatalogColor2.Catalog = TimeSheetControl.TimeSheetCatalog.WorkingDay;
-            timeSheetCatalogColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            timeSheetCatalogColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(43)))), ((int)(((byte)(78)))));
             timeSheetCatalogColor3.Catalog = TimeSheetControl.TimeSheetCatalog.Holiday;
             timeSheetCatalogColor3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(210)))), ((int)(((byte)(255)))));
             timeSheetCatalogColor4.Catalog = TimeSheetControl.TimeSheetCatalog.WeekendOff;
-            timeSheetCatalogColor4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(156)))), ((int)(((byte)(157)))));
+            timeSheetCatalogColor4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
             timeSheetCatalogColor5.Catalog = TimeSheetControl.TimeSheetCatalog.WeekendOffHalf;
             timeSheetCatalogColor5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
             timeSheetCatalogColor6.Catalog = TimeSheetControl.TimeSheetCatalog.Leave;
             timeSheetCatalogColor6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(249)))), ((int)(((byte)(189)))));
             timeSheetCatalogColor7.Catalog = TimeSheetControl.TimeSheetCatalog.BusinessTrip;
-            timeSheetCatalogColor7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(166)))), ((int)(((byte)(171)))));
+            timeSheetCatalogColor7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(143)))), ((int)(((byte)(151)))));
             timeSheetCatalogColor8.Catalog = TimeSheetControl.TimeSheetCatalog.Overtime;
             timeSheetCatalogColor8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
             timeSheetCatalogColor9.Catalog = TimeSheetControl.TimeSheetCatalog.Shift;
@@ -153,7 +147,7 @@ namespace TimeSheetDemo
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Fuchsia;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tsGridView.DefaultCellStyle = dataGridViewCellStyle2;
@@ -206,7 +200,6 @@ namespace TimeSheetDemo
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ImageList imageList1;
-        private TimeSheetControl.MyContextMenu ctxmnuGridView;
         private TimeSheetControl.TimeSheetGridView tsGridView;
 	}
 }
