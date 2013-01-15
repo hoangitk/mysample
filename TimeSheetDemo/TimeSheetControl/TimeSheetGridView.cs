@@ -95,11 +95,18 @@ namespace TimeSheetControl
             set { _positionShowToolTip = value; }
         }
 
+        private TimeSheetRecord _selectedTimeSheetRecord;
+
+        public TimeSheetRecord SelectedTimeSheetRecord
+        {
+            get { return _selectedTimeSheetRecord; }
+            set { _selectedTimeSheetRecord = value; }
+        }
 
         #endregion Properties
         
         public TimeSheetGridView()
-        {
+        {            
             this.SetStyle(ControlStyles.UserPaint
                 | ControlStyles.AllPaintingInWmPaint
                 | ControlStyles.OptimizedDoubleBuffer, true);
@@ -123,6 +130,8 @@ namespace TimeSheetControl
             _headerDateFormat = "ddd, dd/MM/yyyy";
 
             _positionShowToolTip = ContentAlignment.TopRight;
+
+            _selectedTimeSheetRecord = null;
 
             // Init PopupToolTip
             popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
@@ -276,7 +285,7 @@ namespace TimeSheetControl
             }
         }       
 
-        #region Comment ToolTip
+        #region Mouse event
 
         PopupControl.Popup popupToolTip;
         CommentToolTip commentToolTip;            
@@ -296,25 +305,28 @@ namespace TimeSheetControl
                     var tsCell = this.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTimeSheetCell;
                     var tsRecord = tsCell.FindTimeSheetRecord(e.X, e.Y);
 
-                    if (tsRecord != null)
-                    {
-                        Debug.WriteLine(tsRecord);
-                        OnTimeSheetRecordSelected(new TimeSheetRecordSelectedEventArgs(tsCell, tsRecord));
-                    }
-                }
+                    //if (tsRecord != null)
+                    //{
+                    //    Debug.WriteLine(tsRecord);
+                    //    OnTimeSheetRecordSelected(new TimeSheetRecordSelectedEventArgs(tsCell, tsRecord));
+                    //}
 
-                // show tool tip
-                if (e.Button == System.Windows.Forms.MouseButtons.Left && !popupToolTip.Visible)
-                {
-                    // Only show tooltip when the mouse is in topright corner of cell
-                    Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                    if (tsDay != null && rect.CheckPointInCorner(e.X, e.Y, this.PositionShowToolTip))
+                    _selectedTimeSheetRecord = tsRecord;
+
+                    // show tool tip
+                    if (e.Button == System.Windows.Forms.MouseButtons.Left && !popupToolTip.Visible)
                     {
-                        commentToolTip.Title = tsDay.GetTitle();
-                        commentToolTip.Content = tsDay.GetContent();
-                        popupToolTip.Show(this, rect);
-                    }
-                }
+                        // Only show tooltip when the mouse is in topright corner of cell
+                        Rectangle rect = this.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                        if (rect.CheckPointInCorner(e.X, e.Y, this.PositionShowToolTip))
+                        {
+                            commentToolTip.Title = tsDay.GetTitle();
+                            commentToolTip.Content = tsDay.GetContent();
+                            popupToolTip.Show(this, rect);
+                        }
+                    }// ToolTip
+
+                }// Check CellValue is not null                
             }
         }
 
@@ -358,7 +370,7 @@ namespace TimeSheetControl
                     if (clipboardTimeSheetDayArray != null)
                     {
                         int minRow, minCol, maxRow, maxCol;
-                        if (TimeSheetDayCopiedArray.FindBound(this.SelectedCells,
+                        if (TimeSheetDayCopiedArray.FindArrayBound(this.SelectedCells,
                             out minRow, out minCol, out maxRow, out maxCol))
                         {
                             // Only fill on selected cells
@@ -640,7 +652,7 @@ namespace TimeSheetControl
             int maxRow = int.MinValue;
             int maxCol = int.MinValue;
 
-            if (FindBound(selectedCells, out minRow, out minCol, out maxRow, out maxCol))
+            if (FindArrayBound(selectedCells, out minRow, out minCol, out maxRow, out maxCol))
             {
                 Debug.WriteLine("({0}, {1}), ({2}, {3})", minRow, minCol, maxRow, maxCol);
 
@@ -702,7 +714,7 @@ namespace TimeSheetControl
             }
         }
 
-        public static bool FindBound(DataGridViewSelectedCellCollection selectedCells, 
+        public static bool FindArrayBound(DataGridViewSelectedCellCollection selectedCells, 
             out int minRow, out int minCol, out int maxRow, out int maxCol)
         {
             minRow = int.MaxValue;

@@ -120,9 +120,13 @@ namespace TimeSheetDemo
 
             this.Load += new EventHandler(MainForm_Load);            
 
-            this.tsGridView.CellContentDoubleClick += OnTimeSheetGridView_CellContentDoubleClick;
-            this.tsGridView.CellPasting += OnTimeSheetGridView_CellPasting;
-		}              
+            this.tsGridView.CellContentDoubleClick += TimeSheetGridView_CellContentDoubleClick;
+            this.tsGridView.CellPasting += TimeSheetGridView_CellPasting;
+            this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;
+		}
+
+        
+        
 
 		void MainForm_Load(object sender, EventArgs e)
 		{            
@@ -148,41 +152,35 @@ namespace TimeSheetDemo
 
             // Define context menu for grid
             #region Sample define context menu
-            this.gridContextMenu.AddNewCommand(
-                    "cmdCopy",
-                    "Copy",
-                    (s, me) =>
-                    {
-                        this.tsGridView.CopyToClipBoard();
-                    });
 
-            this.gridContextMenu.AddNewCommand(
-                "cmdPaste",
-                "Paste",
-                (s, me) =>
+            this.ctxmnuGridView
+                .AddNewCommand("cmdCopy", "Copy", (s, me) =>
+                {
+                    this.tsGridView.CopyToClipBoard();
+                })
+                .AddNewCommand("cmdPaste", "Paste", (s, me) =>
                 {
                     this.tsGridView.PasteFromClipBoard(false);
-                });
-
-            this.gridContextMenu.AddNewCommand(
-                "cmdPasteOnSelectedCells",
-                "Paste on selected cell(s)",
-                (s, me) =>
+                })
+                .AddNewCommand("cmdPasteOnSelectedCells", "Paste on selected cell(s)", (s, me) =>
                 {
                     this.tsGridView.PasteFromClipBoard();
                 });
 
-            this.gridContextMenu.AddNewCommand(
-                "cmdAssignShift",
-                "Assign Shift");
-
-            this.gridContextMenu.AddNewCommand(
-                "cmdAssignShift_S01",
-                "S01",
-                (s, me) =>
-                {
-                    MessageBox.Show("Command S01");
-                }, parentId: "cmdAssignShift"); 
+            this.ctxmnuTimeSheetRecord
+                .AddMenuItem(new MyMenuItem("Assign")
+                                    .AddChild(new MyMenuItem("1:1")
+                                        .SetCommand((s, me) => { MessageBox.Show("1:1"); }))
+                                    .AddChild(new MyMenuItem("2:2")
+                                        .SetCommand((s, me) => { MessageBox.Show("2:2"); }))
+                                    .AddChild(new MyMenuItem("3:3")
+                                        .SetCommand((s, me) => { MessageBox.Show("3:3"); }))
+                                    .AddChild(new MyMenuItem("4:4")
+                                        .SetCommand((s, me) => { MessageBox.Show("4:4"); }))
+                                    .AddChild(new MyMenuItem("5:5")))
+                .AddMenuItem(new MyMenuItem("Delete")
+                                    .SetCommand((s, me) => { MessageBox.Show("Delete"); }));
+            
             #endregion
 
             this.cmbStyle.SelectedIndexChanged += (s, cbe) =>
@@ -195,16 +193,36 @@ namespace TimeSheetDemo
             };
 		}
 
-        void OnTimeSheetGridView_CellPasting(object sender, CellPastingEventArgs e)
+        private void TimeSheetGridView_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                DataGridView.HitTestInfo hitInfo = this.tsGridView.HitTest(e.X, e.Y);
+                if (hitInfo.ColumnIndex >= this.tsGridView.ColumnHeaderCount
+                    && hitInfo.RowIndex >= 0)
+                {
+                    if (this.tsGridView.SelectedTimeSheetRecord != null)
+                    {
+                        this.ctxmnuTimeSheetRecord.Show(this.tsGridView, e.X, e.Y);
+                    }
+                    else
+                    {
+                        this.ctxmnuGridView.Show(this.tsGridView, e.X, e.Y);
+                    }
+                }
+            }
+        }
+
+        void TimeSheetGridView_CellPasting(object sender, CellPastingEventArgs e)
         {
             // Handle validate selected cell
             // If the cell is not validated then set cancel = true
             // Ex: do not allow copy&paste with BusinessTrip
             if(e.NewValue.Catalog == TimeSheetCatalog.BusinessTrip)
                 e.Cancel = true;
-        }  
+        }
 
-        private void OnTimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void TimeSheetGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex >= this.tsGridView.ColumnHeaderCount
                 && e.RowIndex >= 0)

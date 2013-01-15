@@ -45,7 +45,8 @@ namespace TimeSheetDemo
             this.cmbStyle = new System.Windows.Forms.ComboBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tsGridView = new TimeSheetControl.TimeSheetGridView();
-            this.gridContextMenu = new TimeSheetControl.MyContextMenu(this.components);
+            this.ctxmnuGridView = new TimeSheetControl.MyContextMenu(this.components);
+            this.ctxmnuTimeSheetRecord = new TimeSheetControl.MyContextMenu(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tsGridView)).BeginInit();
             this.SuspendLayout();
@@ -114,7 +115,6 @@ namespace TimeSheetDemo
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.tsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tsGridView.ContextMenuStrip = this.gridContextMenu;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -139,14 +139,20 @@ namespace TimeSheetDemo
             this.tsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tsGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsGridView.RowTemplate.Height = 25;
+            this.tsGridView.SelectedTimeSheetRecord = null;
             this.tsGridView.Size = new System.Drawing.Size(614, 356);
             this.tsGridView.TabIndex = 2;
             this.tsGridView.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
             // 
-            // gridContextMenu
+            // ctxmnuGridView
             // 
-            this.gridContextMenu.Name = "gridContextMenu";
-            this.gridContextMenu.Size = new System.Drawing.Size(61, 4);
+            this.ctxmnuGridView.Name = "gridContextMenu";
+            this.ctxmnuGridView.Size = new System.Drawing.Size(61, 4);
+            // 
+            // ctxmnuTimeSheetRecord
+            // 
+            this.ctxmnuTimeSheetRecord.Name = "ctxmnuTimeSheetRecord";
+            this.ctxmnuTimeSheetRecord.Size = new System.Drawing.Size(153, 26);
             // 
             // MainForm
             // 
@@ -167,7 +173,8 @@ namespace TimeSheetDemo
         private System.Windows.Forms.Panel panel1;
         private TimeSheetControl.TimeSheetGridView tsGridView;
         private System.Windows.Forms.ImageList imageList1;
-        private TimeSheetControl.MyContextMenu gridContextMenu;
+        private TimeSheetControl.MyContextMenu ctxmnuGridView;
         private System.Windows.Forms.ComboBox cmbStyle;
+        private TimeSheetControl.MyContextMenu ctxmnuTimeSheetRecord;
 	}
 }
