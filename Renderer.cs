@@ -107,7 +107,7 @@ namespace TimeSheetControl
             // Text
             if (!string.IsNullOrEmpty(text))
             {
-                using (Brush textBrush = new SolidBrush(Renderer.InvertColor(color)))
+                using (Brush textBrush = new SolidBrush(Renderer.InvertColor(color == Color.Empty ? Color.White : color)))
                 {
                     Renderer.DrawString(graphics, text, boxRect, font, textBrush, textAlign);
                 }

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Windows.Forms;
 
 namespace TimeSheetControl
@@ -74,6 +77,7 @@ namespace TimeSheetControl
         private string _headerDateFormat;
 
         [Category("TimeSheet")]
+        [DisplayName("Header Date Format")]
         public string HeaderDateFormat
         {
             get { return _headerDateFormat; }
@@ -89,11 +93,31 @@ namespace TimeSheetControl
         /// The position show tool tip.
         /// </value>
         [Category("TimeSheet")]
+        [DisplayName("PositionShowToolTip")]
         public ContentAlignment PositionShowToolTip
         {
             get { return _positionShowToolTip; }
             set { _positionShowToolTip = value; }
         }
+
+        //private Dictionary<TimeSheetCatalog, Color> _catalogColors;
+        
+        //[Category("TimeSheet")]
+        //public Dictionary<TimeSheetCatalog, Color> CatalogColors
+        //{
+        //    get { return _catalogColors; }
+        //    set { _catalogColors = value; }
+        //}
+
+        [Category("TimeSheet")]
+        [Editor(typeof(GenericCollectionEditor), typeof(UITypeEditor))]
+        [DisplayName("Catalog Colors")]
+        public GenericCollectionBase<TimeSheetCatalogColor> CatalogColors { get; set; }
+
+        [Category("TimeSheet")]
+        [Editor(typeof(GenericCollectionEditor), typeof(UITypeEditor))]
+        [DisplayName("Status Colors")]
+        public GenericCollectionBase<TimeSheetStatusColor> StatusColors { get; set; }
 
         #endregion Properties
         
@@ -119,13 +143,41 @@ namespace TimeSheetControl
             _fromDate = DateTime.Now;
             _toDate = DateTime.Now;
 
+            // Header Format
             _headerDateFormat = "ddd, dd/MM/yyyy";
 
-            _positionShowToolTip = ContentAlignment.TopRight;
+            // Default Color
+            DefaultColor();
+
+            // Check position for Tooltip
+            _positionShowToolTip = ContentAlignment.TopRight;            
 
             // Init PopupToolTip
             popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
 
+        }
+
+        private void DefaultColor()
+        {
+            this.CatalogColors = new GenericCollectionBase<TimeSheetCatalogColor>();
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.None, Color.Empty));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.WorkingDay, Color.FromArgb(29, 43, 78)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.Holiday, Color.FromArgb(248, 210, 255)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.WeekendOff, Color.FromArgb(125, 125, 125)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.WeekendOffHalf, Color.FromArgb(227, 227, 227)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.Leave, Color.FromArgb(255, 249, 189)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.BusinessTrip, Color.FromArgb(30, 143, 151)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.Overtime, Color.FromArgb(246, 134, 134)));
+            this.CatalogColors.Add(new TimeSheetCatalogColor(TimeSheetCatalog.Shift, Color.FromArgb(228, 249, 255)));
+
+            this.StatusColors = new GenericCollectionBase<TimeSheetStatusColor>();
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetStatus.None, Color.Empty));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.InvalidTS, Color.FromArgb(255, 0, 0)));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.ValidTS, Color.FromArgb(0, 255, 0)));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.UnApprovedOT, Color.FromArgb(255, 0, 0)));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.ApprovedOT, Color.FromArgb(0, 255, 0)));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.ApprovedLeave, Color.FromArgb(0, 255, 0)));
+            this.StatusColors.Add(new TimeSheetStatusColor(TimeSheetControl.TimeSheetStatus.Locked, Color.FromArgb(255, 0, 0)));
         }
 
         private void RenderGrid()
@@ -495,40 +547,39 @@ namespace TimeSheetControl
                 handler(this, e);
             }
         } 
-        #endregion
-
-        #region A part of cell is selected
-        private static readonly object EVENT_TIMESHEETRECORDSELECTED = new object();
-        
-        public event EventHandler<TimeSheetRecordSelectedEventArgs> TimeSheetRecordSelected
-        {
-            add
-            {
-                base.Events.AddHandler(EVENT_TIMESHEETRECORDSELECTED, value);
-            }
-
-            remove
-            {
-                base.Events.RemoveHandler(EVENT_TIMESHEETRECORDSELECTED, value);
-            }
-        }
-
-        protected virtual void OnTimeSheetRecordSelected(TimeSheetRecordSelectedEventArgs e)
-        {
-            var handler = base.Events[EVENT_TIMESHEETRECORDSELECTED] as EventHandler<TimeSheetRecordSelectedEventArgs>;
-            if (handler != null && !base.IsDisposed)
-            {
-                handler(this, e);
-            }
-        }
-        #endregion
+        #endregion        
 
         #endregion Events
 
         #region Function for getting color from setting
 
-        public Func<TimeSheetCatalog, Color> GetColorByTimeSheetCatalog;
-        public Func<TimeSheetStatus, Color> GetColorByTimeSheetStatus;               
+        public Color GetColorByTimeSheetCatalog(TimeSheetCatalog catalog)
+        {
+            if (this.CatalogColors != null && this.CatalogColors.Count > 0)
+            {
+                foreach (TimeSheetCatalogColor catColor in this.CatalogColors)
+                {
+                    if (catColor.Catalog == catalog)
+                        return catColor.Color;
+                }
+            }
+
+            return Color.Empty;
+        }
+
+        public Color GetColorByTimeSheetStatus(TimeSheetStatus status)
+        {
+            if (this.StatusColors != null && this.StatusColors.Count > 0)
+            {
+                foreach (TimeSheetStatusColor statusColor in this.StatusColors)
+                {
+                    if (statusColor.Status == status)
+                        return statusColor.Color;
+                }
+            }
+
+            return Color.Empty;
+        }
 
         #endregion        
 
@@ -576,29 +627,104 @@ namespace TimeSheetControl
         {
             this.SelectedCell = selectedCell;
         }
+    }    
+
+    #endregion EventArgs
+
+    #region GUI editor
+
+    public class GenericCollectionBase<T> : CollectionBase  where T : class
+    {
+        public T this[int index]
+        {
+            get { return (T)List[index]; }
+        }
+
+        public void Add(T catColor)
+        {
+            List.Add(catColor);
+        }
+
+        public void Remove(T catColor)
+        {
+            List.Remove(catColor);
+        }
+
+        public int Count
+        {
+            get { return List.Count; }
+        }
     }
 
     /// <summary>
-    /// PartCellSelectedEventArgs
+    /// TimeSheetCatalogColor
     /// </summary>
-    public class TimeSheetRecordSelectedEventArgs : EventArgs
+    public class TimeSheetCatalogColor
     {
-        public TimeSheetRecord SelectedTimeSheetRecord { get; set; }
-        public DataGridViewCell SelectedCell { get; set; }
+        public TimeSheetCatalog Catalog { get; set; }
+        public Color Color { get; set; }
 
-        public TimeSheetRecordSelectedEventArgs()
+        public TimeSheetCatalogColor()
         {
 
         }
 
-        public TimeSheetRecordSelectedEventArgs(DataGridViewCell selectedCell, TimeSheetRecord tsRecord)
+        public TimeSheetCatalogColor(TimeSheetCatalog catalog, Color color)
         {
-            this.SelectedCell = selectedCell;
-            this.SelectedTimeSheetRecord = tsRecord;
+            this.Catalog = catalog;
+            this.Color = color;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} / {1}", this.Catalog, this.Color);
         }
     }
 
-    #endregion EventArgs
+    /// <summary>
+    /// TimeSheetStatusColor
+    /// </summary>
+    public class TimeSheetStatusColor
+    {
+        public TimeSheetStatus Status { get; set; }
+        public Color Color { get; set; }
+
+        public TimeSheetStatusColor()
+        {
+
+        }
+
+        public TimeSheetStatusColor(TimeSheetStatus status, Color color)
+        {
+            this.Status = status;
+            this.Color = color;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} / {1}", this.Status, this.Color);
+        }
+    }
+
+    /// <summary>
+    /// GenericCollectionEditor for PropertyGrid
+    /// </summary>
+    [ToolboxItem(false)]
+    public class GenericCollectionEditor : System.ComponentModel.Design.CollectionEditor
+    {
+        public GenericCollectionEditor(Type type)
+            : base(type)
+        {
+
+        }
+
+        protected override string GetDisplayText(object value)
+        {
+            return base.GetDisplayText(value.ToString());
+        }
+    }
+
+    #endregion
 
     /// <summary>
     /// TimeSheetDayCopiedArray is used for storing copied from gridview
