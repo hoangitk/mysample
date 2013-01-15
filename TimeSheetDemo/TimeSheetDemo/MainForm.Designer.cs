@@ -38,36 +38,38 @@ namespace TimeSheetDemo
 		{            
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor1 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor2 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor3 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor4 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor5 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor6 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor7 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor8 = new TimeSheetControl.TimeSheetCatalogColor();
+            TimeSheetControl.TimeSheetCatalogColor timeSheetCatalogColor9 = new TimeSheetControl.TimeSheetCatalogColor();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor1 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor2 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor3 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor4 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor5 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor6 = new TimeSheetControl.TimeSheetStatusColor();
+            TimeSheetControl.TimeSheetStatusColor timeSheetStatusColor7 = new TimeSheetControl.TimeSheetStatusColor();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cmbStyle = new System.Windows.Forms.ComboBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.tsGridView = new TimeSheetControl.TimeSheetGridView();
             this.ctxmnuGridView = new TimeSheetControl.MyContextMenu(this.components);
-            this.ctxmnuTimeSheetRecord = new TimeSheetControl.MyContextMenu(this.components);
-            this.panel1.SuspendLayout();
+            this.tsGridView = new TimeSheetControl.TimeSheetGridView();
             ((System.ComponentModel.ISupportInitialize)(this.tsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.cmbStyle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 356);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(614, 65);
             this.panel1.TabIndex = 1;
-            // 
-            // cmbStyle
-            // 
-            this.cmbStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbStyle.FormattingEnabled = true;
-            this.cmbStyle.Location = new System.Drawing.Point(12, 23);
-            this.cmbStyle.Name = "cmbStyle";
-            this.cmbStyle.Size = new System.Drawing.Size(135, 21);
-            this.cmbStyle.TabIndex = 2;
             // 
             // imageList1
             // 
@@ -103,11 +105,43 @@ namespace TimeSheetDemo
             this.imageList1.Images.SetKeyName(27, "staff-training.ico");
             this.imageList1.Images.SetKeyName(28, "staff-waitforresign.ico");
             // 
+            // ctxmnuGridView
+            // 
+            this.ctxmnuGridView.Name = "gridContextMenu";
+            this.ctxmnuGridView.Size = new System.Drawing.Size(61, 4);
+            // 
             // tsGridView
             // 
             this.tsGridView.AllowUserToAddRows = false;
+            timeSheetCatalogColor1.Catalog = TimeSheetControl.TimeSheetCatalog.None;
+            timeSheetCatalogColor1.Color = System.Drawing.Color.Empty;
+            timeSheetCatalogColor2.Catalog = TimeSheetControl.TimeSheetCatalog.WorkingDay;
+            timeSheetCatalogColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            timeSheetCatalogColor3.Catalog = TimeSheetControl.TimeSheetCatalog.Holiday;
+            timeSheetCatalogColor3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(210)))), ((int)(((byte)(255)))));
+            timeSheetCatalogColor4.Catalog = TimeSheetControl.TimeSheetCatalog.WeekendOff;
+            timeSheetCatalogColor4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(156)))), ((int)(((byte)(157)))));
+            timeSheetCatalogColor5.Catalog = TimeSheetControl.TimeSheetCatalog.WeekendOffHalf;
+            timeSheetCatalogColor5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
+            timeSheetCatalogColor6.Catalog = TimeSheetControl.TimeSheetCatalog.Leave;
+            timeSheetCatalogColor6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(249)))), ((int)(((byte)(189)))));
+            timeSheetCatalogColor7.Catalog = TimeSheetControl.TimeSheetCatalog.BusinessTrip;
+            timeSheetCatalogColor7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(166)))), ((int)(((byte)(171)))));
+            timeSheetCatalogColor8.Catalog = TimeSheetControl.TimeSheetCatalog.Overtime;
+            timeSheetCatalogColor8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+            timeSheetCatalogColor9.Catalog = TimeSheetControl.TimeSheetCatalog.Shift;
+            timeSheetCatalogColor9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor1);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor2);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor3);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor4);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor5);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor6);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor7);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor8);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetCatalogColor>().Add(timeSheetCatalogColor9);
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -124,34 +158,36 @@ namespace TimeSheetDemo
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tsGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.tsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tsGridView.FromDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
+            this.tsGridView.FromDate = new System.DateTime(2013, 1, 15, 16, 59, 11, 809);
             this.tsGridView.HeaderDateFormat = "ddd, dd/MM/yyyy";
             this.tsGridView.Location = new System.Drawing.Point(0, 0);
             this.tsGridView.Name = "tsGridView";
             this.tsGridView.PositionShowToolTip = System.Drawing.ContentAlignment.TopRight;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.tsGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsGridView.RowTemplate.Height = 25;            
+            this.tsGridView.RowTemplate.Height = 25;
             this.tsGridView.Size = new System.Drawing.Size(614, 356);
-            this.tsGridView.TabIndex = 2;
-            this.tsGridView.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
-            // 
-            // ctxmnuGridView
-            // 
-            this.ctxmnuGridView.Name = "gridContextMenu";
-            this.ctxmnuGridView.Size = new System.Drawing.Size(61, 4);
-            // 
-            // ctxmnuTimeSheetRecord
-            // 
-            this.ctxmnuTimeSheetRecord.Name = "ctxmnuTimeSheetRecord";
-            this.ctxmnuTimeSheetRecord.Size = new System.Drawing.Size(153, 26);
+            timeSheetStatusColor1.Color = System.Drawing.Color.Empty;
+            timeSheetStatusColor1.Status = TimeSheetControl.TimeSheetStatus.None;
+            timeSheetStatusColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor2.Status = TimeSheetControl.TimeSheetStatus.InvalidTS;
+            timeSheetStatusColor3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor3.Status = TimeSheetControl.TimeSheetStatus.ValidTS;
+            timeSheetStatusColor4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor4.Status = TimeSheetControl.TimeSheetStatus.UnApprovedOT;
+            timeSheetStatusColor5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor5.Status = TimeSheetControl.TimeSheetStatus.ApprovedOT;
+            timeSheetStatusColor6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor6.Status = TimeSheetControl.TimeSheetStatus.ApprovedLeave;
+            timeSheetStatusColor7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            timeSheetStatusColor7.Status = TimeSheetControl.TimeSheetStatus.Locked;
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor1);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor2);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor3);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor4);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor5);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor6);
+            new TimeSheetControl.GenericCollectionBase<TimeSheetControl.TimeSheetStatusColor>().Add(timeSheetStatusColor7);
+            this.tsGridView.TabIndex = 3;
+            this.tsGridView.ToDate = new System.DateTime(2013, 1, 15, 16, 59, 11, 809);
             // 
             // MainForm
             // 
@@ -162,7 +198,6 @@ namespace TimeSheetDemo
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "TimeSheetDemo";
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -170,10 +205,8 @@ namespace TimeSheetDemo
         }
 
         private System.Windows.Forms.Panel panel1;
-        private TimeSheetControl.TimeSheetGridView tsGridView;
         private System.Windows.Forms.ImageList imageList1;
         private TimeSheetControl.MyContextMenu ctxmnuGridView;
-        private System.Windows.Forms.ComboBox cmbStyle;
-        private TimeSheetControl.MyContextMenu ctxmnuTimeSheetRecord;
+        private TimeSheetControl.TimeSheetGridView tsGridView;
 	}
 }

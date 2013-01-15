@@ -101,10 +101,11 @@ namespace TimeSheetControl
         {
         }
 
-        public MyMenuItem(string menuName, string text) : this(text)
+        public MyMenuItem(string text, Action<object, EventArgs> command) : this(text)
         {
-            this.Name = menuName;
+            this.Click += new EventHandler(command);
         }
+
         #region IMyMenuItem Members
 
         public IMyMenuItem SetCommand(Action<object, EventArgs> command)
