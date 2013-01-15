@@ -17,7 +17,14 @@ namespace TimeSheetControl
         {         
         }
 
-        public void AddNewCommand(string commandId,  string commandName, Action<object, EventArgs> command = null, 
+        public MyContextMenu AddMenuItem(IMyMenuItem menuItem)
+        {
+            this.Items.Add(menuItem as MyMenuItem);
+
+            return this;
+        }
+
+        public MyContextMenu AddNewCommand(string commandId, string commandName, Action<object, EventArgs> command = null, 
             System.Drawing.Image icon = null, string parentId = "", bool overrideIfExisted = false)
         {                        
             bool isExisted = this.Items.ContainsKey(commandId);
@@ -63,16 +70,80 @@ namespace TimeSheetControl
                     }
                 }
             }
+
+            return this;
         }
 
-        public void RemoveCommand(string commandId, bool searchAllChildren = false)
+        public MyContextMenu RemoveCommand(string commandId, bool searchAllChildren = false)
         {
             var findMenuItems = this.Items.Find(commandId, searchAllChildren);
             for (int i = 0; i < findMenuItems.Length; i++)
             {
                 this.Items.Remove(findMenuItems[i]);
             }
+
+            return this;
+        }        
+    }
+
+    public interface IMyMenuItem
+    {
+        IMyMenuItem SetCommand(Action<object, EventArgs> command);
+        IMyMenuItem AddChild(IMyMenuItem childMenuItem);
+        IMyMenuItem DeleteChild(IMyMenuItem childMenuItem);
+        IMyMenuItem SetIcon(System.Drawing.Image icon);
+        IMyMenuItem SetShortcutKeys(Keys shortcutKeys);
+    }
+
+    public class MyMenuItem : ToolStripMenuItem, IMyMenuItem
+    {
+        public MyMenuItem(string text) : base(text)
+        {
         }
+
+        public MyMenuItem(string menuName, string text) : this(text)
+        {
+            this.Name = menuName;
+        }
+        #region IMyMenuItem Members
+
+        public IMyMenuItem SetCommand(Action<object, EventArgs> command)
+        {
+            this.Click += new EventHandler(command);
+            
+            return this;
+        }
+
+        public IMyMenuItem AddChild(IMyMenuItem childMenuItem)
+        {
+            this.DropDownItems.Add(childMenuItem as MyMenuItem);
+
+            return this;
+        }
+
+        public IMyMenuItem DeleteChild(IMyMenuItem childMenuItem)
+        {
+            this.DropDownItems.Remove(childMenuItem as MyMenuItem);
+
+            return this;
+        }
+
+        public IMyMenuItem SetIcon(System.Drawing.Image icon)
+        {
+            this.Image = icon;
+
+            return this;
+        }
+
+
+        public IMyMenuItem SetShortcutKeys(Keys shortcutKeys)
+        {
+            this.ShortcutKeys = shortcutKeys;
+
+            return this;
+        }
+
+        #endregion
     }
 
     public class OverParentCommandException : Exception
