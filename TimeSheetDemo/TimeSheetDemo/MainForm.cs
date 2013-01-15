@@ -201,14 +201,7 @@ namespace TimeSheetDemo
                 if (hitInfo.ColumnIndex >= this.tsGridView.ColumnHeaderCount
                     && hitInfo.RowIndex >= 0)
                 {
-                    if (this.tsGridView.SelectedTimeSheetRecord != null)
-                    {
-                        this.ctxmnuTimeSheetRecord.Show(this.tsGridView, e.X, e.Y);
-                    }
-                    else
-                    {
-                        this.ctxmnuGridView.Show(this.tsGridView, e.X, e.Y);
-                    }
+                    this.ctxmnuGridView.Show(this.tsGridView, e.X, e.Y);
                 }
             }
         }

@@ -95,6 +95,14 @@ namespace TimeSheetControl
             set { _positionShowToolTip = value; }
         }
 
+        private TimeSheetRecord _selectedTimeSheetRecord;
+
+        public TimeSheetRecord SelectedTimeSheetRecord
+        {
+            get { return _selectedTimeSheetRecord; }
+            set { _selectedTimeSheetRecord = value; }
+        }
+
         #endregion Properties
         
         public TimeSheetGridView()
@@ -122,6 +130,8 @@ namespace TimeSheetControl
             _headerDateFormat = "ddd, dd/MM/yyyy";
 
             _positionShowToolTip = ContentAlignment.TopRight;
+
+            _selectedTimeSheetRecord = null;
 
             // Init PopupToolTip
             popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
@@ -287,9 +297,22 @@ namespace TimeSheetControl
             if(e.ColumnIndex >= this.ColumnHeaderCount && e.RowIndex >= 0)
             {
                 var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
-                                
+                
+                // Check point in over a TimeSheetRecord
                 if (tsDay != null)
-                {                   
+                {
+                    // Check mouse point is inbound a TimeSheetRecord
+                    var tsCell = this.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTimeSheetCell;
+                    var tsRecord = tsCell.FindTimeSheetRecord(e.X, e.Y);
+
+                    //if (tsRecord != null)
+                    //{
+                    //    Debug.WriteLine(tsRecord);
+                    //    OnTimeSheetRecordSelected(new TimeSheetRecordSelectedEventArgs(tsCell, tsRecord));
+                    //}
+
+                    _selectedTimeSheetRecord = tsRecord;
+
                     // show tool tip
                     if (e.Button == System.Windows.Forms.MouseButtons.Left && !popupToolTip.Visible)
                     {

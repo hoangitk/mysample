@@ -138,8 +138,7 @@ namespace TimeSheetDemo
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tsGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tsGridView.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tsGridView.RowTemplate.Height = 25;
-            this.tsGridView.SelectedTimeSheetRecord = null;
+            this.tsGridView.RowTemplate.Height = 25;            
             this.tsGridView.Size = new System.Drawing.Size(614, 356);
             this.tsGridView.TabIndex = 2;
             this.tsGridView.ToDate = new System.DateTime(2013, 1, 4, 11, 7, 41, 481);
