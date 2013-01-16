@@ -10,7 +10,8 @@ namespace TimeSheetControl
     public class MyContextMenu : ContextMenuStrip
     {        
         public MyContextMenu() : base()
-        {            
+        {           
+            
         }
 
         public MyContextMenu(IContainer container) : base(container)
@@ -83,7 +84,13 @@ namespace TimeSheetControl
             }
 
             return this;
-        }        
+        }
+
+        public MyContextMenu AddSeperator()
+        {
+            this.Items.Add("-");
+            return this;
+        }
     }
 
     public interface IMyMenuItem
@@ -94,6 +101,8 @@ namespace TimeSheetControl
         IMyMenuItem SetIcon(System.Drawing.Image icon);
         IMyMenuItem SetShortcutKeys(Keys shortcutKeys);
         IMyMenuItem SetEnable(bool enable);
+        IMyMenuItem ClearChildren();
+        IMyMenuItem AddSeperator();
     }
 
     public class MyMenuItem : ToolStripMenuItem, IMyMenuItem
@@ -159,6 +168,20 @@ namespace TimeSheetControl
         public IMyMenuItem SetEnable(bool enable)
         {
             this.Enabled = enable;
+
+            return this;
+        }
+
+        public IMyMenuItem ClearChildren()
+        {
+            this.DropDownItems.Clear();
+
+            return this;
+        }
+
+        public IMyMenuItem AddSeperator()
+        {
+            this.DropDownItems.Add("-");
 
             return this;
         }
