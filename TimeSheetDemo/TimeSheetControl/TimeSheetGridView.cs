@@ -8,8 +8,12 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
 
+internal class resfinder { }
+
 namespace TimeSheetControl
 {
+    [ToolboxBitmap(typeof(resfinder), "TimeSheetControl.grid.ico")]
+    [ToolboxItem(true)] 
     public class TimeSheetGridView : DataGridView
     {
         #region Constants
@@ -100,15 +104,6 @@ namespace TimeSheetControl
             set { _positionShowToolTip = value; }
         }
 
-        //private Dictionary<TimeSheetCatalog, Color> _catalogColors;
-        
-        //[Category("TimeSheet")]
-        //public Dictionary<TimeSheetCatalog, Color> CatalogColors
-        //{
-        //    get { return _catalogColors; }
-        //    set { _catalogColors = value; }
-        //}
-
         [Category("TimeSheet")]
         [Editor(typeof(GenericCollectionEditor), typeof(UITypeEditor))]
         [DisplayName("Catalog Colors")]
@@ -122,7 +117,13 @@ namespace TimeSheetControl
         #endregion Properties
         
         public TimeSheetGridView()
-        {            
+        {
+
+            string[] sa = this.GetType().Assembly.GetManifestResourceNames();
+
+            foreach (string s in sa)
+                System.Diagnostics.Trace.WriteLine(s);
+
             this.SetStyle(ControlStyles.UserPaint
                 | ControlStyles.AllPaintingInWmPaint
                 | ControlStyles.OptimizedDoubleBuffer, true);
