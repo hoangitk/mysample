@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Design;
@@ -13,11 +12,12 @@ internal class resfinder { }
 namespace TimeSheetControl
 {
     [ToolboxBitmap(typeof(resfinder), "TimeSheetControl.grid.ico")]
-    [ToolboxItem(true)] 
+    [ToolboxItem(true)]
+    [Description("TimeSheetGridView show time-sheet data on grid")]
     public class TimeSheetGridView : DataGridView
     {
         #region Constants
-        
+
         public static readonly int MIN_HEADER_HEIGHT = 40;
         public static readonly int MIN_HEADER_WIDTH = 100;
         public static readonly int MIN_CELL_HEIGHT = 25;
@@ -37,6 +37,8 @@ namespace TimeSheetControl
         /// <value>
         /// From date.
         /// </value>
+        [Category("TimeSheet")]
+        [Browsable(false)]
         public DateTime FromDate
         {
             get { return _fromDate; }
@@ -56,6 +58,8 @@ namespace TimeSheetControl
         /// To date.
         /// </value>
         /// <exception cref="System.ArgumentOutOfRangeException">ToDate must be great than or equal FromDate</exception>
+        [Category("TimeSheet")]
+        [Browsable(false)]
         public DateTime ToDate
         {
             get { return _toDate; }
@@ -68,11 +72,13 @@ namespace TimeSheetControl
             }
         }
 
+        [Category("TimeSheet")]
         public int DayCount
         {
             get { return (_toDate - _fromDate).Days + 1; }
         }
 
+        [Category("TimeSheet")]
         public int ColumnHeaderCount
         {
             get { return 2; }
@@ -115,10 +121,9 @@ namespace TimeSheetControl
         public GenericCollectionBase<TimeSheetStatusColor> StatusColors { get; set; }
 
         #endregion Properties
-        
+
         public TimeSheetGridView()
         {
-
             string[] sa = this.GetType().Assembly.GetManifestResourceNames();
 
             foreach (string s in sa)
@@ -129,7 +134,7 @@ namespace TimeSheetControl
                 | ControlStyles.OptimizedDoubleBuffer, true);
 
             #region Default grid view
-            
+
             this.AutoSize = true;
             this.AutoGenerateColumns = false;
             this.AllowUserToOrderColumns = false;
@@ -137,8 +142,8 @@ namespace TimeSheetControl
             this.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             this.RowTemplate.Height = MIN_CELL_HEIGHT;
             this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
-            
-            #endregion                       
+
+            #endregion Default grid view
 
             // Init FromDate and ToDate
             _fromDate = DateTime.Now;
@@ -151,11 +156,10 @@ namespace TimeSheetControl
             DefaultColor();
 
             // Check position for Tooltip
-            _positionShowToolTip = ContentAlignment.TopRight;            
+            _positionShowToolTip = ContentAlignment.TopRight;
 
             // Init PopupToolTip
-            popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());           
-
+            popupToolTip = new PopupControl.Popup(commentToolTip = new CommentToolTip());
         }
 
         private void DefaultColor()
@@ -183,7 +187,7 @@ namespace TimeSheetControl
 
         private void RenderGrid()
         {
-            if (!this.DesignMode)
+            if (!this.DesignMode && this.DataSource != null)
             {
                 this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 this.ColumnHeadersHeight = MIN_HEADER_HEIGHT;
@@ -237,14 +241,14 @@ namespace TimeSheetControl
                                 for (int j = 0; j < tsItem.TimeSheetDays.Count; j++)
                                 {
                                     var tsDay = tsItem.TimeSheetDays[j];
-                                    
+
                                     // old method: bind by array
                                     //int columnDayIndex = (tsDay.Day - this.FromDate).Days + this.ColumnHeaderCount;
                                     //this.Rows[i].Cells[columnDayIndex].Value = tsDay;
 
                                     // new method: bind by column name
                                     var columnDayName = tsDay.Day.ToString(COLUMN_TIMESHEET_NAME_ID_FORMAT);
-                                    var cell = this.Rows[i].Cells[columnDayName];                                    
+                                    var cell = this.Rows[i].Cells[columnDayName];
                                     if (cell != null)
                                         cell.Value = tsDay;
                                 }
@@ -295,7 +299,7 @@ namespace TimeSheetControl
 
             base.OnColumnHeadersHeightChanged(e);
         }
-                
+
         protected override void OnDataSourceChanged(EventArgs e)
         {
             base.OnDataSourceChanged(e);
@@ -311,11 +315,11 @@ namespace TimeSheetControl
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
+
             // Draw the timesheet grid
             for (int i = 0; i < this.Rows.Count; i++)
             {
-                var curRow = this.Rows[i];     
+                var curRow = this.Rows[i];
 
                 for (int j = this.ColumnHeaderCount; j < curRow.Cells.Count; j++)
                 {
@@ -326,23 +330,23 @@ namespace TimeSheetControl
                     }
                 }
             }
-        }       
+        }
 
         #region Mouse event
 
-        PopupControl.Popup popupToolTip;
-        CommentToolTip commentToolTip;            
+        private PopupControl.Popup popupToolTip;
+        private CommentToolTip commentToolTip;
 
         protected override void OnCellMouseClick(DataGridViewCellMouseEventArgs e)
         {
-            base.OnCellMouseClick(e);            
-            
-            if(e.ColumnIndex >= this.ColumnHeaderCount && e.RowIndex >= 0)
+            base.OnCellMouseClick(e);
+
+            if (e.ColumnIndex >= this.ColumnHeaderCount && e.RowIndex >= 0)
             {
                 var tsDay = this.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as TimeSheetDay;
-                                
+
                 if (tsDay != null)
-                {                   
+                {
                     // show tool tip
                     if (e.Button == System.Windows.Forms.MouseButtons.Left && !popupToolTip.Visible)
                     {
@@ -355,8 +359,7 @@ namespace TimeSheetControl
                             popupToolTip.Show(this, rect);
                         }
                     }// ToolTip
-
-                }// Check CellValue is not null                
+                }// Check CellValue is not null
             }
         }
 
@@ -366,7 +369,7 @@ namespace TimeSheetControl
             base.OnCellMouseLeave(e);
         }
 
-        #endregion  Comment ToolTip
+        #endregion Mouse event
 
         #region Action on interface
 
@@ -376,7 +379,7 @@ namespace TimeSheetControl
         public void CopyToClipBoard()
         {
             if (this.SelectedCells.Count > 0)
-            {               
+            {
                 TimeSheetDayCopiedArray copiedArray = new TimeSheetDayCopiedArray(this.SelectedCells);
                 if (copiedArray.HasData)
                 {
@@ -406,18 +409,18 @@ namespace TimeSheetControl
                             // Only fill on selected cells
                             // Case 1: copied array is equal selected cells
                             // Case 2: copied array is inside selected cells
-                            // Case 3: copied array is outside selected cells                           
+                            // Case 3: copied array is outside selected cells
                             int deltaRow, deltaCol;
                             if (onlySelectedCells)
                             {
                                 deltaRow = maxRow - minRow + 1;
-                                deltaCol = maxCol - minCol + 1;                                                           
+                                deltaCol = maxCol - minCol + 1;
                             }
                             else
                             {
                                 // Only use a presented selected cell
                                 // Case 1: enough range to fill from copied array
-                                // Case 2: not enough range to fill from copied array 
+                                // Case 2: not enough range to fill from copied array
 
                                 deltaRow = this.Rows.Count - minRow;
                                 deltaCol = this.Columns.Count - minCol - this.ColumnHeaderCount;
@@ -427,7 +430,7 @@ namespace TimeSheetControl
                             if (clipboardTimeSheetDayArray.MaxRow < deltaRow)
                                 maxRow = minRow + clipboardTimeSheetDayArray.MaxRow;
                             if (clipboardTimeSheetDayArray.MaxCol < deltaCol)
-                                maxCol = minCol + clipboardTimeSheetDayArray.MaxCol;     
+                                maxCol = minCol + clipboardTimeSheetDayArray.MaxCol;
 
                             for (int i = minRow; i <= maxRow; i++)
                             {
@@ -445,11 +448,13 @@ namespace TimeSheetControl
                                         var clipboardValue = clipboardTimeSheetDayArray[rowIndex, colIndex];
 
                                         var cellPastingEventArgs = new CellPastingEventArgs(selectedCell, clipboardValue);
+
                                         // Perform before cell is pasted
                                         OnCellPasting(cellPastingEventArgs);
                                         if (!cellPastingEventArgs.Cancel)
                                         {
                                             CopyAndPasteCell(selectedCell, clipboardValue);
+
                                             // Perform after cell is pasted
                                             OnCellPasted(new CellPastedEventArgs(selectedCell));
                                         }
@@ -459,7 +464,7 @@ namespace TimeSheetControl
                         }
                     }
                 }// Clipboard present TimeSheetDayCopiedArray
-            } // Check SelectedCells           
+            } // Check SelectedCells
         }
 
         private static void CopyAndPasteCell(DataGridViewCell selectedCell, TimeSheetDay clipboarValue)
@@ -486,13 +491,14 @@ namespace TimeSheetControl
                 newTimeSheetDay.Day = updateDay;
                 selectedCell.Value = newTimeSheetDay;
             }
-        }             
+        }
 
-        #endregion
+        #endregion Action on interface
 
         #region Events
 
         #region Cell is Pasting
+
         private static readonly object EVENT_CELLPASTING = new object();
 
         /// <summary>
@@ -518,10 +524,12 @@ namespace TimeSheetControl
             {
                 handler(this, e);
             }
-        } 
-        #endregion
+        }
+
+        #endregion Cell is Pasting
 
         #region Cell is pasted
+
         private static readonly object EVENT_CELLPASTED = new object();
 
         /// <summary>
@@ -547,8 +555,9 @@ namespace TimeSheetControl
             {
                 handler(this, e);
             }
-        } 
-        #endregion        
+        }
+
+        #endregion Cell is pasted
 
         #endregion Events
 
@@ -582,11 +591,11 @@ namespace TimeSheetControl
             return Color.Empty;
         }
 
-        #endregion        
+        #endregion Function for getting color from setting
 
         #region Other supporting functions
 
-        #endregion
+        #endregion Other supporting functions
     }
 
     #region EventArgs
@@ -597,7 +606,9 @@ namespace TimeSheetControl
     public class CellPastingEventArgs : EventArgs
     {
         public DataGridViewCell SelectedCell { get; set; }
+
         public TimeSheetDay NewValue { get; set; }
+
         public bool Cancel { get; set; }
 
         public CellPastingEventArgs()
@@ -605,7 +616,8 @@ namespace TimeSheetControl
             this.Cancel = false;
         }
 
-        public CellPastingEventArgs(DataGridViewCell selectedCell, TimeSheetDay newValue) : this()
+        public CellPastingEventArgs(DataGridViewCell selectedCell, TimeSheetDay newValue)
+            : this()
         {
             this.SelectedCell = selectedCell;
             this.NewValue = newValue;
@@ -621,20 +633,19 @@ namespace TimeSheetControl
 
         public CellPastedEventArgs()
         {
-
         }
 
         public CellPastedEventArgs(DataGridViewCell selectedCell)
         {
             this.SelectedCell = selectedCell;
         }
-    }    
+    }
 
     #endregion EventArgs
 
     #region GUI editor
 
-    public class GenericCollectionBase<T> : CollectionBase  where T : class
+    public class GenericCollectionBase<T> : CollectionBase where T : class
     {
         public T this[int index]
         {
@@ -663,11 +674,11 @@ namespace TimeSheetControl
     public class TimeSheetCatalogColor
     {
         public TimeSheetCatalog Catalog { get; set; }
+
         public Color Color { get; set; }
 
         public TimeSheetCatalogColor()
         {
-
         }
 
         public TimeSheetCatalogColor(TimeSheetCatalog catalog, Color color)
@@ -688,11 +699,11 @@ namespace TimeSheetControl
     public class TimeSheetStatusColor
     {
         public TimeSheetStatus Status { get; set; }
+
         public Color Color { get; set; }
 
         public TimeSheetStatusColor()
         {
-
         }
 
         public TimeSheetStatusColor(TimeSheetStatus status, Color color)
@@ -716,7 +727,6 @@ namespace TimeSheetControl
         public GenericCollectionEditor(Type type)
             : base(type)
         {
-
         }
 
         protected override string GetDisplayText(object value)
@@ -725,15 +735,16 @@ namespace TimeSheetControl
         }
     }
 
-    #endregion
+    #endregion GUI editor
 
     /// <summary>
     /// TimeSheetDayCopiedArray is used for storing copied from gridview
     /// </summary>
     [Serializable]
     internal class TimeSheetDayCopiedArray
-    {        
+    {
         public int MaxRow { get; private set; }
+
         public int MaxCol { get; private set; }
 
         private TimeSheetDay[,] _timeSheetDayArray;
@@ -741,10 +752,11 @@ namespace TimeSheetControl
         public TimeSheetDayCopiedArray()
         {
             this.MaxRow = 0;
-            this.MaxCol = 0;            
+            this.MaxCol = 0;
         }
 
-        public TimeSheetDayCopiedArray(DataGridViewSelectedCellCollection selectedCells) : this()
+        public TimeSheetDayCopiedArray(DataGridViewSelectedCellCollection selectedCells)
+            : this()
         {
             CopyFrom(selectedCells);
         }
@@ -795,10 +807,9 @@ namespace TimeSheetControl
                     return _timeSheetDayArray[rowIndex, colIndex];
                 }
                 catch (Exception)
-                {                    
+                {
                     throw;
                 }
-                
             }
         }
 
@@ -818,7 +829,7 @@ namespace TimeSheetControl
             }
         }
 
-        public static bool FindArrayBound(DataGridViewSelectedCellCollection selectedCells, 
+        public static bool FindArrayBound(DataGridViewSelectedCellCollection selectedCells,
             out int minRow, out int minCol, out int maxRow, out int maxCol)
         {
             minRow = int.MaxValue;
@@ -840,7 +851,7 @@ namespace TimeSheetControl
                         minCol = selectedCell.ColumnIndex;
                     if (selectedCell.ColumnIndex > maxCol)
                         maxCol = selectedCell.ColumnIndex;
-                }                               
+                }
 
                 // Throw exception if selectedcell is not serial
                 return (maxRow - minRow + 1) * (maxCol - minCol + 1) == selectedCells.Count;
