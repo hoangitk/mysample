@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: HoangITK
- * Date: 12/29/2012
- * Time: 12:01 AM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -38,9 +30,7 @@ namespace TimeSheetDemo
 
             this.tsGridView.CellContentDoubleClick += TimeSheetGridView_CellContentDoubleClick;
             this.tsGridView.CellPasting += TimeSheetGridView_CellPasting;
-            this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;
-
-            
+            this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;            
 		}
 
 		void MainForm_Load(object sender, EventArgs e)
@@ -71,7 +61,8 @@ namespace TimeSheetDemo
             this.ctxmnuGridView = new TimeSheetGridContextMenu();
             InitContextMenu();
 
-            #endregion
+            #endregion            
+            this.propertyGrid1.SelectedObject = this.tsGridView;
 
 		}
 
