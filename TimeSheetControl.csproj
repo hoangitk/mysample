@@ -118,9 +118,11 @@
       <Name>PopupControl</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\DataSources\TimeSheetType.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="grid.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
