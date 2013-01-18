@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TimeSheetControl.TimeSheetItem">
+    <Position X="6" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAQAAAAgACAAAAIAAAAAAAAAAIAAAAAACAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSheetControl.TimeSheetDay" Collapsed="true">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAEIAAAEAAEAAMAAAIBAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSheetControl.TimeSheetRecord" Collapsed="true">
+    <Position X="4.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAACACEAAAIGAAEAAAAgAAAgAAACAAAAAAACAAAAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeSheetControl.ShiftRecord" Collapsed="true">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSheetControl.LeaveRecord" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSheetControl.TimeSheetType" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAABgAAIBgAAAAIAAAAAAAAAgAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="TimeSheetControl.TimeSheetStatus" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgAAAhAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAEAAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TimeSheetControl.TimeSheetCatalog" Collapsed="true">
+    <Position X="7.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAgAAAAAAAgIAAEAAAAAAgAAIAEEAAA=</HashCode>
+      <FileName>TimeSheetItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

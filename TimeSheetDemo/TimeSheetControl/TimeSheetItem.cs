@@ -14,7 +14,7 @@ using System.Text;
 using System.Linq;
 
 namespace TimeSheetControl
-{    
+{
     [Serializable]
     public class TimeSheetItem
     {
@@ -233,7 +233,7 @@ namespace TimeSheetControl
 	
     [Serializable]
     public abstract class TimeSheetRecord : INotifyPropertyChanged
-    {        
+    {
         private DateTime _fromTime;
 
         public DateTime FromTime

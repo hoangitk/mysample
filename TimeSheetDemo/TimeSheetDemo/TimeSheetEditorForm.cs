@@ -64,14 +64,14 @@ namespace TimeSheetDemo
             this.leaveStatusColumn.DisplayMember = "Key";
             this.leaveStatusColumn.ValueMember = "Value";
 
-            //this.shiftTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
-            //                                            //.Where(t =>
-            //                                            //    t == default(TimeSheetType) ||
-            //                                            //    t.Catalog == TimeSheetCatalog.Shift ||
-            //                                            //    t.Catalog == TimeSheetCatalog.Overtime)
-            //                                            //    .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
-            //this.shiftTimeSheetTypeColumn.DisplayMember = "Key";
-            //this.shiftTimeSheetTypeColumn.ValueMember = "Value";
+            this.shiftTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            //.Where(t =>
+            //    t == default(TimeSheetType) ||
+            //    t.Catalog == TimeSheetCatalog.Shift ||
+            //    t.Catalog == TimeSheetCatalog.Overtime)
+            //    .ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
+            this.shiftTimeSheetTypeColumn.DisplayMember = "Key";
+            this.shiftTimeSheetTypeColumn.ValueMember = "Value";
 
             //this.leaveTimeSheetTypeColumn.DataSource = timeSheetTypeDataSource.ToIListKeyValuePair(t => t == default(TimeSheetType) ? "(null)" : t.ToString());
             //                                            //.Where(t =>
@@ -89,6 +89,7 @@ namespace TimeSheetDemo
             if (this.shiftItemsDataGridView.IsCurrentRowDirty)
             {
                 System.Windows.Forms.DataGridViewRow editingRow = this.shiftItemsDataGridView.Rows[e.RowIndex];
+                
 
                 TimeSheetRecordValidation tsValidation = new TimeSheetRecordValidation();
                 var tsRecord = editingRow.DataBoundItem as ShiftRecord;

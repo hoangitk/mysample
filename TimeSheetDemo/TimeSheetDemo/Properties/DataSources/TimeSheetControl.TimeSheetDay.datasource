@@ -8,7 +8,7 @@
 <GenericObjectDataSource DisplayName="TimeSheetDay" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
    <Children>
       <GenericObjectDataSource DisplayName="ShiftItems" Version="1.0">
-         <TypeInfo>TimeSheetControl.ShiftRecord, TimeSheetControl, Version=1.0.4755.29487, Culture=neutral, PublicKeyToken=null</TypeInfo>
+         <TypeInfo>TimeSheetControl.ShiftRecord, TimeSheetControl, Version=1.0.4766.27713, Culture=neutral, PublicKeyToken=null</TypeInfo>
          <TypeUISetting>
             <PropertyUISettings>
                <PropertyUISetting Name="Status">
@@ -36,7 +36,7 @@
          </TypeUISetting>
       </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="LeaveItems" Version="1.0">
-         <TypeInfo>TimeSheetControl.LeaveRecord, TimeSheetControl, Version=1.0.4755.29487, Culture=neutral, PublicKeyToken=null</TypeInfo>
+         <TypeInfo>TimeSheetControl.LeaveRecord, TimeSheetControl, Version=1.0.4766.27713, Culture=neutral, PublicKeyToken=null</TypeInfo>
          <TypeUISetting>
             <PropertyUISettings>
                <PropertyUISetting Name="Status">
@@ -64,7 +64,7 @@
          </TypeUISetting>
       </GenericObjectDataSource>
    </Children>
-   <TypeInfo>TimeSheetControl.TimeSheetDay, TimeSheetControl, Version=1.0.4755.29487, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>TimeSheetControl.TimeSheetDay, TimeSheetControl, Version=1.0.4766.27713, Culture=neutral, PublicKeyToken=null</TypeInfo>
    <TypeUISetting>
       <PropertyUISettings>
          <PropertyUISetting Name="Catalog">

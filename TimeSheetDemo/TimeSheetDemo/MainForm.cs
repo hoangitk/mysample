@@ -30,8 +30,29 @@ namespace TimeSheetDemo
 
             this.tsGridView.CellContentDoubleClick += TimeSheetGridView_CellContentDoubleClick;
             this.tsGridView.CellPasting += TimeSheetGridView_CellPasting;
-            this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;            
+            this.tsGridView.MouseUp += TimeSheetGridView_MouseUp;       
+            this.tsGridView.CellArrayPasting += TimeSheetGridView_CellArrayPasting;
 		}
+
+        private void TimeSheetGridView_CellArrayPasting(object sender, CellArrangePastingEventArgs e)
+        {
+            for (int i = 0; i < e.CopiedTimeSheetArray.MaxRow; i++)
+			{
+                for (int j = 0; j < e.CopiedTimeSheetArray.MaxCol; j++)
+			    {
+                     var tsCell = this.tsGridView.Rows[i + e.PresentCell.RowIndex].Cells[j + e.PresentCell.ColumnIndex] as DataGridViewTimeSheetCell;
+                    if (tsCell != null)
+                    {
+                        var tsValue = tsCell.Value as TimeSheetDay;
+                        if (tsValue != null && tsValue.Catalog == TimeSheetCatalog.Holiday)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+			    }
+			}
+        }
 
 		void MainForm_Load(object sender, EventArgs e)
 		{            
@@ -42,7 +63,7 @@ namespace TimeSheetDemo
             _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
                 this.tsGridView.FromDate, this.tsGridView.ToDate);
 
-            this.tsGridView.DataSource = _timeSheetItems;
+            this.tsGridView.DataSource = _timeSheetItems;           
 
             // Sample set a image for a employee
             for (int i = 0; i < this.tsGridView.Rows.Count; i++)
@@ -66,6 +87,13 @@ namespace TimeSheetDemo
 
 		}
 
+        void tsGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var changedCell = this.tsGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            MessageBox.Show(changedCell.Value.ToString());
+        }
+
         private void InitContextMenu()
         {
             this.ctxmnuGridView.MenuItemCopy
@@ -76,9 +104,41 @@ namespace TimeSheetDemo
                 .SetShortcutKeys(Keys.Control | Keys.V);
             this.ctxmnuGridView.MenuItemPasteSelectedCells
                 .SetCommand((s, me) => this.tsGridView.PasteFromClipBoard(false))
-                .SetShortcutKeys(Keys.Control | Keys.Shift | Keys.V);            
+                .SetShortcutKeys(Keys.Control | Keys.Shift | Keys.V);
+            this.ctxmnuGridView.MenuItemCut
+                .SetCommand((s, me) => MessageBox.Show("I want to cut a cell"));
             this.ctxmnuGridView.MenuItemAssignFullDayOff
-                .SetCommand((s, me) => MessageBox.Show(s.ToString()));
+                .SetCommand((s, me) =>
+                {
+                    if (this.tsGridView.SelectedCells.Count > 0)
+                    {
+                        bool hasInvalidData = false;
+
+                        // Do not allow assign on Holiday
+                        foreach (DataGridViewCell cell in this.tsGridView.SelectedCells)
+                        {
+                            var tsCell = cell as DataGridViewTimeSheetCell;
+                            if (tsCell != null)
+                            {
+                                var tsValue = tsCell.Value as TimeSheetDay;
+                                if (tsValue != null)
+                                {
+                                    if (tsValue.Catalog == TimeSheetCatalog.Holiday)
+                                        hasInvalidData = true;
+                                }
+                            }
+                        }
+
+                        if (hasInvalidData)
+                        {
+                            MessageBox.Show("There are errors in process");
+                        }
+                        else
+                        {
+                            MessageBox.Show("The data are saved");
+                        }
+                    }
+                });
             this.ctxmnuGridView.MenuItemAssignFullLeave
                 .SetCommand((s, me) => MessageBox.Show(s.ToString()));
             this.ctxmnuGridView.MenuItemAssignHalfDayOff
@@ -157,6 +217,10 @@ namespace TimeSheetDemo
             // If the cell is not validated then set cancel = true
             // Ex: do not allow copy&paste with BusinessTrip
             if(e.NewValue.Catalog == TimeSheetCatalog.BusinessTrip)
+                e.Cancel = true;
+
+            var selectedValue = e.SelectedCell.Value as TimeSheetDay;
+            if (selectedValue != null && selectedValue.Catalog == TimeSheetCatalog.Holiday)
                 e.Cancel = true;
         }
 
