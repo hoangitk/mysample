@@ -9,6 +9,7 @@ namespace TimeSheetControl
     {
         public MyMenuItem MenuItemCopy               { get; private set; }
         public MyMenuItem MenuItemPaste              { get; private set; }
+        public MyMenuItem MenuItemCut { get; private set; }
         public MyMenuItem MenuItemPasteNormal        { get; private set; }
         public MyMenuItem MenuItemPasteSelectedCells { get; private set; }
         public MyMenuItem MenuItemAssignShift        { get; private set; }        
@@ -22,6 +23,7 @@ namespace TimeSheetControl
         {
             this.MenuItemCopy               = new MyMenuItem("Copy"               );
             this.MenuItemPaste              = new MyMenuItem("Paste"              );
+            this.MenuItemCut                = new MyMenuItem("Cut"                );
             this.MenuItemPasteNormal        = new MyMenuItem("Normal"             );
             this.MenuItemPasteSelectedCells = new MyMenuItem("Into selected cell(s)");
             this.MenuItemAssignShift        = new MyMenuItem("Assign Shift"       );            
@@ -31,19 +33,20 @@ namespace TimeSheetControl
             this.MenuItemAssignHalfLeave    = new MyMenuItem("Assign Half Leave"  );
             this.MenuItemDelete             = new MyMenuItem("Delete"             );            
 
-            this.AddMenuItem(this.MenuItemCopy             );
+            this.AddMenuItem(this.MenuItemCopy                               );
             this.AddMenuItem(this.MenuItemPaste 
-                                    .AddChild(this.MenuItemPasteNormal)
+                                    .AddChild(this.MenuItemPasteNormal       )
                                     .AddChild(this.MenuItemPasteSelectedCells)
-                            );
-            this.AddSeperator();
-            this.AddMenuItem(this.MenuItemAssignShift      );
-            this.AddMenuItem(this.MenuItemAssignFullDayOff );
-            this.AddMenuItem(this.MenuItemAssignHalfDayOff );
-            this.AddMenuItem(this.MenuItemAssignFullLeave  );
-            this.AddMenuItem(this.MenuItemAssignHalfLeave  );
-            this.AddSeperator();
-            this.AddMenuItem(this.MenuItemDelete           );
+                                                                             );
+            this.AddMenuItem(this.MenuItemCut                                );
+            this.AddSeperator(                                               );
+            this.AddMenuItem(this.MenuItemAssignShift                        );
+            this.AddMenuItem(this.MenuItemAssignFullDayOff                   );
+            this.AddMenuItem(this.MenuItemAssignHalfDayOff                   );
+            this.AddMenuItem(this.MenuItemAssignFullLeave                    );
+            this.AddMenuItem(this.MenuItemAssignHalfLeave                    );
+            this.AddSeperator(                                               );
+            this.AddMenuItem(this.MenuItemDelete                             );
         }
     }
 }

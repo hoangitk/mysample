@@ -401,11 +401,22 @@ namespace TimeSheetControl
                 {
                     var clipboardTimeSheetDayArray = clipboardDataObject.GetData(typeof(TimeSheetDayCopiedArray)) as TimeSheetDayCopiedArray;
                     if (clipboardTimeSheetDayArray != null)
-                    {
+                    {                       
+
                         int minRow, minCol, maxRow, maxCol;
                         if (TimeSheetDayCopiedArray.FindArrayBound(this.SelectedCells,
                             out minRow, out minCol, out maxRow, out maxCol))
                         {
+                            // Before pasting a array cell, control needs to notify user to handle other business
+                            var cellArrangePastingEventArgs = new CellArrangePastingEventArgs(clipboardTimeSheetDayArray, this.Rows[minRow].Cells[minCol]);
+                            OnCellArrayPasting(cellArrangePastingEventArgs);
+
+                            if(cellArrangePastingEventArgs.Cancel == true)
+                            {
+                                Debug.WriteLine("User has just canceled pasting action");
+                                return;
+                            }
+                            
                             // Only fill on selected cells
                             // Case 1: copied array is equal selected cells
                             // Case 2: copied array is inside selected cells
@@ -461,6 +472,8 @@ namespace TimeSheetControl
                                     }// Check index inbound of copied array
                                 }
                             }
+                            
+                            
                         }
                     }
                 }// Clipboard present TimeSheetDayCopiedArray
@@ -496,6 +509,18 @@ namespace TimeSheetControl
         #endregion Action on interface
 
         #region Events
+
+        private static readonly object EVENT_CELLARRAYPASTING = new object();
+
+        public event EventHandler<CellArrangePastingEventArgs> CellArrayPasting;
+        protected virtual void OnCellArrayPasting(CellArrangePastingEventArgs e)
+        {
+            var handler = CellArrayPasting;
+            if (handler != null && !base.IsDisposed)
+            {
+                handler(this, e);
+            }
+        }
 
         #region Cell is Pasting
 
@@ -599,6 +624,25 @@ namespace TimeSheetControl
     }
 
     #region EventArgs
+
+    public class CellArrangePastingEventArgs : EventArgs
+    {
+        public TimeSheetDayCopiedArray CopiedTimeSheetArray { get; set; }
+        public DataGridViewCell PresentCell { get; set; }
+        public bool Cancel { get; set; }
+
+        public CellArrangePastingEventArgs()
+        {
+            Cancel = false;
+        }
+
+        public CellArrangePastingEventArgs(TimeSheetDayCopiedArray copiedArray, DataGridViewCell presentCell) 
+            : this()
+        {
+            this.CopiedTimeSheetArray = copiedArray;
+            this.PresentCell = presentCell;
+        }
+    }
 
     /// <summary>
     /// CellPastingEventArgs
@@ -741,7 +785,7 @@ namespace TimeSheetControl
     /// TimeSheetDayCopiedArray is used for storing copied from gridview
     /// </summary>
     [Serializable]
-    internal class TimeSheetDayCopiedArray
+    public class TimeSheetDayCopiedArray
     {
         public int MaxRow { get; private set; }
 

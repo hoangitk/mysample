@@ -132,10 +132,10 @@ namespace TimeSheetControl
         /// <param name="expression"></param>
         public static void ChangeAndNotify<T>(this PropertyChangedEventHandler changedEventHandler, ref T field, T value, Expression<Func<T>> expression)
         {
-            field = value;
-
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
+                field = value;
+
                 if (changedEventHandler == null)
                     return;
 

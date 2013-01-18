@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="TimeSheetItem.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="TimeSheetItemCollection.cs" />
     <Compile Include="TimeSheetTypeEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,6 +120,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\DataSources\TimeSheetType.datasource" />
   </ItemGroup>
   <ItemGroup>

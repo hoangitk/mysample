@@ -35,7 +35,36 @@ namespace TimeSheetControl
             int dayCount = (toDate - fromDate).Days + 1;
 
             // Add Cells
-            int empCount = rand.Next(20, 50);
+            int empCount = rand.Next(50, 100);
+            for (int i = 1; i <= empCount; i++)
+            {
+                var newTsItem = new TimeSheetItem();
+
+                newTsItem.EmployeeId = string.Format("{0:d6}", i);
+                newTsItem.EmployeeFullName = "Employee " + i;
+
+                newTsItem.TimeSheetDays = new List<TimeSheetDay>();
+
+                for (int j = 0; j < dayCount; j++)
+                {
+                    var day = fromDate.AddDays(j);
+                    var tsday = GenerateATimeSheetDay(day);
+                    newTsItem.TimeSheetDays.Add(tsday);
+                }
+
+                results.Add(newTsItem);
+            }
+
+            return results;
+        }
+
+        public IList<TimeSheetItem> GenerateTimeSheetItems(DateTime fromDate, DateTime toDate)
+        {
+            var results = new List<TimeSheetItem>();
+            int dayCount = (toDate - fromDate).Days + 1;
+
+            // Add Cells
+            int empCount = rand.Next(50, 100);
             for (int i = 1; i <= empCount; i++)
             {
                 var newTsItem = new TimeSheetItem();
