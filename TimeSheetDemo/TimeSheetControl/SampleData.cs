@@ -35,7 +35,7 @@ namespace TimeSheetControl
             int dayCount = (toDate - fromDate).Days + 1;
 
             // Add Cells
-            int empCount = rand.Next(50, 100);
+            int empCount = rand.Next(5, 10);
             for (int i = 1; i <= empCount; i++)
             {
                 var newTsItem = new TimeSheetItem();

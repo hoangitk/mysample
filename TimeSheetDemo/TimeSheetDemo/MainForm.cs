@@ -58,10 +58,13 @@ namespace TimeSheetDemo
 		{            
             this.tsGridView.FromDate = DateTime.Now.AddDays(-15);
             this.tsGridView.ToDate = DateTime.Now.AddDays(15);
-
+            
             // Add Cells           
             _timeSheetItems = SampleData.Default.GenerateTimeSheetItemsBindingList(
                 this.tsGridView.FromDate, this.tsGridView.ToDate);
+
+            _timeSheetItems.AddingNew += TimeSheetItemDataSource_AddingNew;
+            _timeSheetItems.ListChanged += TimeSheetItemDataSource_ListChanged;            
 
             this.tsGridView.DataSource = _timeSheetItems;           
 
@@ -86,6 +89,20 @@ namespace TimeSheetDemo
             this.propertyGrid1.SelectedObject = this.tsGridView;
 
 		}
+
+        private void TimeSheetItemDataSource_AddingNew(object sender, AddingNewEventArgs e)
+        {
+            Debug.WriteLine(
+                "--------------\n{0}\n--------------",
+                e.NewObject);
+        }
+
+        private void TimeSheetItemDataSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            Debug.WriteLine(
+                "--------------\n{0}\n{1}\n{2}\n{3}\n--------------", 
+                e.ListChangedType, e.NewIndex, e.OldIndex, e.PropertyDescriptor);
+        }
 
         void tsGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {

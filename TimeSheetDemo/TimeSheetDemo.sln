@@ -7,11 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSheetDemo", "TimeSheetD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopupControl", "PopupControl\PopupControl.csproj", "{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{5E859ED1-6D41-4FF2-A338-06779B71E000}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs21
 		SccLocalPath0 = .
@@ -24,9 +22,6 @@ Global
 		SccProjectUniqueName3 = PopupControl\\PopupControl.csproj
 		SccProjectName3 = PopupControl
 		SccLocalPath3 = PopupControl
-		SccProjectUniqueName4 = ConsoleApplication1\\ConsoleApplication1.csproj
-		SccProjectName4 = ConsoleApplication1
-		SccLocalPath4 = ConsoleApplication1
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,16 +62,6 @@ Global
 		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C4A0078E-E691-42CC-A1AB-56ED4719B3F4}.Release|x86.ActiveCfg = Release|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5E859ED1-6D41-4FF2-A338-06779B71E000}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

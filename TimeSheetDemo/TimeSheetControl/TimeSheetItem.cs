@@ -14,16 +14,17 @@ using System.Text;
 using System.Linq;
 
 namespace TimeSheetControl
-{
+{    
+
     [Serializable]
-    public class TimeSheetItem
+    public class TimeSheetItem : INotifyPropertyChanged
     {
         private string _employeeId;
 
         public string EmployeeId
         {
             get { return _employeeId; }
-            set { _employeeId = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _employeeId, value, () => EmployeeId); }
         }
 
         private string _employeeFullName;
@@ -31,7 +32,7 @@ namespace TimeSheetControl
         public string EmployeeFullName
         {
             get { return _employeeFullName; }
-            set { _employeeFullName = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _employeeFullName, value, () => EmployeeFullName); }
         }
 
         private List<TimeSheetDay> _timeSheetDays;
@@ -39,7 +40,7 @@ namespace TimeSheetControl
         public List<TimeSheetDay> TimeSheetDays
         {
             get { return _timeSheetDays; }
-            set { _timeSheetDays = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _timeSheetDays, value, () => TimeSheetDays); }
         }
 
         public TimeSheetItem()
@@ -103,21 +104,27 @@ namespace TimeSheetControl
                     tsDay = value;
             }
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 
 	/// <summary>
 	/// Description of TimeSheetDay.
 	/// </summary>
     [Serializable]
-	public class TimeSheetDay
+	public class TimeSheetDay : INotifyPropertyChanged
 	{
         private DateTime _day;
 
         public DateTime Day
         {
             get { return _day; }
-            set { 
-                _day = value;
+            set {
+                this.PropertyChanged.ChangeAndNotify(ref _day, value, () => Day);
                 UpdateNewDay(_day);
             }
         }
@@ -127,7 +134,7 @@ namespace TimeSheetControl
         public TimeSheetStatus Status
         {
             get { return _status; }
-            set { _status = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _status, value, () => Status); }
         }
 
         private TimeSheetCatalog _catalog;
@@ -135,13 +142,25 @@ namespace TimeSheetControl
         public TimeSheetCatalog Catalog
         {
             get { return _catalog; }
-            set { _catalog = value; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _catalog, value, () => Catalog); }
         }
 
+        private List<ShiftRecord> _shiftItems;
 
-		public List<ShiftRecord> ShiftItems { get; set; }
-		public List<LeaveRecord> LeaveItems { get; set; }
-		
+        public List<ShiftRecord> ShiftItems
+        {
+            get { return _shiftItems; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _shiftItems, value, () => ShiftItems); }
+        }
+
+        private List<LeaveRecord> _leaveItems;
+
+        public List<LeaveRecord> LeaveItems
+        {
+            get { return _leaveItems; }
+            set { this.PropertyChanged.ChangeAndNotify(ref _leaveItems, value, () => LeaveItems); }
+        }
+        	
 		
 		public TimeSheetDay()
 		{            
@@ -229,7 +248,13 @@ namespace TimeSheetControl
         /// TimeSheetDay is Empty
         /// </summary>
         public static readonly TimeSheetDay Empty = default(TimeSheetDay);
-	}
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+    }
 	
     [Serializable]
     public abstract class TimeSheetRecord : INotifyPropertyChanged

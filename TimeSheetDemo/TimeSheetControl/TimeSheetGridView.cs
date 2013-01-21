@@ -250,7 +250,7 @@ namespace TimeSheetControl
                                     var columnDayName = tsDay.Day.ToString(COLUMN_TIMESHEET_NAME_ID_FORMAT);
                                     var cell = this.Rows[i].Cells[columnDayName];
                                     if (cell != null)
-                                        cell.Value = tsDay;
+                                        cell.Value = tsDay;                                    
                                 }
                             }// Check TimeSheetDay is available
                         }// Bind data row
@@ -510,17 +510,31 @@ namespace TimeSheetControl
 
         #region Events
 
+        #region CellArray is pasting
         private static readonly object EVENT_CELLARRAYPASTING = new object();
 
-        public event EventHandler<CellArrangePastingEventArgs> CellArrayPasting;
+        public event EventHandler<CellArrangePastingEventArgs> CellArrayPasting
+        {
+            add
+            {
+                base.Events.AddHandler(EVENT_CELLARRAYPASTING, value);
+            }
+
+            remove
+            {
+                base.Events.RemoveHandler(EVENT_CELLARRAYPASTING, value);
+            }
+        }
+
         protected virtual void OnCellArrayPasting(CellArrangePastingEventArgs e)
         {
-            var handler = CellArrayPasting;
+            var handler = base.Events[TimeSheetGridView.EVENT_CELLARRAYPASTING] as EventHandler<CellArrangePastingEventArgs>;
             if (handler != null && !base.IsDisposed)
             {
                 handler(this, e);
             }
-        }
+        } 
+        #endregion
 
         #region Cell is Pasting
 
